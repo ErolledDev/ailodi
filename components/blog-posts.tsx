@@ -38,9 +38,9 @@ export function BlogPosts() {
         setPosts(publishedPosts);
         setFilteredPosts(publishedPosts);
         
-        // Extract unique categories
-        const allCategories = publishedPosts.flatMap((post: BlogPost) => post.categories);
-        const uniqueCategories = Array.from(new Set(allCategories));
+        // Extract unique categories with proper typing
+        const allCategories: string[] = publishedPosts.flatMap((post: BlogPost) => post.categories);
+        const uniqueCategories: string[] = Array.from(new Set(allCategories));
         setCategories(uniqueCategories);
       } catch (error) {
         console.error('Error fetching posts:', error);
