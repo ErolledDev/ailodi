@@ -4,8 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { format } from 'date-fns';
-import { CalendarDays, Clock, ArrowRight, User } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { CalendarDays, Clock } from 'lucide-react';
 import type { BlogPost } from '@/types/blog';
 
 export function FeaturedPosts() {
@@ -20,7 +19,7 @@ export function FeaturedPosts() {
         const publishedPosts = data
           .filter((post: BlogPost) => post.status === 'published')
           .sort((a: BlogPost, b: BlogPost) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime())
-          .slice(0, 3);
+          .slice(0, 6);
         setPosts(publishedPosts);
       } catch (error) {
         console.error('Error fetching posts:', error);
@@ -34,25 +33,15 @@ export function FeaturedPosts() {
 
   if (loading) {
     return (
-      <section id="featured" className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6" style={{ fontFamily: 'Playfair Display, Georgia, serif' }}>
-              Featured Articles
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Discover our most popular and recent articles covering various topics 
-              in technology and web development.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <section id="featured" className="py-16 bg-white border-t border-gray-100">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="space-y-8">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="wp-card animate-pulse">
-                <div className="wp-card-image bg-gray-200" />
-                <div className="wp-card-content">
-                  <div className="h-4 bg-gray-200 rounded mb-4" />
-                  <div className="h-6 bg-gray-200 rounded mb-2" />
-                  <div className="h-4 bg-gray-200 rounded w-2/3" />
+              <div key={i} className="medium-card animate-pulse">
+                <div className="medium-card-content">
+                  <div className="h-4 bg-gray-200 rounded mb-4 w-1/4" />
+                  <div className="h-8 bg-gray-200 rounded mb-2" />
+                  <div className="h-4 bg-gray-200 rounded w-3/4" />
                 </div>
               </div>
             ))}
@@ -63,87 +52,58 @@ export function FeaturedPosts() {
   }
 
   return (
-    <section id="featured" className="py-20 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16 fade-in">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6" style={{ fontFamily: 'Playfair Display, Georgia, serif' }}>
-            Featured Articles
-          </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Discover our most popular and recent articles covering various topics 
-            in technology and web development.
-          </p>
-        </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <section id="featured" className="py-16 bg-white border-t border-gray-100">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="space-y-8">
           {posts.map((post, index) => (
             <article 
               key={post.id} 
-              className="wp-card hover-lift slide-up"
+              className="medium-card hover-lift slide-up"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
-              {post.featuredImageUrl && (
-                <div className="wp-card-image">
-                  <Image
-                    src={post.featuredImageUrl}
-                    alt={post.title}
-                    fill
-                    className="object-cover transition-transform duration-300 hover:scale-105"
-                  />
-                </div>
-              )}
-              
-              <div className="wp-card-content">
-                <div className="wp-card-meta">
-                  <div className="flex items-center gap-1">
-                    <User size={14} />
+              <Link href={`/post/${post.slug}`} className="block">
+                <div className="medium-card-content">
+                  <div className="medium-card-meta">
                     <span>{post.author}</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <CalendarDays size={14} />
-                    <span>{format(new Date(post.publishDate), 'MMM d, yyyy')}</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Clock size={14} />
+                    <span>·</span>
+                    <span>{format(new Date(post.publishDate), 'MMM d')}</span>
+                    <span>·</span>
                     <span>{Math.ceil(post.content.split(' ').length / 200)} min read</span>
                   </div>
-                </div>
-                
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {post.categories.slice(0, 2).map((category) => (
-                    <span key={category} className="wp-category">
-                      {category}
-                    </span>
-                  ))}
-                </div>
-                
-                <h3 className="wp-card-title hover:text-blue-600 transition-colors">
-                  <Link href={`/post/${post.slug}`}>
-                    {post.title}
-                  </Link>
-                </h3>
-                
-                <p className="wp-card-excerpt">
-                  {post.metaDescription}
-                </p>
-                
-                <div className="wp-card-footer">
-                  <Button asChild variant="ghost" className="p-0 h-auto font-medium text-blue-600 hover:text-blue-800">
-                    <Link href={`/post/${post.slug}`} className="flex items-center gap-2">
-                      Read More
-                      <ArrowRight size={16} />
-                    </Link>
-                  </Button>
                   
-                  <div className="flex gap-1">
-                    {post.tags.slice(0, 2).map((tag) => (
-                      <span key={tag} className="wp-tag text-xs">
-                        #{tag}
-                      </span>
-                    ))}
+                  <div className="flex items-start gap-8">
+                    <div className="flex-1">
+                      <h2 className="medium-card-title mb-2 hover:text-gray-700 transition-colors">
+                        {post.title}
+                      </h2>
+                      
+                      <p className="medium-card-excerpt mb-4">
+                        {post.metaDescription}
+                      </p>
+                      
+                      <div className="flex items-center gap-2">
+                        {post.categories.slice(0, 1).map((category) => (
+                          <span key={category} className="medium-category">
+                            {category}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    
+                    {post.featuredImageUrl && (
+                      <div className="w-32 h-32 flex-shrink-0">
+                        <Image
+                          src={post.featuredImageUrl}
+                          alt={post.title}
+                          width={128}
+                          height={128}
+                          className="w-full h-full object-cover rounded"
+                        />
+                      </div>
+                    )}
                   </div>
                 </div>
-              </div>
+              </Link>
             </article>
           ))}
         </div>
