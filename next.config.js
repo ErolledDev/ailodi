@@ -4,12 +4,18 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   
-  // Disable SWC to fix loading issues in WebContainer environment
+  // Disable SWC completely for WebContainer compatibility
   swcMinify: false,
+  compiler: {
+    // Disable SWC transforms
+    removeConsole: false,
+  },
   
   // Cloudflare Workers optimization
   experimental: {
     optimizeCss: true,
+    // Disable SWC in experimental features too
+    swcTraceProfiling: false,
   },
   
   // Output configuration for static export
@@ -26,8 +32,31 @@ const nextConfig = {
       'firebasestorage.googleapis.com',
       'images.unsplash.com',
       'cdn.jsdelivr.net',
-      'via.placeholder.com'
+      'via.placeholder.com',
+      'api.dicebear.com'
     ]
+  },
+  
+  // Webpack configuration for WebContainer compatibility
+  webpack: (config, { dev, isServer }) => {
+    // Disable SWC loader
+    config.module.rules.forEach((rule) => {
+      if (rule.use && rule.use.loader === 'next-swc-loader') {
+        rule.use.loader = 'babel-loader';
+      }
+    });
+    
+    // Add fallbacks for Node.js modules
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        net: false,
+        tls: false,
+      };
+    }
+    
+    return config;
   },
 };
 
