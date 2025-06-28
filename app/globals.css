@@ -536,3 +536,37 @@
     margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));
   }
 }
+
+/* Enhanced dialog styles */
+.dialog-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+}
+
+/* Improved share dialog spacing */
+.share-dialog-content {
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+/* Better button hover states */
+.hover\:scale-105:hover {
+  transform: scale(1.05);
+}
+
+/* Enhanced copy success feedback */
+.copy-success {
+  animation: copySuccess 0.3s ease-out;
+}
+
+@keyframes copySuccess {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

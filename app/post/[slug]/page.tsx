@@ -163,9 +163,14 @@ export default async function PostPage({ params }: PostPageProps) {
         <div className="fade-in">
           {/* Header */}
           <header className="mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold text-foreground leading-tight mb-8">
+            <h1 className="text-4xl md:text-5xl font-bold text-foreground leading-tight mb-6">
               {post.title}
             </h1>
+            
+            {/* Meta Description */}
+            <p className="text-lg text-muted-foreground leading-relaxed mb-8 border-l-4 border-primary pl-4 bg-primary/5 py-3 rounded-r-lg">
+              {post.metaDescription}
+            </p>
             
             <div className="flex items-center justify-between mb-8">
               <div className="flex items-center gap-4">
@@ -177,7 +182,7 @@ export default async function PostPage({ params }: PostPageProps) {
                 <div>
                   <div className="font-medium text-foreground">{post.author}</div>
                   <div className="text-sm text-muted-foreground flex items-center gap-2">
-                    <span>{format(publishDate, 'MMM d')}</span>
+                    <span>{format(publishDate, 'MMM d, yyyy')}</span>
                     <span>·</span>
                     <div className="flex items-center gap-1">
                       <Clock size={12} />
@@ -189,6 +194,20 @@ export default async function PostPage({ params }: PostPageProps) {
               
               <PostActions post={post} url={currentUrl} />
             </div>
+
+            {/* Categories */}
+            {post.categories.length > 0 && (
+              <div className="flex flex-wrap gap-2 mb-8">
+                {post.categories.map((category) => (
+                  <span 
+                    key={category} 
+                    className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-secondary text-secondary-foreground border border-border"
+                  >
+                    {category}
+                  </span>
+                ))}
+              </div>
+            )}
           </header>
 
           {/* Featured Image */}
@@ -199,7 +218,7 @@ export default async function PostPage({ params }: PostPageProps) {
                 alt={post.title}
                 width={800}
                 height={400}
-                className="w-full rounded-lg"
+                className="w-full rounded-lg shadow-lg"
                 priority
               />
             </div>
@@ -216,10 +235,14 @@ export default async function PostPage({ params }: PostPageProps) {
           {/* Tags */}
           {post.tags.length > 0 && (
             <div className="mt-12 pt-8 border-t border-border">
+              <h3 className="text-lg font-semibold text-foreground mb-4">Tags</h3>
               <div className="flex flex-wrap gap-2">
                 {post.tags.map((tag) => (
-                  <span key={tag} className="medium-tag">
-                    {tag}
+                  <span 
+                    key={tag} 
+                    className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-muted text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors cursor-pointer"
+                  >
+                    #{tag}
                   </span>
                 ))}
               </div>
