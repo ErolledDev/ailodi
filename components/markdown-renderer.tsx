@@ -16,11 +16,10 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
       className="prose prose-lg max-w-none"
       components={{
         code(props) {
-          const { children, className, node, ...rest } = props;
+          const { children, className, ...rest } = props;
           const match = /language-(\w+)/.exec(className || '');
           return match ? (
             <SyntaxHighlighter
-              {...rest}
               PreTag="div"
               language={match[1]}
               style={oneDark}
