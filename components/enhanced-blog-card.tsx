@@ -63,7 +63,6 @@ export function EnhancedBlogCard({ post, index = 0 }: EnhancedBlogCardProps) {
   return (
     <article 
       className="group relative bg-card border border-border/50 rounded-xl p-6 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5 hover:border-primary/20 hover:-translate-y-1"
-      style={{ animationDelay: `${index * 0.05}s` }}
       role="article"
       aria-labelledby={`post-title-${post.id}`}
     >
