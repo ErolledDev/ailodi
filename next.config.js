@@ -4,6 +4,9 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   
+  // Disable SWC to fix loading issues in WebContainer environment
+  swcMinify: false,
+  
   // Cloudflare Workers optimization
   experimental: {
     optimizeCss: true,
