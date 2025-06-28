@@ -10,25 +10,25 @@ export function Footer() {
               Medium
             </Link>
             <div className="flex items-center gap-6 text-sm">
-              <Link href="/about" className="text-gray-600 hover:text-gray-900">
+              <Link href="/about" className="text-muted-foreground hover:text-foreground">
                 About
               </Link>
-              <Link href="/contact" className="text-gray-600 hover:text-gray-900">
+              <Link href="/contact" className="text-muted-foreground hover:text-foreground">
                 Write
               </Link>
-              <Link href="#" className="text-gray-600 hover:text-gray-900">
-                Help
+              <Link href="/privacy-policy" className="text-muted-foreground hover:text-foreground">
+                Privacy
               </Link>
-              <Link href="#" className="text-gray-600 hover:text-gray-900">
+              <Link href="/terms-of-service" className="text-muted-foreground hover:text-foreground">
                 Terms
               </Link>
-              <Link href="#" className="text-gray-600 hover:text-gray-900">
-                Privacy
+              <Link href="/disclaimer" className="text-muted-foreground hover:text-foreground">
+                Disclaimer
               </Link>
             </div>
           </div>
           
-          <p className="text-gray-500 text-sm">
+          <p className="text-muted-foreground text-sm">
             © {new Date().getFullYear()} Medium. All rights reserved.
           </p>
         </div>

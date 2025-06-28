@@ -38,27 +38,27 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
           );
         },
         h1: ({ children }) => (
-          <h1 className="text-4xl font-bold text-gray-900 mb-6 leading-tight">
+          <h1 className="text-4xl font-bold text-foreground mb-6 leading-tight">
             {children}
           </h1>
         ),
         h2: ({ children }) => (
-          <h2 className="text-3xl font-semibold text-gray-900 mb-4 mt-8 leading-tight">
+          <h2 className="text-3xl font-semibold text-foreground mb-4 mt-8 leading-tight">
             {children}
           </h2>
         ),
         h3: ({ children }) => (
-          <h3 className="text-2xl font-semibold text-gray-900 mb-3 mt-6 leading-tight">
+          <h3 className="text-2xl font-semibold text-foreground mb-3 mt-6 leading-tight">
             {children}
           </h3>
         ),
         p: ({ children }) => (
-          <p className="text-lg text-gray-700 mb-6 leading-relaxed">
+          <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
             {children}
           </p>
         ),
         blockquote: ({ children }) => (
-          <blockquote className="border-l-4 border-green-500 pl-6 italic text-gray-600 my-6 bg-green-50 py-4 rounded-r-lg">
+          <blockquote className="border-l-4 border-primary pl-6 italic text-muted-foreground my-6 bg-primary/5 py-4 rounded-r-lg">
             {children}
           </blockquote>
         ),
@@ -73,14 +73,14 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
           </ol>
         ),
         li: ({ children }) => (
-          <li className="text-lg text-gray-700 leading-relaxed">
+          <li className="text-lg text-muted-foreground leading-relaxed">
             {children}
           </li>
         ),
         a: ({ children, href }) => (
           <a
             href={href}
-            className="text-green-600 hover:text-green-800 underline font-medium"
+            className="text-primary hover:text-primary/80 underline font-medium"
             target={href?.startsWith('http') ? '_blank' : undefined}
             rel={href?.startsWith('http') ? 'noopener noreferrer' : undefined}
           >

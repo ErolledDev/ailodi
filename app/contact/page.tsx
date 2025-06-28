@@ -31,11 +31,11 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-white">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-background">
       {/* Hero Section */}
       <div className="text-center mb-16">
-        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Get In Touch</h1>
-        <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+        <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">Get In Touch</h1>
+        <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
           Have a question, suggestion, or just want to say hello? We'd love to hear from you. 
           Reach out to us using the form below or through our contact information.
         </p>
@@ -46,10 +46,10 @@ export default function ContactPage() {
         <div className="lg:col-span-2">
           <Card className="shadow-lg">
             <CardHeader>
-              <CardTitle className="text-2xl font-bold text-gray-900">
+              <CardTitle className="text-2xl font-bold text-foreground">
                 Send us a message
               </CardTitle>
-              <p className="text-gray-600">
+              <p className="text-muted-foreground">
                 Fill out the form below and we'll get back to you as soon as possible.
               </p>
             </CardHeader>
@@ -66,7 +66,7 @@ export default function ContactPage() {
                       value={formData.name}
                       onChange={handleChange}
                       placeholder="Your full name"
-                      className="border-gray-300 focus:border-green-500 focus:ring-green-500"
+                      className="focus:border-primary focus:ring-primary"
                     />
                   </div>
                   <div className="space-y-2">
@@ -79,7 +79,7 @@ export default function ContactPage() {
                       value={formData.email}
                       onChange={handleChange}
                       placeholder="your.email@example.com"
-                      className="border-gray-300 focus:border-green-500 focus:ring-green-500"
+                      className="focus:border-primary focus:ring-primary"
                     />
                   </div>
                 </div>
@@ -94,7 +94,7 @@ export default function ContactPage() {
                     value={formData.subject}
                     onChange={handleChange}
                     placeholder="What's this about?"
-                    className="border-gray-300 focus:border-green-500 focus:ring-green-500"
+                    className="focus:border-primary focus:ring-primary"
                   />
                 </div>
                 
@@ -108,14 +108,14 @@ export default function ContactPage() {
                     onChange={handleChange}
                     placeholder="Tell us more about your inquiry..."
                     rows={6}
-                    className="border-gray-300 focus:border-green-500 focus:ring-green-500"
+                    className="focus:border-primary focus:ring-primary"
                   />
                 </div>
                 
                 <Button 
                   type="submit" 
                   size="lg" 
-                  className="w-full bg-green-600 hover:bg-green-700 text-white"
+                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
                 >
                   <Send size={18} className="mr-2" />
                   Send Message
@@ -130,18 +130,18 @@ export default function ContactPage() {
           <Card className="shadow-lg">
             <CardContent className="p-6">
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                  <Mail size={24} className="text-green-600" />
+                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                  <Mail size={24} className="text-primary" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900">Email Us</h3>
-                  <p className="text-gray-600">Get in touch via email</p>
+                  <h3 className="text-lg font-semibold text-foreground">Email Us</h3>
+                  <p className="text-muted-foreground">Get in touch via email</p>
                 </div>
               </div>
-              <p className="text-gray-700">
+              <p className="text-muted-foreground">
                 <a 
                   href="mailto:hello@professionalblog.com" 
-                  className="text-green-600 hover:text-green-800"
+                  className="text-primary hover:text-primary/80"
                 >
                   hello@professionalblog.com
                 </a>
@@ -152,15 +152,15 @@ export default function ContactPage() {
           <Card className="shadow-lg">
             <CardContent className="p-6">
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                  <MessageSquare size={24} className="text-green-600" />
+                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                  <MessageSquare size={24} className="text-primary" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900">Live Chat</h3>
-                  <p className="text-gray-600">Chat with our team</p>
+                  <h3 className="text-lg font-semibold text-foreground">Live Chat</h3>
+                  <p className="text-muted-foreground">Chat with our team</p>
                 </div>
               </div>
-              <p className="text-gray-700">
+              <p className="text-muted-foreground">
                 Available Monday to Friday<br />
                 9:00 AM - 5:00 PM (EST)
               </p>
@@ -170,15 +170,15 @@ export default function ContactPage() {
           <Card className="shadow-lg">
             <CardContent className="p-6">
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                  <MapPin size={24} className="text-green-600" />
+                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                  <MapPin size={24} className="text-primary" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900">Location</h3>
-                  <p className="text-gray-600">Where we're based</p>
+                  <h3 className="text-lg font-semibold text-foreground">Location</h3>
+                  <p className="text-muted-foreground">Where we're based</p>
                 </div>
               </div>
-              <p className="text-gray-700">
+              <p className="text-muted-foreground">
                 Remote First<br />
                 Global Team
               </p>
@@ -188,31 +188,31 @@ export default function ContactPage() {
           {/* FAQ Section */}
           <Card className="shadow-lg">
             <CardContent className="p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+              <h3 className="text-lg font-semibold text-foreground mb-4">
                 Frequently Asked Questions
               </h3>
               <div className="space-y-4">
                 <div>
-                  <h4 className="font-medium text-gray-900 mb-1">
+                  <h4 className="font-medium text-foreground mb-1">
                     How quickly do you respond?
                   </h4>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-muted-foreground">
                     We typically respond within 24 hours during business days.
                   </p>
                 </div>
                 <div>
-                  <h4 className="font-medium text-gray-900 mb-1">
+                  <h4 className="font-medium text-foreground mb-1">
                     Can I contribute to the blog?
                   </h4>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-muted-foreground">
                     Yes! We welcome guest contributions. Please reach out with your ideas.
                   </p>
                 </div>
                 <div>
-                  <h4 className="font-medium text-gray-900 mb-1">
+                  <h4 className="font-medium text-foreground mb-1">
                     Do you offer consulting?
                   </h4>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-muted-foreground">
                     We offer limited consulting services. Contact us to discuss your needs.
                   </p>
                 </div>

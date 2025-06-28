@@ -3,15 +3,6 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  images: { 
-    unoptimized: true,
-    domains: [
-      'firebasestorage.googleapis.com',
-      'images.unsplash.com',
-      'cdn.jsdelivr.net',
-      'via.placeholder.com'
-    ]
-  },
   
   // Cloudflare Workers optimization
   experimental: {
@@ -25,6 +16,12 @@ const nextConfig = {
   // Disable image optimization for static export
   images: {
     unoptimized: true,
+    domains: [
+      'firebasestorage.googleapis.com',
+      'images.unsplash.com',
+      'cdn.jsdelivr.net',
+      'via.placeholder.com'
+    ]
   },
 };
 

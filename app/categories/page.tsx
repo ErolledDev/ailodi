@@ -56,15 +56,15 @@ export default function CategoriesPage() {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Categories</h1>
-          <p className="text-lg text-gray-600">Explore articles by category</p>
+          <h1 className="text-4xl font-bold text-foreground mb-4">Categories</h1>
+          <p className="text-lg text-muted-foreground">Explore articles by category</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[1, 2, 3, 4, 5, 6].map((i) => (
             <Card key={i} className="animate-pulse">
               <CardContent className="p-6">
-                <div className="h-6 bg-gray-200 rounded mb-4" />
-                <div className="h-4 bg-gray-200 rounded w-1/3" />
+                <div className="h-6 bg-muted rounded mb-4" />
+                <div className="h-4 bg-muted rounded w-1/3" />
               </CardContent>
             </Card>
           ))}
@@ -76,8 +76,8 @@ export default function CategoriesPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">Categories</h1>
-        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+        <h1 className="text-4xl font-bold text-foreground mb-4">Categories</h1>
+        <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
           Discover articles organized by topics and areas of interest. 
           Click on any category to explore related content.
         </p>
@@ -88,14 +88,14 @@ export default function CategoriesPage() {
           <Card key={category.name} className="hover-lift cursor-pointer">
             <CardContent className="p-6">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                  <FolderOpen size={24} className="text-blue-600" />
+                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                  <FolderOpen size={24} className="text-primary" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-900">
+                  <h3 className="text-xl font-semibold text-foreground">
                     {category.name}
                   </h3>
-                  <div className="flex items-center gap-1 text-gray-500">
+                  <div className="flex items-center gap-1 text-muted-foreground">
                     <FileText size={14} />
                     <span className="text-sm">
                       {category.count} {category.count === 1 ? 'article' : 'articles'}
@@ -109,13 +109,13 @@ export default function CategoriesPage() {
                   <Link
                     key={post.id}
                     href={`/post/${post.slug}`}
-                    className="block text-sm text-gray-600 hover:text-blue-600 transition-colors line-clamp-1"
+                    className="block text-sm text-muted-foreground hover:text-primary transition-colors line-clamp-1"
                   >
                     {post.title}
                   </Link>
                 ))}
                 {category.count > 3 && (
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-muted-foreground">
                     +{category.count - 3} more articles
                   </p>
                 )}
