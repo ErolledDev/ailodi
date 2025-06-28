@@ -4,7 +4,7 @@ import { CalendarDays, Clock, User, Tag, FolderOpen } from 'lucide-react';
 import { MarkdownRenderer } from '@/components/markdown-renderer';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { getContentBySlug } from '@/lib/content';
+import { getContentBySlug, getAllContent } from '@/lib/content';
 import type { Metadata } from 'next';
 import Image from 'next/image';
 
@@ -12,6 +12,19 @@ interface PostPageProps {
   params: {
     slug: string;
   };
+}
+
+export async function generateStaticParams() {
+  try {
+    const posts = await getAllContent();
+    return posts.map((post) => ({
+      slug: post.slug,
+    }));
+  } catch (error) {
+    console.error('Error generating static params:', error);
+    // Return empty array to prevent build failure
+    return [];
+  }
 }
 
 export async function generateMetadata({ params }: PostPageProps): Promise<Metadata> {
