@@ -6,17 +6,6 @@ const nextConfig = {
   
   // Disable SWC completely for WebContainer compatibility
   swcMinify: false,
-  compiler: {
-    // Disable SWC transforms
-    removeConsole: false,
-  },
-  
-  // Cloudflare Workers optimization
-  experimental: {
-    optimizeCss: true,
-    // Disable SWC in experimental features too
-    swcTraceProfiling: false,
-  },
   
   // Output configuration for static export
   output: 'export',
@@ -39,10 +28,30 @@ const nextConfig = {
   
   // Webpack configuration for WebContainer compatibility
   webpack: (config, { dev, isServer }) => {
-    // Disable SWC loader
+    // Replace SWC loader with Babel loader
     config.module.rules.forEach((rule) => {
-      if (rule.use && rule.use.loader === 'next-swc-loader') {
+      if (rule.use && Array.isArray(rule.use)) {
+        rule.use.forEach((useItem) => {
+          if (useItem.loader && useItem.loader.includes('next-swc-loader')) {
+            useItem.loader = 'babel-loader';
+            useItem.options = {
+              presets: [
+                ['@babel/preset-env', { targets: 'defaults' }],
+                ['@babel/preset-react', { runtime: 'automatic' }],
+                '@babel/preset-typescript'
+              ]
+            };
+          }
+        });
+      } else if (rule.use && rule.use.loader && rule.use.loader.includes('next-swc-loader')) {
         rule.use.loader = 'babel-loader';
+        rule.use.options = {
+          presets: [
+            ['@babel/preset-env', { targets: 'defaults' }],
+            ['@babel/preset-react', { runtime: 'automatic' }],
+            '@babel/preset-typescript'
+          ]
+        };
       }
     });
     
