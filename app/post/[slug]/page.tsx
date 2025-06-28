@@ -99,66 +99,6 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
   }
 }
 
-async function getRelatedPosts(currentPost: BlogPost): Promise<BlogPost[]> {
-  try {
-    const allPosts = await getAllContent();
-    const relatedPosts = allPosts
-      .filter(post => 
-        post.id !== currentPost.id && 
-        post.status === 'published' &&
-        post.categories.some(category => currentPost.categories.includes(category))
-      )
-      .slice(0, 3);
-    
-    return relatedPosts;
-  } catch (error) {
-    console.error('Error fetching related posts:', error);
-    return [];
-  }
-}
-
-function RelatedPosts({ posts }: { posts: BlogPost[] }) {
-  if (posts.length === 0) return null;
-
-  return (
-    <section className="mt-16 pt-8 border-t border-border">
-      <h3 className="text-2xl font-bold text-foreground mb-8">You might also like</h3>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {posts.map((post) => (
-          <Link key={post.id} href={`/post/${post.slug}`} className="group">
-            <article className="bg-card border border-border/50 rounded-lg overflow-hidden hover:shadow-lg hover:border-primary/20 transition-all duration-300">
-              {post.featuredImageUrl && (
-                <div className="aspect-video overflow-hidden">
-                  <Image
-                    src={post.featuredImageUrl}
-                    alt={post.title}
-                    width={400}
-                    height={225}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-              )}
-              <div className="p-4">
-                <h4 className="font-semibold text-foreground mb-2 line-clamp-2 group-hover:text-primary transition-colors">
-                  {post.title}
-                </h4>
-                <p className="text-sm text-muted-foreground line-clamp-2 mb-3">
-                  {post.metaDescription}
-                </p>
-                <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                  <span>{format(new Date(post.publishDate), 'MMM d')}</span>
-                  <span>·</span>
-                  <span>{Math.ceil(post.content.split(' ').length / 200)} min read</span>
-                </div>
-              </div>
-            </article>
-          </Link>
-        ))}
-      </div>
-    </section>
-  );
-}
-
 export default async function PostPage({ params }: PostPageProps) {
   let post;
   
@@ -175,7 +115,6 @@ export default async function PostPage({ params }: PostPageProps) {
 
   const publishDate = new Date(post.publishDate);
   const readingTime = Math.ceil(post.content.split(' ').length / 200);
-  const relatedPosts = await getRelatedPosts(post);
   const currentUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://localhost:3000'}/post/${post.slug}`;
 
   const getAuthorInitials = () => {
@@ -316,17 +255,12 @@ export default async function PostPage({ params }: PostPageProps) {
                 <div className="mt-6 lg:mt-8">
                   <SubscribeForm />
                 </div>
-
-                {/* Related Posts - Only show on mobile/tablet */}
-                <div className="mt-12 lg:hidden">
-                  <RelatedPosts posts={relatedPosts} />
-                </div>
               </div>
             </article>
           </div>
 
-          {/* Sidebar - Hidden on mobile, shown on desktop */}
-          <aside className="hidden lg:block lg:col-span-1">
+          {/* Sidebar - Now visible on all screen sizes */}
+          <aside className="lg:col-span-1">
             <div className="sticky top-8 space-y-8">
               {/* Related Posts Aside */}
               <RelatedPostsAside 

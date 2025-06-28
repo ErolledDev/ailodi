@@ -40,12 +40,12 @@ export function RelatedPostsAside({ currentPostId, categories = [] }: RelatedPos
           filteredPosts = [...relatedPosts, ...otherPosts];
         }
 
-        // Sort by publish date and take first 5
+        // Sort by publish date and take first 8 (increased from 5)
         const sortedPosts = filteredPosts
           .sort((a: BlogPost, b: BlogPost) => 
             new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime()
           )
-          .slice(0, 5);
+          .slice(0, 8);
 
         setPosts(sortedPosts);
       } catch (error) {
@@ -68,7 +68,7 @@ export function RelatedPostsAside({ currentPostId, categories = [] }: RelatedPos
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          {[1, 2, 3, 4, 5].map((i) => (
+          {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
             <div key={i} className="animate-pulse">
               <div className="h-16 bg-muted rounded mb-2"></div>
               <div className="h-4 bg-muted rounded w-3/4 mb-1"></div>
