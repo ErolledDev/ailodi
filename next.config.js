@@ -4,15 +4,14 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   
-  // Disable SWC completely for WebContainer compatibility
-  swcMinify: false,
+  // Cloudflare Workers optimization
+  experimental: {
+    optimizeCss: true,
+  },
   
   // Output configuration for static export
   output: 'export',
   trailingSlash: true,
-  
-  // Asset prefix for static export
-  assetPrefix: './',
   
   // Disable image optimization for static export
   images: {
@@ -21,8 +20,7 @@ const nextConfig = {
       'firebasestorage.googleapis.com',
       'images.unsplash.com',
       'cdn.jsdelivr.net',
-      'via.placeholder.com',
-      'api.dicebear.com'
+      'via.placeholder.com'
     ]
   },
 };
