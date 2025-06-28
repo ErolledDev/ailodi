@@ -13,6 +13,9 @@ const nextConfig = {
   output: 'export',
   trailingSlash: true,
   
+  // Asset prefix for static export
+  assetPrefix: './',
+  
   // Disable image optimization for static export
   images: {
     unoptimized: true,

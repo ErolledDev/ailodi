@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { format } from 'date-fns';
 
 export const metadata: Metadata = {
   title: 'Terms of Service',
@@ -12,7 +13,7 @@ export default function TermsOfServicePage() {
         <h1 className="text-4xl font-bold text-foreground mb-8">Terms of Service</h1>
         
         <p className="text-muted-foreground mb-6">
-          <strong>Last updated:</strong> {new Date().toLocaleDateString()}
+          <strong>Last updated:</strong> {format(new Date(), 'MMMM d, yyyy')}
         </p>
 
         <div className="space-y-8">
