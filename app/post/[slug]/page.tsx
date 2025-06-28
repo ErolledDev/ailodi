@@ -1,9 +1,10 @@
 import { notFound } from 'next/navigation';
 import { format } from 'date-fns';
-import { CalendarDays, Clock, BookmarkPlus, Share2, MoreHorizontal } from 'lucide-react';
+import { CalendarDays, Clock } from 'lucide-react';
 import { MarkdownRenderer } from '@/components/markdown-renderer';
-import { Button } from '@/components/ui/button';
 import { SocialShareButtons } from '@/components/social-share-buttons';
+import { PostActions } from '@/components/post-actions';
+import { AuthorCard } from '@/components/author-card';
 import { getContentBySlug, getAllContent } from '@/lib/content';
 import type { Metadata } from 'next';
 import Image from 'next/image';
@@ -141,6 +142,21 @@ export default async function PostPage({ params }: PostPageProps) {
   const relatedPosts = await getRelatedPosts(post);
   const currentUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://localhost:3000'}/post/${post.slug}`;
 
+  // Get author avatar based on name
+  const getAuthorAvatar = (authorName: string) => {
+    const seed = encodeURIComponent(authorName);
+    return `https://api.dicebear.com/7.x/avataaars/svg?seed=${seed}&backgroundColor=3b82f6&radius=50`;
+  };
+
+  const getAuthorInitials = () => {
+    return post.author
+      .split(' ')
+      .map(name => name.charAt(0))
+      .join('')
+      .toUpperCase()
+      .slice(0, 2);
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <article className="max-w-3xl mx-auto px-4 py-16">
@@ -153,28 +169,25 @@ export default async function PostPage({ params }: PostPageProps) {
             
             <div className="flex items-center justify-between mb-8">
               <div className="flex items-center gap-4">
-                <div className="medium-author-avatar w-12 h-12 text-sm">
-                  {post.author.charAt(0).toUpperCase()}
+                <div className="w-12 h-12 rounded-full overflow-hidden bg-primary/10 flex items-center justify-center">
+                  <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/40 flex items-center justify-center text-sm font-semibold text-primary">
+                    {getAuthorInitials()}
+                  </div>
                 </div>
                 <div>
                   <div className="font-medium text-foreground">{post.author}</div>
-                  <div className="text-sm text-muted-foreground">
-                    {format(publishDate, 'MMM d')} · {readingTime} min read
+                  <div className="text-sm text-muted-foreground flex items-center gap-2">
+                    <span>{format(publishDate, 'MMM d')}</span>
+                    <span>·</span>
+                    <div className="flex items-center gap-1">
+                      <Clock size={12} />
+                      <span>{readingTime} min read</span>
+                    </div>
                   </div>
                 </div>
               </div>
               
-              <div className="flex items-center gap-2">
-                <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
-                  <BookmarkPlus size={20} />
-                </Button>
-                <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
-                  <Share2 size={20} />
-                </Button>
-                <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
-                  <MoreHorizontal size={20} />
-                </Button>
-              </div>
+              <PostActions post={post} url={currentUrl} />
             </div>
           </header>
 
@@ -213,29 +226,17 @@ export default async function PostPage({ params }: PostPageProps) {
             </div>
           )}
 
-          {/* Author Bio */}
+          {/* Enhanced Author Bio */}
           <div className="mt-12 pt-8 border-t border-border">
-            <div className="medium-author">
-              <div className="flex items-start gap-4">
-                <div className="medium-author-avatar w-16 h-16 text-lg">
-                  {post.author.charAt(0).toUpperCase()}
-                </div>
-                <div className="flex-1">
-                  <div className="medium-author-name">
-                    {post.author}
-                  </div>
-                  <div className="medium-author-bio">
-                    Writer and technology enthusiast. Passionate about sharing knowledge 
-                    and insights that help developers and creators build better digital experiences.
-                  </div>
-                  <div className="flex items-center gap-4 mt-4">
-                    <Button variant="outline" size="sm" className="medium-btn medium-btn-secondary">
-                      Follow
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <AuthorCard
+              author={post.author}
+              avatar={getAuthorAvatar(post.author)}
+              socialLinks={{
+                twitter: "https://twitter.com/professionalblog",
+                linkedin: "https://linkedin.com/company/professionalblog",
+                website: "https://professionalblog.com"
+              }}
+            />
           </div>
 
           {/* Related Posts */}

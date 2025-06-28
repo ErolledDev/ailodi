@@ -1,10 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { format } from 'date-fns';
-import { CalendarDays, Clock } from 'lucide-react';
+import { EnhancedBlogCard } from '@/components/enhanced-blog-card';
 import type { BlogPost } from '@/types/blog';
 
 export function FeaturedPosts() {
@@ -37,11 +34,11 @@ export function FeaturedPosts() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="space-y-8">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="medium-card animate-pulse">
-                <div className="medium-card-content">
-                  <div className="h-4 bg-gray-200 rounded mb-4 w-1/4" />
-                  <div className="h-8 bg-gray-200 rounded mb-2" />
-                  <div className="h-4 bg-gray-200 rounded w-3/4" />
+              <div key={i} className="bg-card border border-border/50 rounded-xl p-6 animate-pulse">
+                <div className="space-y-4">
+                  <div className="h-4 bg-muted rounded mb-4 w-1/4" />
+                  <div className="h-8 bg-muted rounded mb-2" />
+                  <div className="h-4 bg-muted rounded w-3/4" />
                 </div>
               </div>
             ))}
@@ -56,55 +53,7 @@ export function FeaturedPosts() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="space-y-8">
           {posts.map((post, index) => (
-            <article 
-              key={post.id} 
-              className="medium-card hover-lift slide-up"
-              style={{ animationDelay: `${index * 0.1}s` }}
-            >
-              <Link href={`/post/${post.slug}`} className="block">
-                <div className="medium-card-content">
-                  <div className="medium-card-meta">
-                    <span>{post.author}</span>
-                    <span>·</span>
-                    <span>{format(new Date(post.publishDate), 'MMM d')}</span>
-                    <span>·</span>
-                    <span>{Math.ceil(post.content.split(' ').length / 200)} min read</span>
-                  </div>
-                  
-                  <div className="flex items-start gap-8">
-                    <div className="flex-1">
-                      <h2 className="medium-card-title mb-2 hover:text-gray-700 transition-colors">
-                        {post.title}
-                      </h2>
-                      
-                      <p className="medium-card-excerpt mb-4">
-                        {post.metaDescription}
-                      </p>
-                      
-                      <div className="flex items-center gap-2">
-                        {post.categories.slice(0, 1).map((category) => (
-                          <span key={category} className="medium-category">
-                            {category}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                    
-                    {post.featuredImageUrl && (
-                      <div className="w-32 h-32 flex-shrink-0">
-                        <Image
-                          src={post.featuredImageUrl}
-                          alt={post.title}
-                          width={128}
-                          height={128}
-                          className="w-full h-full object-cover rounded"
-                        />
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </Link>
-            </article>
+            <EnhancedBlogCard key={post.id} post={post} index={index} />
           ))}
         </div>
       </div>
