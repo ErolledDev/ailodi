@@ -23,17 +23,7 @@ export function SponsorSection() {
       cta: "Try Free",
       badge: "New",
       link: "#"
-    },
-    // Add more ads here if needed for testing the grid behavior on larger non-LG screens
-    // {
-    //   id: 3,
-    //   title: "Data Science Bootcamp",
-    //   description: "Transform into a data professional with our intensive data science program. Learn Python, R, and more.",
-    //   image: "https://images.unsplash.com/photo-1579783900829-d58f334a1d48?w=300&h=200&fit=crop",
-    //   cta: "Enroll Now",
-    //   badge: "Popular",
-    //   link: "#"
-    // }
+    }
   ];
 
   return (
@@ -43,9 +33,7 @@ export function SponsorSection() {
         <div className="w-8 sm:w-12 h-0.5 bg-primary mx-auto"></div>
       </div>
 
-      {/* --- IMPORTANT CHANGE HERE --- */}
-      {/* On small screens (default), show 1 or 2 columns based on overall width. */}
-      {/* On large screens (lg breakpoint and up), force it to 1 column. */}
+      {/* Responsive grid: 2 columns on small screens, 1 column on large screens (sidebar) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 sm:gap-6">
         {ads.map((ad) => (
           <Card
