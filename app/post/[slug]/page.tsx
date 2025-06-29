@@ -124,7 +124,7 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
 }
 
 export default async function PostPage({ params }: PostPageProps) {
-  let post;
+  let post: BlogPost | null;
   
   try {
     post = await getContentBySlug(params.slug);
