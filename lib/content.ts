@@ -113,10 +113,19 @@ function calculateSimilarity(str1: string, str2: string): number {
 
 // Enhanced search function with proper error handling
 export async function searchPosts(query: string): Promise<SearchResult> {
+  console.log('🔍 SEARCH DEBUG: Starting search with query:', query);
+  
   try {
     const posts = await getAllContent();
+    console.log('📚 SEARCH DEBUG: Fetched posts from API:', posts.length, 'posts');
+    
+    // Log first few post titles for verification
+    if (posts.length > 0) {
+      console.log('📝 SEARCH DEBUG: Sample post titles:', posts.slice(0, 3).map(p => p.title));
+    }
     
     if (!query.trim()) {
+      console.log('⚠️ SEARCH DEBUG: Empty query, returning all posts');
       return {
         posts,
         hasError: false
@@ -125,6 +134,10 @@ export async function searchPosts(query: string): Promise<SearchResult> {
     
     const normalizedQuery = normalizeText(query);
     const searchTerms = normalizedQuery.split(' ').filter(term => term.length > 0);
+    
+    console.log('🔤 SEARCH DEBUG: Original query:', query);
+    console.log('🔤 SEARCH DEBUG: Normalized query:', normalizedQuery);
+    console.log('🔤 SEARCH DEBUG: Search terms:', searchTerms);
     
     // Score each post based on relevance
     const scoredPosts = posts.map(post => {
@@ -186,7 +199,12 @@ export async function searchPosts(query: string): Promise<SearchResult> {
         score += matchingTerms.length * 10;
       }
       
-      return { post, score };
+      return { post, score, normalizedTitle, normalizedDescription };
+    });
+    
+    console.log('📊 SEARCH DEBUG: Scored posts sample:');
+    scoredPosts.slice(0, 5).forEach(({ post, score, normalizedTitle }) => {
+      console.log(`  - "${post.title}" (normalized: "${normalizedTitle}") - Score: ${score}`);
     });
     
     // Filter posts with score > 0 and sort by score (descending)
@@ -195,12 +213,36 @@ export async function searchPosts(query: string): Promise<SearchResult> {
       .sort((a, b) => b.score - a.score)
       .map(({ post }) => post);
     
+    console.log('✅ SEARCH DEBUG: Final filtered posts count:', filteredPosts.length);
+    
+    if (filteredPosts.length === 0) {
+      console.log('❌ SEARCH DEBUG: No posts found! Showing top 5 scores for debugging:');
+      const topScores = scoredPosts
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 5);
+      
+      topScores.forEach(({ post, score, normalizedTitle, normalizedDescription }) => {
+        console.log(`  - "${post.title}"`);
+        console.log(`    Normalized title: "${normalizedTitle}"`);
+        console.log(`    Normalized description: "${normalizedDescription}"`);
+        console.log(`    Score: ${score}`);
+        console.log(`    Categories: ${post.categories.join(', ')}`);
+        console.log(`    Tags: ${post.tags.join(', ')}`);
+        console.log('    ---');
+      });
+    } else {
+      console.log('🎯 SEARCH DEBUG: Top 3 results:');
+      filteredPosts.slice(0, 3).forEach((post, index) => {
+        console.log(`  ${index + 1}. "${post.title}"`);
+      });
+    }
+    
     return {
       posts: filteredPosts,
       hasError: false
     };
   } catch (error) {
-    console.error('Error searching posts:', error);
+    console.error('❌ SEARCH DEBUG: Error in searchPosts:', error);
     return {
       posts: [],
       hasError: true,
