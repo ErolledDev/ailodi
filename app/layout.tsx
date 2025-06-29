@@ -5,22 +5,26 @@ import { Navigation } from '@/components/navigation';
 import { Footer } from '@/components/footer';
 import { PageProgressBar } from '@/components/page-progress-bar';
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ 
+  subsets: ['latin'],
+  display: 'swap',
+  preload: true,
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech'),
   title: {
-    default: 'AI Lodi - Your Global Tech Insights & AI Innovation Hub',
-    template: '%s | AI Lodi'
+    default: 'AI Lodi - Your Global Tech Insights & AI Innovation Hub | Latest AI Trends 2025',
+    template: '%s | AI Lodi - Tech Insights & AI Innovation'
   },
-  description: 'AI Lodi is your ultimate guide to modern technology, AI breakthroughs, programming trends, and future science. Get in-depth analysis, tutorials, and insights on cutting-edge tech innovations shaping our world.',
+  description: 'AI Lodi is your ultimate guide to modern technology, AI breakthroughs, programming trends, and future science. Get in-depth analysis, tutorials, and insights on cutting-edge tech innovations shaping our world in 2025.',
   keywords: [
     'AI', 
     'artificial intelligence', 
     'machine learning', 
     'programming', 
     'web development', 
-    'technology trends', 
+    'technology trends 2025', 
     'automation', 
     'quantum computing', 
     'deep tech',
@@ -32,11 +36,24 @@ export const metadata: Metadata = {
     'tech news',
     'AI research',
     'coding tutorials',
-    'tech analysis'
+    'tech analysis',
+    'ChatGPT',
+    'OpenAI',
+    'neural networks',
+    'data science',
+    'cloud computing',
+    'cybersecurity',
+    'blockchain',
+    'IoT',
+    'robotics',
+    'AR VR',
+    'tech careers'
   ],
-  authors: [{ name: 'AI Lodi Team' }],
+  authors: [{ name: 'AI Lodi Team', url: 'https://ailodi.tech/about' }],
   creator: 'AI Lodi',
   publisher: 'AI Lodi',
+  category: 'Technology',
+  classification: 'Technology Blog',
   formatDetection: {
     email: false,
     address: false,
@@ -46,7 +63,7 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     url: process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech',
-    title: 'AI Lodi - Your Global Tech Insights & AI Innovation Hub',
+    title: 'AI Lodi - Your Global Tech Insights & AI Innovation Hub | Latest AI Trends 2025',
     description: 'AI Lodi is your ultimate guide to modern technology, AI breakthroughs, programming trends, and future science. Get in-depth analysis, tutorials, and insights on cutting-edge tech innovations.',
     siteName: 'AI Lodi',
     images: [
@@ -54,7 +71,15 @@ export const metadata: Metadata = {
         url: '/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'AI Lodi - Global Tech Insights and AI Innovation',
+        alt: 'AI Lodi - Global Tech Insights and AI Innovation Hub',
+        type: 'image/jpeg',
+      },
+      {
+        url: '/og-image-square.jpg',
+        width: 1200,
+        height: 1200,
+        alt: 'AI Lodi - Tech Innovation Square Logo',
+        type: 'image/jpeg',
       },
     ],
   },
@@ -63,12 +88,13 @@ export const metadata: Metadata = {
     title: 'AI Lodi - Your Global Tech Insights & AI Innovation Hub',
     description: 'AI Lodi is your ultimate guide to modern technology, AI breakthroughs, programming trends, and future science. Get in-depth analysis, tutorials, and insights on cutting-edge tech innovations.',
     creator: '@ailodi_tech',
+    site: '@ailodi_tech',
     images: ['/og-image.jpg'],
   },
   robots: {
     index: true,
     follow: true,
-    nocache: true,
+    nocache: false,
     googleBot: {
       index: true,
       follow: true,
@@ -82,14 +108,33 @@ export const metadata: Metadata = {
     google: 'your-google-verification-code',
     yandex: 'your-yandex-verification-code',
     yahoo: 'your-yahoo-verification-code',
+    other: {
+      'msvalidate.01': 'your-bing-verification-code',
+    },
   },
   alternates: {
     canonical: process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech',
     languages: {
       'en-US': '/en-US',
+      'x-default': '/',
+    },
+    types: {
+      'application/rss+xml': [
+        { url: '/feed.xml', title: 'AI Lodi RSS Feed' },
+      ],
     },
   },
-  category: 'technology',
+  other: {
+    'theme-color': '#22c55e',
+    'color-scheme': 'light',
+    'mobile-web-app-capable': 'yes',
+    'apple-mobile-web-app-capable': 'yes',
+    'apple-mobile-web-app-status-bar-style': 'default',
+    'apple-mobile-web-app-title': 'AI Lodi',
+    'application-name': 'AI Lodi',
+    'msapplication-TileColor': '#22c55e',
+    'msapplication-config': '/browserconfig.xml',
+  },
 };
 
 export default function RootLayout({
@@ -100,7 +145,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href="/favicon.ico" sizes="32x32" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/manifest.json" />
@@ -108,7 +153,7 @@ export default function RootLayout({
         <meta name="color-scheme" content="light" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
         
-        {/* Preconnect to external domains */}
+        {/* Preconnect to external domains for performance */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://images.unsplash.com" />
@@ -117,7 +162,10 @@ export default function RootLayout({
         {/* DNS prefetch for performance */}
         <link rel="dns-prefetch" href="https://blogform.netlify.app" />
         
-        {/* Structured Data for Organization */}
+        {/* Preload critical resources */}
+        <link rel="preload" href="/fonts/inter-var.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+        
+        {/* Enhanced Structured Data for Organization */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -125,24 +173,48 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "Organization",
               "name": "AI Lodi",
+              "alternateName": "AI Lodi Tech",
               "url": process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech',
-              "logo": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech'}/logo.png`,
+              "logo": {
+                "@type": "ImageObject",
+                "url": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech'}/logo.png`,
+                "width": 512,
+                "height": 512
+              },
               "description": "AI Lodi is your ultimate guide to modern technology, AI breakthroughs, programming trends, and future science. Get in-depth analysis, tutorials, and insights on cutting-edge tech innovations.",
+              "foundingDate": "2024",
               "sameAs": [
                 "https://twitter.com/ailodi_tech",
                 "https://linkedin.com/company/ailodi",
-                "https://github.com/ailodi"
+                "https://github.com/ailodi",
+                "https://youtube.com/@ailodi"
               ],
               "contactPoint": {
                 "@type": "ContactPoint",
                 "contactType": "customer service",
-                "email": "hello@ailodi.tech"
-              }
+                "email": "hello@ailodi.tech",
+                "availableLanguage": "English"
+              },
+              "address": {
+                "@type": "PostalAddress",
+                "addressCountry": "Global"
+              },
+              "areaServed": "Worldwide",
+              "knowsAbout": [
+                "Artificial Intelligence",
+                "Machine Learning",
+                "Programming",
+                "Web Development",
+                "Technology Trends",
+                "Automation",
+                "Quantum Computing",
+                "Future Science"
+              ]
             })
           }}
         />
         
-        {/* Structured Data for Website */}
+        {/* Enhanced Structured Data for Website */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -150,11 +222,18 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "WebSite",
               "name": "AI Lodi",
+              "alternateName": "AI Lodi Tech Insights",
               "url": process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech',
               "description": "AI Lodi is your ultimate guide to modern technology, AI breakthroughs, programming trends, and future science. Get in-depth analysis, tutorials, and insights on cutting-edge tech innovations.",
+              "inLanguage": "en-US",
+              "isAccessibleForFree": true,
               "publisher": {
                 "@type": "Organization",
-                "name": "AI Lodi"
+                "name": "AI Lodi",
+                "logo": {
+                  "@type": "ImageObject",
+                  "url": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech'}/logo.png`
+                }
               },
               "potentialAction": {
                 "@type": "SearchAction",
@@ -163,7 +242,47 @@ export default function RootLayout({
                   "urlTemplate": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech'}/search?q={search_term_string}`
                 },
                 "query-input": "required name=search_term_string"
+              },
+              "mainEntity": {
+                "@type": "Blog",
+                "name": "AI Lodi Blog",
+                "description": "Latest insights on AI, technology trends, programming, and future science",
+                "blogPost": {
+                  "@type": "BlogPosting",
+                  "headline": "Latest AI and Technology Insights"
+                }
               }
+            })
+          }}
+        />
+
+        {/* Breadcrumb Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Home",
+                  "item": process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech'
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "AI Insights",
+                  "item": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech'}/categories?filter=AI`
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 3,
+                  "name": "Programming",
+                  "item": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech'}/categories?filter=Programming`
+                }
+              ]
             })
           }}
         />

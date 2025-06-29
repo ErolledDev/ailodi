@@ -2,9 +2,9 @@ import { MetadataRoute } from 'next';
 import { getAllContent } from '@/lib/content';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://localhost:3000';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech';
   
-  // Static pages
+  // Static pages with enhanced priority and frequency
   const staticPages = [
     {
       url: baseUrl,
@@ -31,6 +31,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     },
     {
+      url: `${baseUrl}/search`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.6,
+    },
+    {
       url: `${baseUrl}/privacy-policy`,
       lastModified: new Date(),
       changeFrequency: 'yearly' as const,
@@ -50,19 +56,46 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  // Dynamic blog posts
+  // Dynamic blog posts with enhanced metadata
   let blogPosts: any[] = [];
+  let categoryPages: any[] = [];
+  
   try {
     const posts = await getAllContent();
-    blogPosts = posts.map((post) => ({
-      url: `${baseUrl}/post/${post.slug}`,
-      lastModified: new Date(post.updatedAt),
+    
+    // Blog post URLs
+    blogPosts = posts.map((post) => {
+      const postDate = new Date(post.updatedAt);
+      const now = new Date();
+      const daysSinceUpdate = Math.floor((now.getTime() - postDate.getTime()) / (1000 * 60 * 60 * 24));
+      
+      // Adjust change frequency based on post age
+      let changeFrequency: 'daily' | 'weekly' | 'monthly' | 'yearly' = 'monthly';
+      if (daysSinceUpdate < 7) changeFrequency = 'daily';
+      else if (daysSinceUpdate < 30) changeFrequency = 'weekly';
+      else if (daysSinceUpdate < 365) changeFrequency = 'monthly';
+      else changeFrequency = 'yearly';
+
+      return {
+        url: `${baseUrl}/post/${post.slug}`,
+        lastModified: postDate,
+        changeFrequency,
+        priority: 0.9,
+      };
+    });
+
+    // Category pages
+    const categories = [...new Set(posts.flatMap(post => post.categories))];
+    categoryPages = categories.map((category) => ({
+      url: `${baseUrl}/categories?filter=${encodeURIComponent(category)}`,
+      lastModified: new Date(),
       changeFrequency: 'weekly' as const,
-      priority: 0.9,
+      priority: 0.7,
     }));
+
   } catch (error) {
     console.error('Error fetching posts for sitemap:', error);
   }
 
-  return [...staticPages, ...blogPosts];
+  return [...staticPages, ...blogPosts, ...categoryPages];
 }

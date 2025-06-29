@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import { format } from 'date-fns';
-import { Clock } from 'lucide-react';
+import { Clock, Calendar, User, Tag, Eye } from 'lucide-react';
 import { MarkdownRenderer } from '@/components/markdown-renderer';
 import { SocialShareButtons } from '@/components/social-share-buttons';
 import { PostActions } from '@/components/post-actions';
@@ -38,21 +38,27 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
     
     if (!post) {
       return {
-        title: 'Post Not Found',
+        title: 'Post Not Found | AI Lodi',
         description: 'The requested blog post could not be found.',
+        robots: {
+          index: false,
+          follow: false,
+        },
       };
     }
 
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech';
     const postUrl = `${baseUrl}/post/${post.slug}`;
+    const readingTime = Math.ceil(post.content.split(' ').length / 200);
 
     return {
-      title: post.seoTitle || post.title,
+      title: post.seoTitle || `${post.title} | AI Lodi`,
       description: post.metaDescription,
       keywords: post.keywords?.join(', '),
-      authors: [{ name: post.author }],
+      authors: [{ name: post.author, url: `${baseUrl}/author/${encodeURIComponent(post.author.toLowerCase().replace(/\s+/g, '-'))}` }],
       creator: post.author,
       publisher: 'AI Lodi',
+      category: post.categories[0] || 'Technology',
       alternates: {
         canonical: postUrl,
       },
@@ -63,12 +69,21 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
         publishedTime: post.publishDate,
         modifiedTime: post.updatedAt,
         authors: [post.author],
+        section: post.categories[0] || 'Technology',
+        tags: post.tags,
         images: post.featuredImageUrl ? [{
           url: post.featuredImageUrl,
           width: 1200,
           height: 630,
           alt: post.title,
-        }] : undefined,
+          type: 'image/jpeg',
+        }] : [{
+          url: `${baseUrl}/og-image.jpg`,
+          width: 1200,
+          height: 630,
+          alt: post.title,
+          type: 'image/jpeg',
+        }],
         url: postUrl,
         siteName: 'AI Lodi',
       },
@@ -76,8 +91,9 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
         card: 'summary_large_image',
         title: post.seoTitle || post.title,
         description: post.metaDescription,
-        images: post.featuredImageUrl ? [post.featuredImageUrl] : undefined,
+        images: post.featuredImageUrl ? [post.featuredImageUrl] : [`${baseUrl}/og-image.jpg`],
         creator: '@ailodi_tech',
+        site: '@ailodi_tech',
       },
       robots: {
         index: true,
@@ -90,11 +106,19 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
           'max-snippet': -1,
         },
       },
+      other: {
+        'article:reading_time': readingTime.toString(),
+        'article:word_count': post.content.split(' ').length.toString(),
+      },
     };
   } catch (error) {
     return {
-      title: 'Post Not Found',
+      title: 'Post Not Found | AI Lodi',
       description: 'The requested blog post could not be found.',
+      robots: {
+        index: false,
+        follow: false,
+      },
     };
   }
 }
@@ -114,7 +138,9 @@ export default async function PostPage({ params }: PostPageProps) {
   }
 
   const publishDate = new Date(post.publishDate);
+  const updatedDate = new Date(post.updatedAt);
   const readingTime = Math.ceil(post.content.split(' ').length / 200);
+  const wordCount = post.content.split(' ').length;
   const currentUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech'}/post/${post.slug}`;
 
   const getAuthorInitials = () => {
@@ -139,6 +165,34 @@ export default async function PostPage({ params }: PostPageProps) {
           <div className="lg:col-span-3">
             <article className="max-w-none lg:max-w-3xl xl:max-w-4xl 2xl:max-w-5xl">
               <div>
+                {/* Breadcrumb Navigation */}
+                <nav className="mb-6 sm:mb-8" aria-label="Breadcrumb">
+                  <ol className="flex items-center space-x-2 text-sm text-muted-foreground">
+                    <li>
+                      <Link href="/" className="hover:text-primary transition-colors">
+                        Home
+                      </Link>
+                    </li>
+                    <li>/</li>
+                    {post.categories[0] && (
+                      <>
+                        <li>
+                          <Link 
+                            href={`/categories?filter=${encodeURIComponent(post.categories[0])}`}
+                            className="hover:text-primary transition-colors"
+                          >
+                            {post.categories[0]}
+                          </Link>
+                        </li>
+                        <li>/</li>
+                      </>
+                    )}
+                    <li className="text-foreground font-medium line-clamp-1">
+                      {post.title}
+                    </li>
+                  </ol>
+                </nav>
+
                 {/* Header */}
                 <header className="mb-8 sm:mb-10 lg:mb-12">
                   <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-foreground leading-tight mb-6 sm:mb-8">
@@ -152,6 +206,7 @@ export default async function PostPage({ params }: PostPageProps) {
                     </p>
                   </div>
                   
+                  {/* Enhanced Article Meta */}
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-6 mb-6 sm:mb-8 lg:mb-10">
                     <div className="flex items-center gap-4">
                       <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-hidden bg-primary/10 flex items-center justify-center flex-shrink-0">
@@ -160,15 +215,34 @@ export default async function PostPage({ params }: PostPageProps) {
                         </div>
                       </div>
                       <div className="min-w-0">
-                        <div className="font-medium text-foreground text-base sm:text-lg">{post.author}</div>
-                        <div className="text-sm sm:text-base text-muted-foreground flex items-center gap-2">
-                          <time dateTime={post.publishDate}>
-                            {format(publishDate, 'MMMM d, yyyy')}
-                          </time>
-                          <span>·</span>
-                          <div className="flex items-center gap-1">
-                            <Clock size={14} />
-                            <span>{readingTime} min read</span>
+                        <div className="font-medium text-foreground text-base sm:text-lg flex items-center gap-2">
+                          <User size={14} />
+                          {post.author}
+                        </div>
+                        <div className="text-sm sm:text-base text-muted-foreground space-y-1">
+                          <div className="flex items-center gap-2">
+                            <Calendar size={14} />
+                            <time dateTime={post.publishDate}>
+                              Published {format(publishDate, 'MMMM d, yyyy')}
+                            </time>
+                          </div>
+                          {post.updatedAt !== post.publishDate && (
+                            <div className="flex items-center gap-2">
+                              <Clock size={14} />
+                              <time dateTime={post.updatedAt}>
+                                Updated {format(updatedDate, 'MMMM d, yyyy')}
+                              </time>
+                            </div>
+                          )}
+                          <div className="flex items-center gap-4">
+                            <div className="flex items-center gap-1">
+                              <Clock size={14} />
+                              <span>{readingTime} min read</span>
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <Eye size={14} />
+                              <span>{wordCount} words</span>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -188,6 +262,7 @@ export default async function PostPage({ params }: PostPageProps) {
                           href={`/categories?filter=${encodeURIComponent(category)}`}
                           className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-sm font-medium bg-secondary text-secondary-foreground border border-border hover:bg-primary hover:text-primary-foreground transition-colors"
                         >
+                          <Tag size={12} className="mr-1" />
                           {category}
                         </Link>
                       ))}
@@ -251,7 +326,7 @@ export default async function PostPage({ params }: PostPageProps) {
                   />
                 </div>
 
-                {/* Newsletter Subscription - Moved after Author Card */}
+                {/* Newsletter Subscription */}
                 <div className="mb-8 sm:mb-10 lg:mb-12">
                   <SubscribeForm />
                 </div>
@@ -259,7 +334,7 @@ export default async function PostPage({ params }: PostPageProps) {
             </article>
           </div>
 
-          {/* Sidebar - Now visible on all screen sizes */}
+          {/* Sidebar */}
           <aside className="lg:col-span-1">
             <div className="sticky top-8 space-y-6 sm:space-y-8">
               {/* Related Posts Aside */}
@@ -275,7 +350,7 @@ export default async function PostPage({ params }: PostPageProps) {
         </div>
       </div>
 
-      {/* Structured Data for SEO */}
+      {/* Enhanced Structured Data for SEO */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -284,17 +359,20 @@ export default async function PostPage({ params }: PostPageProps) {
             "@type": "BlogPosting",
             "headline": post.title,
             "description": post.metaDescription,
-            "image": post.featuredImageUrl,
+            "image": post.featuredImageUrl || `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech'}/og-image.jpg`,
             "author": {
               "@type": "Person",
-              "name": post.author
+              "name": post.author,
+              "url": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech'}/author/${encodeURIComponent(post.author.toLowerCase().replace(/\s+/g, '-'))}`
             },
             "publisher": {
               "@type": "Organization",
               "name": "AI Lodi",
               "logo": {
                 "@type": "ImageObject",
-                "url": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech'}/logo.png`
+                "url": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech'}/logo.png`,
+                "width": 512,
+                "height": 512
               }
             },
             "datePublished": post.publishDate,
@@ -305,7 +383,54 @@ export default async function PostPage({ params }: PostPageProps) {
             },
             "keywords": post.keywords?.join(', '),
             "articleSection": post.categories.join(', '),
-            "wordCount": post.content.split(' ').length
+            "wordCount": wordCount,
+            "timeRequired": `PT${readingTime}M`,
+            "inLanguage": "en-US",
+            "isAccessibleForFree": true,
+            "copyrightYear": new Date(post.publishDate).getFullYear(),
+            "copyrightHolder": {
+              "@type": "Organization",
+              "name": "AI Lodi"
+            },
+            "about": post.categories.map(category => ({
+              "@type": "Thing",
+              "name": category
+            })),
+            "mentions": post.tags.map(tag => ({
+              "@type": "Thing",
+              "name": tag
+            }))
+          })
+        }}
+      />
+
+      {/* Breadcrumb Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech'
+              },
+              ...(post.categories[0] ? [{
+                "@type": "ListItem",
+                "position": 2,
+                "name": post.categories[0],
+                "item": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech'}/categories?filter=${encodeURIComponent(post.categories[0])}`
+              }] : []),
+              {
+                "@type": "ListItem",
+                "position": post.categories[0] ? 3 : 2,
+                "name": post.title,
+                "item": currentUrl
+              }
+            ]
           })
         }}
       />
