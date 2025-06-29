@@ -133,11 +133,11 @@ export default async function PostPage({ params }: PostPageProps) {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 py-8 sm:py-12 lg:py-16">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-12 xl:gap-16">
           {/* Main Content */}
           <div className="lg:col-span-3">
-            <article className="max-w-none lg:max-w-3xl">
+            <article className="max-w-none lg:max-w-3xl xl:max-w-4xl 2xl:max-w-5xl">
               <div>
                 {/* Header */}
                 <header className="mb-8 sm:mb-10 lg:mb-12">
