@@ -1,5 +1,6 @@
 'use client';
 
+import { Suspense } from 'react';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Search, Clock, AlertCircle, RefreshCw } from 'lucide-react';
@@ -8,7 +9,7 @@ import { EnhancedBlogCard } from '@/components/enhanced-blog-card';
 import { searchPosts, getAllContent } from '@/lib/content';
 import type { BlogPost } from '@/types/blog';
 
-export default function SearchPage() {
+function SearchPageContent() {
   const searchParams = useSearchParams();
   const query = searchParams.get('q') || '';
   
@@ -164,5 +165,37 @@ export default function SearchPage() {
         )}
       </div>
     </div>
+  );
+}
+
+function SearchPageLoading() {
+  return (
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-background">
+      <div className="text-center mb-12">
+        <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">Search AI Lodi</h1>
+        <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+          Loading search results...
+        </p>
+      </div>
+      <div className="max-w-4xl mx-auto space-y-8">
+        {[1, 2, 3, 4, 5, 6].map((i) => (
+          <div key={i} className="bg-card border border-border/50 rounded-xl p-6 animate-pulse">
+            <div className="space-y-4">
+              <div className="h-4 bg-muted rounded mb-4 w-1/4" />
+              <div className="h-8 bg-muted rounded mb-2" />
+              <div className="h-4 bg-muted rounded w-3/4" />
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default function SearchPage() {
+  return (
+    <Suspense fallback={<SearchPageLoading />}>
+      <SearchPageContent />
+    </Suspense>
   );
 }
