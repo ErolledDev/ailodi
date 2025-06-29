@@ -133,41 +133,41 @@ export default async function PostPage({ params }: PostPageProps) {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-12 xl:gap-16">
           {/* Main Content */}
           <div className="lg:col-span-3">
             <article className="max-w-none lg:max-w-3xl">
               <div>
                 {/* Header */}
-                <header className="mb-8 lg:mb-12">
-                  <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground leading-tight mb-6">
+                <header className="mb-8 sm:mb-10 lg:mb-12">
+                  <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-foreground leading-tight mb-6 sm:mb-8">
                     {post.title}
                   </h1>
                   
                   {/* Meta Description */}
-                  <div className="bg-gradient-to-r from-primary/5 to-primary/10 border-l-4 border-primary rounded-r-lg p-4 mb-6 lg:mb-8">
-                    <p className="text-base lg:text-lg text-muted-foreground leading-relaxed italic">
+                  <div className="bg-gradient-to-r from-primary/5 to-primary/10 border-l-4 border-primary rounded-r-lg p-4 sm:p-6 mb-6 sm:mb-8 lg:mb-10">
+                    <p className="text-base sm:text-lg lg:text-xl text-muted-foreground leading-relaxed italic">
                       {post.metaDescription}
                     </p>
                   </div>
                   
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 lg:mb-8">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-6 mb-6 sm:mb-8 lg:mb-10">
                     <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-full overflow-hidden bg-primary/10 flex items-center justify-center flex-shrink-0">
-                        <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/40 flex items-center justify-center text-sm font-semibold text-primary">
+                      <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-hidden bg-primary/10 flex items-center justify-center flex-shrink-0">
+                        <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/40 flex items-center justify-center text-sm sm:text-base font-semibold text-primary">
                           {getAuthorInitials()}
                         </div>
                       </div>
                       <div className="min-w-0">
-                        <div className="font-medium text-foreground">{post.author}</div>
-                        <div className="text-sm text-muted-foreground flex items-center gap-2">
+                        <div className="font-medium text-foreground text-base sm:text-lg">{post.author}</div>
+                        <div className="text-sm sm:text-base text-muted-foreground flex items-center gap-2">
                           <time dateTime={post.publishDate}>
                             {format(publishDate, 'MMMM d, yyyy')}
                           </time>
                           <span>·</span>
                           <div className="flex items-center gap-1">
-                            <Clock size={12} />
+                            <Clock size={14} />
                             <span>{readingTime} min read</span>
                           </div>
                         </div>
@@ -181,12 +181,12 @@ export default async function PostPage({ params }: PostPageProps) {
 
                   {/* Categories */}
                   {post.categories.length > 0 && (
-                    <div className="flex flex-wrap gap-2 mb-6 lg:mb-8">
+                    <div className="flex flex-wrap gap-2 sm:gap-3 mb-6 sm:mb-8 lg:mb-10">
                       {post.categories.map((category) => (
                         <Link
                           key={category}
                           href={`/categories?filter=${encodeURIComponent(category)}`}
-                          className="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-secondary text-secondary-foreground border border-border hover:bg-primary hover:text-primary-foreground transition-colors"
+                          className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-sm font-medium bg-secondary text-secondary-foreground border border-border hover:bg-primary hover:text-primary-foreground transition-colors"
                         >
                           {category}
                         </Link>
@@ -197,7 +197,7 @@ export default async function PostPage({ params }: PostPageProps) {
 
                 {/* Featured Image */}
                 {post.featuredImageUrl && (
-                  <div className="mb-8 lg:mb-12">
+                  <div className="mb-8 sm:mb-10 lg:mb-12">
                     <div className="relative aspect-video overflow-hidden rounded-xl shadow-lg">
                       <Image
                         src={post.featuredImageUrl}
@@ -212,24 +212,24 @@ export default async function PostPage({ params }: PostPageProps) {
                 )}
 
                 {/* Content */}
-                <div className="prose prose-lg max-w-none">
+                <div className="prose prose-lg max-w-none mb-8 sm:mb-10 lg:mb-12">
                   <MarkdownRenderer content={post.content} />
                 </div>
 
                 {/* Social Sharing */}
-                <div className="mt-8 lg:mt-12">
+                <div className="mb-8 sm:mb-10 lg:mb-12">
                   <SocialShareButtons post={post} url={currentUrl} />
                 </div>
 
                 {/* Tags */}
                 {post.tags.length > 0 && (
-                  <div className="mt-8 lg:mt-12 pt-6 lg:pt-8 border-t border-border">
-                    <h3 className="text-lg font-semibold text-foreground mb-4">Tags</h3>
-                    <div className="flex flex-wrap gap-2">
+                  <div className="mb-8 sm:mb-10 lg:mb-12 pt-6 sm:pt-8 border-t border-border">
+                    <h3 className="text-lg sm:text-xl font-semibold text-foreground mb-4 sm:mb-6">Tags</h3>
+                    <div className="flex flex-wrap gap-2 sm:gap-3">
                       {post.tags.map((tag) => (
                         <span 
                           key={tag} 
-                          className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-muted text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors cursor-pointer"
+                          className="inline-flex items-center px-3 py-1 sm:px-4 sm:py-2 rounded-full text-sm font-medium bg-muted text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors cursor-pointer"
                         >
                           #{tag}
                         </span>
@@ -239,7 +239,7 @@ export default async function PostPage({ params }: PostPageProps) {
                 )}
 
                 {/* Enhanced Author Bio */}
-                <div className="mt-8 lg:mt-12 pt-6 lg:pt-8 border-t border-border">
+                <div className="mb-6 sm:mb-8 lg:mb-10 pt-6 sm:pt-8 border-t border-border">
                   <AuthorCard
                     author={post.author}
                     avatar={getAuthorAvatar(post.author)}
@@ -252,7 +252,7 @@ export default async function PostPage({ params }: PostPageProps) {
                 </div>
 
                 {/* Newsletter Subscription - Moved after Author Card */}
-                <div className="mt-6 lg:mt-8">
+                <div className="mb-8 sm:mb-10 lg:mb-12">
                   <SubscribeForm />
                 </div>
               </div>
@@ -261,7 +261,7 @@ export default async function PostPage({ params }: PostPageProps) {
 
           {/* Sidebar - Now visible on all screen sizes */}
           <aside className="lg:col-span-1">
-            <div className="sticky top-8 space-y-8">
+            <div className="sticky top-8 space-y-6 sm:space-y-8">
               {/* Related Posts Aside */}
               <RelatedPostsAside 
                 currentPostId={post.id} 
