@@ -1,27 +1,50 @@
-import { Users, Target, Award, Heart } from 'lucide-react';
+import { Brain, Target, Award, Globe, Zap, Users } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 
 export default function AboutPage() {
   const values = [
     {
-      icon: Target,
-      title: 'Quality Content',
-      description: 'We strive to provide high-quality, well-researched articles that add value to our readers.'
+      icon: Brain,
+      title: 'Insightful',
+      description: 'Going beyond headlines to explain why tech trends matter and their broader implications for society and industry.'
     },
     {
       icon: Users,
-      title: 'Community',
-      description: 'Building a community of developers, creators, and technology enthusiasts who learn together.'
+      title: 'Accessible',
+      description: 'Breaking down complex technical concepts into understandable language for developers, enthusiasts, and curious minds alike.'
+    },
+    {
+      icon: Globe,
+      title: 'Relevant',
+      description: 'Focusing on global trends, significant breakthroughs, and practical applications that impact industries and daily life worldwide.'
     },
     {
       icon: Award,
-      title: 'Excellence',
-      description: 'Commitment to excellence in everything we do, from content creation to user experience.'
+      title: 'Authoritative',
+      description: 'Built on thorough research, expert opinions, and reliable sources from leading tech institutions and innovators.'
+    },
+  ];
+
+  const contentPillars = [
+    {
+      icon: Brain,
+      title: 'AI Breakthroughs & Global Applications',
+      description: 'Generative AI, machine learning, ethical AI, and real-world applications transforming industries.'
     },
     {
-      icon: Heart,
-      title: 'Passion',
-      description: 'Driven by passion for technology, innovation, and sharing knowledge with others.'
+      icon: Zap,
+      title: 'Programming & Development',
+      description: 'Emerging paradigms, developer tools, DevOps trends, and cloud computing innovations.'
+    },
+    {
+      icon: Target,
+      title: 'Automation & Future of Work',
+      description: 'Hyperautomation strategies, robotics, workforce transformation, and AI-powered systems.'
+    },
+    {
+      icon: Globe,
+      title: 'Future Science & Deep Tech',
+      description: 'Quantum computing, biotechnology, neuroscience, space exploration, and sustainable tech solutions.'
     },
   ];
 
@@ -29,33 +52,36 @@ export default function AboutPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-background">
       {/* Hero Section */}
       <div className="text-center mb-16">
-        <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">About Us</h1>
+        <div className="flex justify-center items-center gap-3 mb-6">
+          <div className="flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full border border-primary/20">
+            <Brain size={20} className="text-primary" />
+            <span className="text-sm font-medium text-primary">About AI Lodi</span>
+          </div>
+        </div>
+        <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">Your Global Tech Insights Hub</h1>
         <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-          Welcome to our professional blog, where we share insights, tutorials, and stories 
-          about web development, technology, and digital innovation. Our mission is to create 
-          valuable content that helps developers and creators build better digital experiences.
+          AI Lodi is the ultimate guide and idol in the dynamic realm of modern technology, 
+          illuminating the most impactful and trending topics shaping our world with truly global perspectives on innovation.
         </p>
       </div>
 
-      {/* Story Section */}
+      {/* Mission Section */}
       <div className="mb-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div>
-            <h2 className="text-3xl font-bold text-foreground mb-6">Our Story</h2>
+            <h2 className="text-3xl font-bold text-foreground mb-6">Our Mission</h2>
             <div className="space-y-4 text-lg text-muted-foreground leading-relaxed">
               <p>
-                Started as a passion project, our blog has grown into a comprehensive resource 
-                for developers and technology enthusiasts. We believe in the power of sharing 
-                knowledge and building communities around shared interests.
+                To be the ultimate guide in the dynamic realm of modern technology, providing in-depth analysis, 
+                timely news, and forward-looking insights into cutting-edge innovations that shape our world.
               </p>
               <p>
-                Our team consists of experienced developers, designers, and writers who are 
-                passionate about creating content that makes a difference. We cover everything 
-                from cutting-edge frameworks to fundamental programming concepts.
+                We serve tech professionals, AI enthusiasts, business leaders, students, researchers, and 
+                anyone passionate about staying informed on the bleeding edge of technology and its societal impact.
               </p>
               <p>
-                Built with modern technologies like Next.js and hosted on Cloudflare, our 
-                platform represents the same innovative spirit we write about in our articles.
+                From generative AI breakthroughs to quantum computing advances, from programming paradigms 
+                to sustainable tech solutions, we cover the technologies that matter most.
               </p>
             </div>
           </div>
@@ -64,29 +90,29 @@ export default function AboutPage() {
               <div className="space-y-6">
                 <div className="flex items-center gap-4">
                   <div className="w-16 h-16 bg-primary rounded-lg flex items-center justify-center">
-                    <span className="text-2xl font-bold text-primary-foreground">100+</span>
+                    <span className="text-2xl font-bold text-primary-foreground">500+</span>
                   </div>
                   <div>
-                    <p className="text-lg font-semibold text-foreground">Articles Published</p>
-                    <p className="text-muted-foreground">High-quality content for developers</p>
+                    <p className="text-lg font-semibold text-foreground">Tech Insights Published</p>
+                    <p className="text-muted-foreground">In-depth analysis and tutorials</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
                   <div className="w-16 h-16 bg-primary/80 rounded-lg flex items-center justify-center">
-                    <span className="text-2xl font-bold text-primary-foreground">50K+</span>
+                    <span className="text-2xl font-bold text-primary-foreground">100K+</span>
                   </div>
                   <div>
-                    <p className="text-lg font-semibold text-foreground">Monthly Readers</p>
-                    <p className="text-muted-foreground">Growing community of learners</p>
+                    <p className="text-lg font-semibold text-foreground">Global Readers</p>
+                    <p className="text-muted-foreground">Tech professionals and enthusiasts</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
                   <div className="w-16 h-16 bg-primary/60 rounded-lg flex items-center justify-center">
-                    <span className="text-2xl font-bold text-primary-foreground">5+</span>
+                    <span className="text-2xl font-bold text-primary-foreground">24/7</span>
                   </div>
                   <div>
-                    <p className="text-lg font-semibold text-foreground">Years Experience</p>
-                    <p className="text-muted-foreground">Proven track record in tech</p>
+                    <p className="text-lg font-semibold text-foreground">Tech Monitoring</p>
+                    <p className="text-muted-foreground">Latest breakthroughs and trends</p>
                   </div>
                 </div>
               </div>
@@ -98,9 +124,9 @@ export default function AboutPage() {
       {/* Values Section */}
       <div className="mb-16">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-foreground mb-4">Our Values</h2>
+          <h2 className="text-3xl font-bold text-foreground mb-4">Our Core Values</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            The principles that guide everything we do and shape the content we create.
+            The principles that guide our content creation and shape how we deliver technology insights.
           </p>
         </div>
         
@@ -123,13 +149,48 @@ export default function AboutPage() {
         </div>
       </div>
 
-      {/* Mission Section */}
+      {/* Content Pillars Section */}
+      <div className="mb-16">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold text-foreground mb-4">What We Cover</h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            Our content spans the most impactful areas of modern technology and innovation.
+          </p>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {contentPillars.map((pillar, index) => (
+            <Card key={index} className="hover-lift bg-card shadow-lg">
+              <CardContent className="p-8">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <pillar.icon size={24} className="text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold text-foreground mb-3">
+                      {pillar.title}
+                    </h3>
+                    <p className="text-muted-foreground leading-relaxed">
+                      {pillar.description}
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
+
+      {/* Vision Section */}
       <div className="bg-primary/10 rounded-2xl p-8 md:p-12 text-center">
-        <h2 className="text-3xl font-bold text-foreground mb-6">Our Mission</h2>
+        <div className="flex justify-center items-center gap-3 mb-6">
+          <Brain size={24} className="text-primary" />
+          <h2 className="text-3xl font-bold text-foreground">Our Vision</h2>
+        </div>
         <p className="text-xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
-          To democratize access to high-quality technical education and create a platform 
-          where developers can learn, grow, and share their expertise. We believe that 
-          knowledge should be accessible, practical, and inspiring.
+          To democratize access to cutting-edge technology insights and create a global community 
+          where developers, innovators, and tech enthusiasts can learn, grow, and shape the future 
+          of technology together. We believe that knowledge should be accessible, practical, and inspiring.
         </p>
       </div>
     </div>

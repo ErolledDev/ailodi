@@ -15,7 +15,7 @@ export function Navigation() {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link href="/" className="medium-nav-brand">
-            Medium
+            AI Lodi
           </Link>
 
           {/* Desktop Navigation */}
@@ -30,7 +30,7 @@ export function Navigation() {
               About
             </Link>
             <Link href="/contact" className="medium-nav-link">
-              Write
+              Contact
             </Link>
             
             {/* Search */}
@@ -38,7 +38,7 @@ export function Navigation() {
               <Search size={16} className="medium-search-icon" />
               <Input
                 type="search"
-                placeholder="Search"
+                placeholder="Search AI & Tech insights..."
                 className="border-gray-200 focus:ring-gray-300 focus:border-gray-300"
               />
             </div>
@@ -92,7 +92,7 @@ export function Navigation() {
                 className="medium-nav-link px-2 py-2"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Write
+                Contact
               </Link>
               
               {/* Mobile Search */}
@@ -100,7 +100,7 @@ export function Navigation() {
                 <Search size={16} className="medium-search-icon" />
                 <Input
                   type="search"
-                  placeholder="Search"
+                  placeholder="Search AI & Tech insights..."
                   className="border-gray-200 focus:ring-gray-300 focus:border-gray-300"
                 />
               </div>

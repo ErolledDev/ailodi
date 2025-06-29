@@ -7,14 +7,14 @@ export function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="flex items-center gap-6 mb-4 md:mb-0">
             <Link href="/" className="medium-footer-brand">
-              Medium
+              AI Lodi
             </Link>
             <div className="flex items-center gap-6 text-sm">
               <Link href="/about" className="text-muted-foreground hover:text-foreground">
                 About
               </Link>
               <Link href="/contact" className="text-muted-foreground hover:text-foreground">
-                Write
+                Contact
               </Link>
               <Link href="/privacy-policy" className="text-muted-foreground hover:text-foreground">
                 Privacy
@@ -29,7 +29,7 @@ export function Footer() {
           </div>
           
           <p className="text-muted-foreground text-sm">
-            © {new Date().getFullYear()} Medium. All rights reserved.
+            © {new Date().getFullYear()} AI Lodi. All rights reserved.
           </p>
         </div>
       </div>

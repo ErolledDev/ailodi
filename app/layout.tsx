@@ -7,30 +7,35 @@ import { Footer } from '@/components/footer';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://localhost:3000'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech'),
   title: {
-    default: 'Professional Blog - Insights, Tutorials & Tech Stories',
-    template: '%s | Professional Blog'
+    default: 'AI Lodi - Your Global Tech Insights & AI Innovation Hub',
+    template: '%s | AI Lodi'
   },
-  description: 'A modern, professional blog featuring insights, tutorials, and stories about web development, technology, and digital innovation. Join our community of developers and creators.',
+  description: 'AI Lodi is your ultimate guide to modern technology, AI breakthroughs, programming trends, and future science. Get in-depth analysis, tutorials, and insights on cutting-edge tech innovations shaping our world.',
   keywords: [
-    'blog', 
-    'nextjs', 
-    'web development', 
-    'technology', 
+    'AI', 
+    'artificial intelligence', 
+    'machine learning', 
     'programming', 
-    'tutorials', 
-    'javascript', 
-    'react', 
-    'css', 
-    'html',
-    'software engineering',
+    'web development', 
+    'technology trends', 
+    'automation', 
+    'quantum computing', 
+    'deep tech',
+    'generative AI',
+    'developer tools',
     'tech insights',
-    'digital innovation'
+    'future science',
+    'innovation',
+    'tech news',
+    'AI research',
+    'coding tutorials',
+    'tech analysis'
   ],
-  authors: [{ name: 'Professional Blog Team' }],
-  creator: 'Professional Blog',
-  publisher: 'Professional Blog',
+  authors: [{ name: 'AI Lodi Team' }],
+  creator: 'AI Lodi',
+  publisher: 'AI Lodi',
   formatDetection: {
     email: false,
     address: false,
@@ -39,24 +44,24 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://localhost:3000',
-    title: 'Professional Blog - Insights, Tutorials & Tech Stories',
-    description: 'A modern, professional blog featuring insights, tutorials, and stories about web development, technology, and digital innovation.',
-    siteName: 'Professional Blog',
+    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech',
+    title: 'AI Lodi - Your Global Tech Insights & AI Innovation Hub',
+    description: 'AI Lodi is your ultimate guide to modern technology, AI breakthroughs, programming trends, and future science. Get in-depth analysis, tutorials, and insights on cutting-edge tech innovations.',
+    siteName: 'AI Lodi',
     images: [
       {
         url: '/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Professional Blog - Tech Insights and Tutorials',
+        alt: 'AI Lodi - Global Tech Insights and AI Innovation',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Professional Blog - Insights, Tutorials & Tech Stories',
-    description: 'A modern, professional blog featuring insights, tutorials, and stories about web development, technology, and digital innovation.',
-    creator: '@professionalblog',
+    title: 'AI Lodi - Your Global Tech Insights & AI Innovation Hub',
+    description: 'AI Lodi is your ultimate guide to modern technology, AI breakthroughs, programming trends, and future science. Get in-depth analysis, tutorials, and insights on cutting-edge tech innovations.',
+    creator: '@ailodi_tech',
     images: ['/og-image.jpg'],
   },
   robots: {
@@ -78,7 +83,7 @@ export const metadata: Metadata = {
     yahoo: 'your-yahoo-verification-code',
   },
   alternates: {
-    canonical: process.env.NEXT_PUBLIC_SITE_URL || 'https://localhost:3000',
+    canonical: process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech',
     languages: {
       'en-US': '/en-US',
     },
@@ -118,19 +123,19 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Organization",
-              "name": "Professional Blog",
-              "url": process.env.NEXT_PUBLIC_SITE_URL || 'https://localhost:3000',
-              "logo": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://localhost:3000'}/logo.png`,
-              "description": "A modern, professional blog featuring insights, tutorials, and stories about web development, technology, and digital innovation.",
+              "name": "AI Lodi",
+              "url": process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech',
+              "logo": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech'}/logo.png`,
+              "description": "AI Lodi is your ultimate guide to modern technology, AI breakthroughs, programming trends, and future science. Get in-depth analysis, tutorials, and insights on cutting-edge tech innovations.",
               "sameAs": [
-                "https://twitter.com/professionalblog",
-                "https://linkedin.com/company/professionalblog",
-                "https://github.com/professionalblog"
+                "https://twitter.com/ailodi_tech",
+                "https://linkedin.com/company/ailodi",
+                "https://github.com/ailodi"
               ],
               "contactPoint": {
                 "@type": "ContactPoint",
                 "contactType": "customer service",
-                "email": "hello@professionalblog.com"
+                "email": "hello@ailodi.tech"
               }
             })
           }}
@@ -143,18 +148,18 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "WebSite",
-              "name": "Professional Blog",
-              "url": process.env.NEXT_PUBLIC_SITE_URL || 'https://localhost:3000',
-              "description": "A modern, professional blog featuring insights, tutorials, and stories about web development, technology, and digital innovation.",
+              "name": "AI Lodi",
+              "url": process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech',
+              "description": "AI Lodi is your ultimate guide to modern technology, AI breakthroughs, programming trends, and future science. Get in-depth analysis, tutorials, and insights on cutting-edge tech innovations.",
               "publisher": {
                 "@type": "Organization",
-                "name": "Professional Blog"
+                "name": "AI Lodi"
               },
               "potentialAction": {
                 "@type": "SearchAction",
                 "target": {
                   "@type": "EntryPoint",
-                  "urlTemplate": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://localhost:3000'}/search?q={search_term_string}`
+                  "urlTemplate": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech'}/search?q={search_term_string}`
                 },
                 "query-input": "required name=search_term_string"
               }

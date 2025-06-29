@@ -43,7 +43,7 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
       };
     }
 
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://localhost:3000';
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech';
     const postUrl = `${baseUrl}/post/${post.slug}`;
 
     return {
@@ -52,7 +52,7 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
       keywords: post.keywords?.join(', '),
       authors: [{ name: post.author }],
       creator: post.author,
-      publisher: 'Professional Blog',
+      publisher: 'AI Lodi',
       alternates: {
         canonical: postUrl,
       },
@@ -70,14 +70,14 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
           alt: post.title,
         }] : undefined,
         url: postUrl,
-        siteName: 'Professional Blog',
+        siteName: 'AI Lodi',
       },
       twitter: {
         card: 'summary_large_image',
         title: post.seoTitle || post.title,
         description: post.metaDescription,
         images: post.featuredImageUrl ? [post.featuredImageUrl] : undefined,
-        creator: '@professionalblog',
+        creator: '@ailodi_tech',
       },
       robots: {
         index: true,
@@ -115,7 +115,7 @@ export default async function PostPage({ params }: PostPageProps) {
 
   const publishDate = new Date(post.publishDate);
   const readingTime = Math.ceil(post.content.split(' ').length / 200);
-  const currentUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://localhost:3000'}/post/${post.slug}`;
+  const currentUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech'}/post/${post.slug}`;
 
   const getAuthorInitials = () => {
     return post.author
@@ -244,9 +244,9 @@ export default async function PostPage({ params }: PostPageProps) {
                     author={post.author}
                     avatar={getAuthorAvatar(post.author)}
                     socialLinks={{
-                      twitter: "https://twitter.com/professionalblog",
-                      linkedin: "https://linkedin.com/company/professionalblog",
-                      website: "https://professionalblog.com"
+                      twitter: "https://twitter.com/ailodi_tech",
+                      linkedin: "https://linkedin.com/company/ailodi",
+                      website: "https://ailodi.tech"
                     }}
                   />
                 </div>
@@ -291,10 +291,10 @@ export default async function PostPage({ params }: PostPageProps) {
             },
             "publisher": {
               "@type": "Organization",
-              "name": "Professional Blog",
+              "name": "AI Lodi",
               "logo": {
                 "@type": "ImageObject",
-                "url": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://localhost:3000'}/logo.png`
+                "url": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech'}/logo.png`
               }
             },
             "datePublished": post.publishDate,

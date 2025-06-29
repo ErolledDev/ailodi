@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Mail, MessageSquare, Send, MapPin, Phone } from 'lucide-react';
+import { Mail, MessageSquare, Send, MapPin, Brain, Zap, Globe } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -34,10 +34,16 @@ export default function ContactPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-background">
       {/* Hero Section */}
       <div className="text-center mb-16">
-        <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">Get In Touch</h1>
+        <div className="flex justify-center items-center gap-3 mb-6">
+          <div className="flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full border border-primary/20">
+            <Brain size={20} className="text-primary" />
+            <span className="text-sm font-medium text-primary">Get In Touch</span>
+          </div>
+        </div>
+        <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">Connect With AI Lodi</h1>
         <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-          Have a question, suggestion, or just want to say hello? We'd love to hear from you. 
-          Reach out to us using the form below or through our contact information.
+          Have insights to share, questions about AI and tech trends, or want to collaborate? 
+          We'd love to hear from you. Join our global community of tech innovators and thought leaders.
         </p>
       </div>
 
@@ -46,11 +52,13 @@ export default function ContactPage() {
         <div className="lg:col-span-2">
           <Card className="shadow-lg">
             <CardHeader>
-              <CardTitle className="text-2xl font-bold text-foreground">
-                Send us a message
+              <CardTitle className="text-2xl font-bold text-foreground flex items-center gap-3">
+                <MessageSquare className="text-primary" />
+                Share Your Tech Insights
               </CardTitle>
               <p className="text-muted-foreground">
-                Fill out the form below and we'll get back to you as soon as possible.
+                Whether you have a story idea, want to contribute, or have questions about our content, 
+                we're here to connect with fellow tech enthusiasts.
               </p>
             </CardHeader>
             <CardContent>
@@ -93,7 +101,7 @@ export default function ContactPage() {
                     required
                     value={formData.subject}
                     onChange={handleChange}
-                    placeholder="What's this about?"
+                    placeholder="AI insights, collaboration, or general inquiry"
                     className="focus:border-primary focus:ring-primary"
                   />
                 </div>
@@ -106,7 +114,7 @@ export default function ContactPage() {
                     required
                     value={formData.message}
                     onChange={handleChange}
-                    placeholder="Tell us more about your inquiry..."
+                    placeholder="Tell us about your tech insights, questions, or collaboration ideas..."
                     rows={6}
                     className="focus:border-primary focus:ring-primary"
                   />
@@ -135,15 +143,15 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold text-foreground">Email Us</h3>
-                  <p className="text-muted-foreground">Get in touch via email</p>
+                  <p className="text-muted-foreground">Get in touch directly</p>
                 </div>
               </div>
               <p className="text-muted-foreground">
                 <a 
-                  href="mailto:hello@professionalblog.com" 
+                  href="mailto:hello@ailodi.tech" 
                   className="text-primary hover:text-primary/80"
                 >
-                  hello@professionalblog.com
+                  hello@ailodi.tech
                 </a>
               </p>
             </CardContent>
@@ -153,16 +161,20 @@ export default function ContactPage() {
             <CardContent className="p-6">
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                  <MessageSquare size={24} className="text-primary" />
+                  <Zap size={24} className="text-primary" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-foreground">Live Chat</h3>
-                  <p className="text-muted-foreground">Chat with our team</p>
+                  <h3 className="text-lg font-semibold text-foreground">Collaboration</h3>
+                  <p className="text-muted-foreground">Partner with us</p>
                 </div>
               </div>
               <p className="text-muted-foreground">
-                Available Monday to Friday<br />
-                9:00 AM - 5:00 PM (EST)
+                <a 
+                  href="mailto:collaborate@ailodi.tech" 
+                  className="text-primary hover:text-primary/80"
+                >
+                  collaborate@ailodi.tech
+                </a>
               </p>
             </CardContent>
           </Card>
@@ -171,16 +183,16 @@ export default function ContactPage() {
             <CardContent className="p-6">
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                  <MapPin size={24} className="text-primary" />
+                  <Globe size={24} className="text-primary" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-foreground">Location</h3>
-                  <p className="text-muted-foreground">Where we're based</p>
+                  <h3 className="text-lg font-semibold text-foreground">Global Reach</h3>
+                  <p className="text-muted-foreground">Worldwide community</p>
                 </div>
               </div>
               <p className="text-muted-foreground">
-                Remote First<br />
-                Global Team
+                Remote-first team<br />
+                Serving tech enthusiasts globally
               </p>
             </CardContent>
           </Card>
@@ -194,26 +206,26 @@ export default function ContactPage() {
               <div className="space-y-4">
                 <div>
                   <h4 className="font-medium text-foreground mb-1">
+                    How can I contribute content?
+                  </h4>
+                  <p className="text-sm text-muted-foreground">
+                    We welcome guest contributions on AI, programming, and tech trends. Reach out with your ideas!
+                  </p>
+                </div>
+                <div>
+                  <h4 className="font-medium text-foreground mb-1">
+                    Do you cover emerging technologies?
+                  </h4>
+                  <p className="text-sm text-muted-foreground">
+                    Yes! We focus on cutting-edge tech including quantum computing, biotech, and space innovation.
+                  </p>
+                </div>
+                <div>
+                  <h4 className="font-medium text-foreground mb-1">
                     How quickly do you respond?
                   </h4>
                   <p className="text-sm text-muted-foreground">
                     We typically respond within 24 hours during business days.
-                  </p>
-                </div>
-                <div>
-                  <h4 className="font-medium text-foreground mb-1">
-                    Can I contribute to the blog?
-                  </h4>
-                  <p className="text-sm text-muted-foreground">
-                    Yes! We welcome guest contributions. Please reach out with your ideas.
-                  </p>
-                </div>
-                <div>
-                  <h4 className="font-medium text-foreground mb-1">
-                    Do you offer consulting?
-                  </h4>
-                  <p className="text-sm text-muted-foreground">
-                    We offer limited consulting services. Contact us to discuss your needs.
                   </p>
                 </div>
               </div>

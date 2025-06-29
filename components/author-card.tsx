@@ -19,10 +19,14 @@ interface AuthorCardProps {
 
 export function AuthorCard({ 
   author, 
-  bio = "Writer and technology enthusiast. Passionate about sharing knowledge and insights that help developers and creators build better digital experiences.",
+  bio = "Tech writer and AI enthusiast. Passionate about sharing insights on cutting-edge technology, artificial intelligence, and the future of innovation.",
   avatar,
   isFollowing: initialFollowing = false,
-  socialLinks = {}
+  socialLinks = {
+    twitter: "https://twitter.com/ailodi_tech",
+    linkedin: "https://linkedin.com/company/ailodi",
+    website: "https://ailodi.tech"
+  }
 }: AuthorCardProps) {
   const [isFollowing, setIsFollowing] = useState(initialFollowing);
 
