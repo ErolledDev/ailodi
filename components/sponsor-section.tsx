@@ -27,7 +27,7 @@ export function SponsorSection() {
   ];
 
   return (
-    <div className="space-y-4 sm:space-y-6">
+    <div className="w-full max-w-sm mx-auto lg:max-w-none lg:mx-0 space-y-4 sm:space-y-6">
       <div className="text-center">
         <h3 className="text-base sm:text-lg font-semibold text-foreground mb-2">Sponsored</h3>
         <div className="w-8 sm:w-12 h-0.5 bg-primary mx-auto"></div>
