@@ -1,8 +1,8 @@
-'use client';
+'use client'; // This directive is necessary for client-side components in Next.js
 
-import { ExternalLink, Star, Zap, Brain } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { ExternalLink, Star, Zap, Brain } from 'lucide-react'; // Assuming you have lucide-react installed
+import { Card, CardContent } from '@/components/ui/card';     // Path to your ShadCN Card component
+import { Button } from '@/components/ui/button';             // Path to your ShadCN Button component
 
 export function SponsorSection() {
   const ads = [
@@ -10,7 +10,7 @@ export function SponsorSection() {
       id: 1,
       title: "AI & Machine Learning Mastery",
       description: "Master cutting-edge AI technologies with our comprehensive course. From neural networks to LLMs.",
-      image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=300&h=200&fit=crop",
+      image: "https://www.investopedia.com/thmb/lVM0xLRchf-SU6kjEPV_EucULX0=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/GettyImages-652553849-8c6576b265644ebdb68e47064d4fb276.jpg",
       cta: "Start Learning",
       badge: "Featured",
       link: "#"
@@ -19,49 +19,61 @@ export function SponsorSection() {
       id: 2,
       title: "Premium Developer Tools",
       description: "Boost your productivity with AI-powered coding assistants and advanced development environments.",
-      image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=300&h=200&fit=crop",
+      image: "https://images.pexels.com/photos/32438148/pexels-photo-32438148.jpeg",
       cta: "Try Free",
       badge: "New",
       link: "#"
     },
-    // Add more ads here if needed to see the grid in action
+    // You can add more ads here to see how the grid adjusts:
     // {
     //   id: 3,
-    //   title: "Data Science Bootcamp",
-    //   description: "Transform into a data professional with our intensive data science program. Learn Python, R, and more.",
-    //   image: "https://images.unsplash.com/photo-1579783900829-d58f334a1d48?w=300&h=200&fit=crop",
-    //   cta: "Enroll Now",
-    //   badge: "Popular",
+    //   title: "Cloud Computing Fundamentals",
+    //   description: "Learn the essentials of AWS, Azure, and Google Cloud for modern infrastructure.",
+    //   image: "https://images.unsplash.com/photo-1582234032333-e91b0f19c118?w=300&h=200&fit=crop",
+    //   cta: "Explore Courses",
+    //   badge: "Trending",
+    //   link: "#"
+    // },
+    // {
+    //   id: 4,
+    //   title: "Cybersecurity Essentials",
+    //   description: "Protect your digital assets with our cybersecurity principles and practices course.",
+    //   image: "https://images.unsplash.com/photo-1549448092-231bb18b622c?w=300&h=200&fit=crop",
+    //   cta: "Secure Your Future",
+    //   badge: "Hot",
     //   link: "#"
     // }
   ];
 
   return (
-    <div className="w-full"> {/* Remove max-w and mx-auto from here */}
-      <div className="text-center mb-6 sm:mb-8"> {/* Added margin bottom for spacing */}
+    <div className="w-full"> {/* Ensures the section takes full width of its parent */}
+      <div className="text-center mb-6 sm:mb-8"> {/* Margin bottom for spacing below the heading */}
         <h3 className="text-base sm:text-lg font-semibold text-foreground mb-2">Sponsored</h3>
-        <div className="w-8 sm:w-12 h-0.5 bg-primary mx-auto"></div>
+        <div className="w-8 sm:w-12 h-0.5 bg-primary mx-auto"></div> {/* Decorative line */}
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
         {ads.map((ad) => (
-          <Card key={ad.id} className="overflow-hidden transition-shadow duration-300 border-border/50 hover:shadow-lg">
+          <Card
+            key={ad.id}
+            className="overflow-hidden transition-shadow duration-300 border-border/50 hover:shadow-lg"
+          >
             <div className="relative">
               <img
                 src={ad.image}
                 alt={ad.title}
-                className="w-full h-24 sm:h-32 object-cover"
+                className="w-full h-24 sm:h-32 object-cover" // Responsive image height
               />
               <div className="absolute top-2 left-2">
                 <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-primary text-primary-foreground">
                   {ad.badge === "Featured" && <Star size={10} />}
                   {ad.badge === "New" && <Zap size={10} />}
-                  {ad.badge === "Popular" && <Brain size={10} />} {/* Added Brain icon for "Popular" */}
+                  {ad.badge === "Popular" && <Brain size={10} />} {/* Example for a 'Popular' badge */}
                   {ad.badge}
                 </span>
               </div>
             </div>
-            <CardContent className="p-3 sm:p-4">
+            <CardContent className="p-3 sm:p-4"> {/* Responsive padding */}
               <h4 className="font-semibold text-foreground mb-2 line-clamp-2 text-sm sm:text-base">
                 {ad.title}
               </h4>
@@ -82,8 +94,9 @@ export function SponsorSection() {
           </Card>
         ))}
 
-        <Card className="bg-muted/30 border-dashed border-2 border-muted-foreground/20 flex items-center justify-center text-center p-4 sm:p-6"> {/* Added flex and align-items/justify-content to center content vertically */}
-          <CardContent className="p-0"> {/* Removed padding from CardContent here as parent handles it */}
+        {/* The "Advertise Here" card, designed to center its content within its grid cell */}
+        <Card className="bg-muted/30 border-dashed border-2 border-muted-foreground/20 flex items-center justify-center text-center">
+          <CardContent className="p-4 sm:p-6"> {/* Apply padding directly to CardContent for this specific card */}
             <div className="w-10 h-10 sm:w-12 sm:h-12 bg-muted rounded-full flex items-center justify-center mx-auto mb-3">
               <Brain size={18} className="text-muted-foreground" />
             </div>
