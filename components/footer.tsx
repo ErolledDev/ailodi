@@ -1,36 +1,140 @@
 import Link from 'next/link';
+import { Brain, Twitter, Linkedin, Github, Mail, Rss } from 'lucide-react';
 
 export function Footer() {
+  const currentYear = new Date().getFullYear();
+
+  const footerLinks = {
+    company: [
+      { name: 'About', href: '/about' },
+      { name: 'Contact', href: '/contact' },
+      { name: 'Categories', href: '/categories' },
+    ],
+    legal: [
+      { name: 'Privacy Policy', href: '/privacy-policy' },
+      { name: 'Terms of Service', href: '/terms-of-service' },
+      { name: 'Disclaimer', href: '/disclaimer' },
+    ],
+    social: [
+      { name: 'Twitter', href: 'https://twitter.com/ailodi_tech', icon: Twitter },
+      { name: 'LinkedIn', href: 'https://linkedin.com/company/ailodi', icon: Linkedin },
+      { name: 'GitHub', href: 'https://github.com/ailodi', icon: Github },
+    ],
+  };
+
   return (
     <footer className="medium-footer">
       <div className="medium-footer-content">
-        <div className="flex flex-col md:flex-row justify-between items-center">
-          <div className="flex items-center gap-6 mb-4 md:mb-0">
-            <Link href="/" className="medium-footer-brand">
-              AI Lodi
-            </Link>
-            <div className="flex items-center gap-6 text-sm">
-              <Link href="/about" className="text-muted-foreground hover:text-foreground">
-                About
+        {/* Main Footer Content */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+          {/* Brand Section */}
+          <div className="lg:col-span-2">
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                <Brain size={20} className="text-primary-foreground" />
+              </div>
+              <span className="medium-footer-brand">AI Lodi</span>
+            </div>
+            <p className="text-muted-foreground mb-4 max-w-md leading-relaxed">
+              Your ultimate guide to modern technology, AI breakthroughs, programming trends, 
+              and future science. Stay ahead with cutting-edge insights and analysis.
+            </p>
+            <div className="flex items-center gap-4">
+              {footerLinks.social.map((social) => (
+                <a
+                  key={social.name}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 bg-muted rounded-lg flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors"
+                  aria-label={`Follow us on ${social.name}`}
+                >
+                  <social.icon size={18} />
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* Company Links */}
+          <div>
+            <h3 className="font-semibold text-foreground mb-4">Company</h3>
+            <ul className="space-y-3">
+              {footerLinks.company.map((link) => (
+                <li key={link.name}>
+                  <Link 
+                    href={link.href} 
+                    className="text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Legal Links */}
+          <div>
+            <h3 className="font-semibold text-foreground mb-4">Legal</h3>
+            <ul className="space-y-3">
+              {footerLinks.legal.map((link) => (
+                <li key={link.name}>
+                  <Link 
+                    href={link.href} 
+                    className="text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* Newsletter Subscription */}
+        <div className="border-t border-border pt-8 mb-8">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+              <h3 className="font-semibold text-foreground mb-2">Stay Updated</h3>
+              <p className="text-muted-foreground">
+                Get the latest AI insights and tech trends delivered to your inbox.
+              </p>
+            </div>
+            <div className="flex items-center gap-2">
+              <Link
+                href="/feed.xml"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-muted hover:bg-muted/80 text-foreground rounded-lg transition-colors"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Rss size={16} />
+                RSS Feed
               </Link>
-              <Link href="/contact" className="text-muted-foreground hover:text-foreground">
-                Contact
-              </Link>
-              <Link href="/privacy-policy" className="text-muted-foreground hover:text-foreground">
-                Privacy
-              </Link>
-              <Link href="/terms-of-service" className="text-muted-foreground hover:text-foreground">
-                Terms
-              </Link>
-              <Link href="/disclaimer" className="text-muted-foreground hover:text-foreground">
-                Disclaimer
+              <Link
+                href="mailto:hello@ailodi.tech"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg transition-colors"
+              >
+                <Mail size={16} />
+                Subscribe
               </Link>
             </div>
           </div>
-          
-          <p className="text-muted-foreground text-sm">
-            © {new Date().getFullYear()} AI Lodi. All rights reserved.
-          </p>
+        </div>
+
+        {/* Bottom Footer */}
+        <div className="border-t border-border pt-8">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div className="flex items-center gap-6 text-sm text-muted-foreground">
+              <span>© {currentYear} AI Lodi. All rights reserved.</span>
+              <span className="hidden md:inline">•</span>
+              <span className="hidden md:inline">Made with ❤️ for the tech community</span>
+            </div>
+            
+            <div className="flex items-center gap-4 text-sm text-muted-foreground">
+              <span>Powered by Next.js</span>
+              <span>•</span>
+              <span>Hosted on Cloudflare</span>
+            </div>
+          </div>
         </div>
       </div>
     </footer>
