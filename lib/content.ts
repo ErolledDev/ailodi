@@ -40,7 +40,6 @@ export async function getAllContent(): Promise<BlogPost[]> {
   try {
     const response = await fetchWithRetry(API_URL, {
       headers: {
-        'Cache-Control': 'no-cache',
         'Accept': 'application/json',
       },
     });
@@ -59,7 +58,6 @@ export async function getContentBySlug(slug: string): Promise<BlogPost | null> {
   try {
     const response = await fetchWithRetry(API_URL, {
       headers: {
-        'Cache-Control': 'no-cache',
         'Accept': 'application/json',
       },
     });
