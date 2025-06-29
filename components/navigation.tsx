@@ -34,9 +34,6 @@ export function Navigation() {
             <Link href="/" className="medium-nav-link">
               Home
             </Link>
-            <Link href="/categories" className="medium-nav-link">
-              Categories
-            </Link>
             <Link href="/about" className="medium-nav-link">
               About
             </Link>
@@ -80,13 +77,6 @@ export function Navigation() {
                 onClick={() => setIsMenuOpen(false)}
               >
                 Home
-              </Link>
-              <Link 
-                href="/categories" 
-                className="medium-nav-link px-2 py-2"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Categories
               </Link>
               <Link 
                 href="/about" 

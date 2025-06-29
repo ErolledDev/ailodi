@@ -2,14 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { Search, Filter, Clock } from 'lucide-react';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+import { Search, Clock } from 'lucide-react';
 import { EnhancedBlogCard } from '@/components/enhanced-blog-card';
 import { searchPosts, getAllContent } from '@/lib/content';
 import type { BlogPost } from '@/types/blog';
@@ -19,10 +12,7 @@ export default function SearchPage() {
   const query = searchParams.get('q') || '';
   
   const [posts, setPosts] = useState<BlogPost[]>([]);
-  const [filteredPosts, setFilteredPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [categories, setCategories] = useState<string[]>([]);
 
   useEffect(() => {
     async function fetchSearchResults() {
@@ -33,19 +23,11 @@ export default function SearchPage() {
           // Search for posts matching the query
           const searchResults = await searchPosts(query);
           setPosts(searchResults);
-          setFilteredPosts(searchResults);
         } else {
           // If no query, show all posts
           const allPosts = await getAllContent();
           setPosts(allPosts);
-          setFilteredPosts(allPosts);
         }
-        
-        // Extract unique categories
-        const allPosts = await getAllContent();
-        const allCategories: string[] = allPosts.flatMap((post: BlogPost) => post.categories);
-        const uniqueCategories: string[] = Array.from(new Set(allCategories));
-        setCategories(uniqueCategories);
       } catch (error) {
         console.error('Error fetching search results:', error);
       } finally {
@@ -56,19 +38,6 @@ export default function SearchPage() {
     fetchSearchResults();
   }, [query]);
 
-  useEffect(() => {
-    let filtered = posts;
-
-    // Filter by category
-    if (selectedCategory !== 'all') {
-      filtered = filtered.filter(post =>
-        post.categories.includes(selectedCategory)
-      );
-    }
-
-    setFilteredPosts(filtered);
-  }, [posts, selectedCategory]);
-
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-background">
       {/* Header */}
@@ -78,30 +47,10 @@ export default function SearchPage() {
         </h1>
         <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
           {query 
-            ? `Found ${filteredPosts.length} ${filteredPosts.length === 1 ? 'article' : 'articles'} matching your search`
+            ? `Found ${posts.length} ${posts.length === 1 ? 'article' : 'articles'} matching your search`
             : 'Use the search bar above to discover insights on AI, programming, automation, and future science'
           }
         </p>
-      </div>
-
-      {/* Filter */}
-      <div className="max-w-4xl mx-auto mb-12">
-        <div className="flex justify-center">
-          <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-            <SelectTrigger className="w-full md:w-48 border-gray-200 focus:ring-gray-300 focus:border-gray-300">
-              <Filter size={16} className="mr-2" />
-              <SelectValue placeholder="Category" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Categories</SelectItem>
-              {categories.map((category) => (
-                <SelectItem key={category} value={category}>
-                  {category}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
       </div>
 
       {/* Results */}
@@ -118,7 +67,7 @@ export default function SearchPage() {
               </div>
             ))}
           </div>
-        ) : filteredPosts.length === 0 ? (
+        ) : posts.length === 0 ? (
           <div className="text-center py-16">
             <div className="w-24 h-24 bg-muted rounded-full flex items-center justify-center mx-auto mb-6">
               <Search size={32} className="text-muted-foreground" />
@@ -157,14 +106,13 @@ export default function SearchPage() {
             <div className="flex items-center gap-2 text-sm text-muted-foreground pb-4 border-b border-border/50">
               <Clock size={14} />
               <span>
-                {filteredPosts.length} {filteredPosts.length === 1 ? 'result' : 'results'} 
+                {posts.length} {posts.length === 1 ? 'result' : 'results'} 
                 {query && ` for "${query}"`}
-                {selectedCategory !== 'all' && ` in ${selectedCategory}`}
               </span>
             </div>
 
             {/* Results list */}
-            {filteredPosts.map((post, index) => (
+            {posts.map((post, index) => (
               <EnhancedBlogCard key={post.id} post={post} index={index} />
             ))}
           </div>
