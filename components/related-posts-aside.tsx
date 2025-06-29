@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { format } from 'date-fns';
-import { Clock, TrendingUp, ArrowRight, Calendar, Tag } from 'lucide-react';
+import { Clock, TrendingUp, ArrowRight } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import type { BlogPost } from '@/types/blog';
 
@@ -60,24 +60,19 @@ export function RelatedPostsAside({ currentPostId, categories = [] }: RelatedPos
 
   if (loading) {
     return (
-      <Card className="shadow-lg border-border/50">
-        <CardHeader className="pb-4">
-          <CardTitle className="flex items-center gap-2 text-lg font-bold">
-            <TrendingUp size={20} className="text-primary" />
+      <Card>
+        <CardHeader className="pb-3">
+          <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
+            <TrendingUp size={18} className="text-primary" />
             Related Articles
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-3 sm:space-y-4">
           {[1, 2, 3, 4, 5, 6].map((i) => (
             <div key={i} className="animate-pulse">
-              <div className="flex gap-3">
-                <div className="w-16 h-16 bg-muted rounded-lg flex-shrink-0"></div>
-                <div className="flex-1 space-y-2">
-                  <div className="h-4 bg-muted rounded w-3/4"></div>
-                  <div className="h-3 bg-muted rounded w-1/2"></div>
-                  <div className="h-3 bg-muted rounded w-1/3"></div>
-                </div>
-              </div>
+              <div className="h-12 sm:h-16 bg-muted rounded mb-2"></div>
+              <div className="h-3 sm:h-4 bg-muted rounded w-3/4 mb-1"></div>
+              <div className="h-2 sm:h-3 bg-muted rounded w-1/2"></div>
             </div>
           ))}
         </CardContent>
@@ -90,72 +85,54 @@ export function RelatedPostsAside({ currentPostId, categories = [] }: RelatedPos
   }
 
   return (
-    <Card className="shadow-lg border-border/50">
-      <CardHeader className="pb-4">
-        <CardTitle className="flex items-center gap-2 text-lg font-bold text-foreground">
-          <TrendingUp size={20} className="text-primary" />
+    <Card>
+      <CardHeader className="pb-3">
+        <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
+          <TrendingUp size={18} className="text-primary" />
           Related Articles
         </CardTitle>
-        <p className="text-sm text-muted-foreground mt-1">
-          More insights you might find interesting
-        </p>
       </CardHeader>
-      <CardContent className="space-y-0">
+      <CardContent className="space-y-3 sm:space-y-4">
         {posts.map((post, index) => (
           <Link 
             key={post.id} 
             href={`/post/${post.slug}`}
             className="block group"
           >
-            <article className={`flex gap-4 p-4 rounded-lg transition-all duration-200 hover:bg-muted/50 ${
-              index !== posts.length - 1 ? 'border-b border-border/30' : ''
-            }`}>
-              {/* Featured Image */}
+            <article className="flex gap-3 p-2 sm:p-3 rounded-lg hover:bg-muted/50 transition-colors duration-200">
               {post.featuredImageUrl && (
-                <div className="w-16 h-16 flex-shrink-0 overflow-hidden rounded-lg bg-muted">
+                <div className="w-12 h-12 sm:w-16 sm:h-16 flex-shrink-0 overflow-hidden rounded-md">
                   <Image
                     src={post.featuredImageUrl}
                     alt={post.title}
                     width={64}
                     height={64}
-                    className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-105"
+                    className="w-full h-full object-cover transition-transform duration-200"
                   />
                 </div>
               )}
-              
-              {/* Content */}
-              <div className="flex-1 min-w-0 space-y-2">
-                {/* Title */}
-                <h4 className="font-semibold text-sm leading-tight line-clamp-2 text-foreground group-hover:text-primary transition-colors">
+              <div className="flex-1 min-w-0">
+                <h4 className="font-medium text-foreground text-xs sm:text-sm leading-tight line-clamp-2 group-hover:text-primary transition-colors mb-1 sm:mb-2">
                   {post.title}
                 </h4>
-                
-                {/* Meta Information */}
-                <div className="flex items-center gap-3 text-xs text-muted-foreground">
-                  <div className="flex items-center gap-1">
-                    <Calendar size={10} />
-                    <span>{format(new Date(post.publishDate), 'MMM d')}</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Clock size={10} />
+                <div className="flex items-center gap-x-0.5 sm:gap-x-1 text-xs text-muted-foreground mb-1 sm:mb-2">
+                  <span>{format(new Date(post.publishDate), 'MMM d')}</span>
+                  <span>·</span>
+                  <div className="flex items-center gap-x-0.5">
+                    <Clock size={8} className="sm:w-2.5 sm:h-2.5" />
                     <span>{Math.ceil(post.content.split(' ').length / 200)} min</span>
                   </div>
                 </div>
-                
-                {/* Category Badge */}
                 {post.categories.length > 0 && (
-                  <div className="flex items-center gap-1">
-                    <Tag size={10} className="text-primary" />
-                    <span className="inline-block px-2 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20">
+                  <div>
+                    <span className="inline-block px-1.5 py-0.5 sm:px-2 sm:py-1 rounded-full text-xs bg-primary/10 text-primary">
                       {post.categories[0]}
                     </span>
                   </div>
                 )}
               </div>
-              
-              {/* Arrow Icon */}
-              <div className="flex-shrink-0 flex items-center">
-                <ArrowRight size={16} className="text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" />
+              <div className="flex-shrink-0">
+                <ArrowRight size={14} className="text-muted-foreground group-hover:text-primary transition-colors mt-1" />
               </div>
             </article>
           </Link>
