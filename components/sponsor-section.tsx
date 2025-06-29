@@ -1,8 +1,8 @@
-'use client'; // This directive is necessary for client-side components in Next.js
+'use client';
 
-import { ExternalLink, Star, Zap, Brain } from 'lucide-react'; // Assuming you have lucide-react installed
-import { Card, CardContent } from '@/components/ui/card';     // Path to your ShadCN Card component
-import { Button } from '@/components/ui/button';             // Path to your ShadCN Button component
+import { ExternalLink, Star, Zap, Brain } from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 
 export function SponsorSection() {
   const ads = [
@@ -24,35 +24,29 @@ export function SponsorSection() {
       badge: "New",
       link: "#"
     },
-    // You can add more ads here to see how the grid adjusts:
+    // Add more ads here if needed for testing the grid behavior on larger non-LG screens
     // {
     //   id: 3,
-    //   title: "Cloud Computing Fundamentals",
-    //   description: "Learn the essentials of AWS, Azure, and Google Cloud for modern infrastructure.",
-    //   image: "https://images.unsplash.com/photo-1582234032333-e91b0f19c118?w=300&h=200&fit=crop",
-    //   cta: "Explore Courses",
-    //   badge: "Trending",
-    //   link: "#"
-    // },
-    // {
-    //   id: 4,
-    //   title: "Cybersecurity Essentials",
-    //   description: "Protect your digital assets with our cybersecurity principles and practices course.",
-    //   image: "https://images.unsplash.com/photo-1549448092-231bb18b622c?w=300&h=200&fit=crop",
-    //   cta: "Secure Your Future",
-    //   badge: "Hot",
+    //   title: "Data Science Bootcamp",
+    //   description: "Transform into a data professional with our intensive data science program. Learn Python, R, and more.",
+    //   image: "https://images.unsplash.com/photo-1579783900829-d58f334a1d48?w=300&h=200&fit=crop",
+    //   cta: "Enroll Now",
+    //   badge: "Popular",
     //   link: "#"
     // }
   ];
 
   return (
-    <div className="w-full"> {/* Ensures the section takes full width of its parent */}
-      <div className="text-center mb-6 sm:mb-8"> {/* Margin bottom for spacing below the heading */}
+    <div className="w-full">
+      <div className="text-center mb-6 sm:mb-8">
         <h3 className="text-base sm:text-lg font-semibold text-foreground mb-2">Sponsored</h3>
-        <div className="w-8 sm:w-12 h-0.5 bg-primary mx-auto"></div> {/* Decorative line */}
+        <div className="w-8 sm:w-12 h-0.5 bg-primary mx-auto"></div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+      {/* --- IMPORTANT CHANGE HERE --- */}
+      {/* On small screens (default), show 1 or 2 columns based on overall width. */}
+      {/* On large screens (lg breakpoint and up), force it to 1 column. */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 sm:gap-6">
         {ads.map((ad) => (
           <Card
             key={ad.id}
@@ -62,18 +56,18 @@ export function SponsorSection() {
               <img
                 src={ad.image}
                 alt={ad.title}
-                className="w-full h-24 sm:h-32 object-cover" // Responsive image height
+                className="w-full h-24 sm:h-32 object-cover"
               />
               <div className="absolute top-2 left-2">
                 <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-primary text-primary-foreground">
                   {ad.badge === "Featured" && <Star size={10} />}
                   {ad.badge === "New" && <Zap size={10} />}
-                  {ad.badge === "Popular" && <Brain size={10} />} {/* Example for a 'Popular' badge */}
+                  {ad.badge === "Popular" && <Brain size={10} />}
                   {ad.badge}
                 </span>
               </div>
             </div>
-            <CardContent className="p-3 sm:p-4"> {/* Responsive padding */}
+            <CardContent className="p-3 sm:p-4">
               <h4 className="font-semibold text-foreground mb-2 line-clamp-2 text-sm sm:text-base">
                 {ad.title}
               </h4>
@@ -94,9 +88,8 @@ export function SponsorSection() {
           </Card>
         ))}
 
-        {/* The "Advertise Here" card, designed to center its content within its grid cell */}
         <Card className="bg-muted/30 border-dashed border-2 border-muted-foreground/20 flex items-center justify-center text-center">
-          <CardContent className="p-4 sm:p-6"> {/* Apply padding directly to CardContent for this specific card */}
+          <CardContent className="p-4 sm:p-6">
             <div className="w-10 h-10 sm:w-12 sm:h-12 bg-muted rounded-full flex items-center justify-center mx-auto mb-3">
               <Brain size={18} className="text-muted-foreground" />
             </div>
