@@ -160,193 +160,190 @@ export default async function PostPage({ params }: PostPageProps) {
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 py-8 sm:py-12 lg:py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-12 xl:gap-16">
-          {/* Main Content */}
-          <div className="lg:col-span-3">
-            <article className="max-w-none lg:max-w-3xl xl:max-w-4xl 2xl:max-w-5xl">
-              <div>
-                {/* Breadcrumb Navigation */}
-                <nav className="mb-6 sm:mb-8" aria-label="Breadcrumb">
-                  <ol className="flex items-center space-x-2 text-sm text-muted-foreground">
-                    <li>
-                      <Link href="/" className="hover:text-primary transition-colors">
-                        Home
-                      </Link>
-                    </li>
-                    <li>/</li>
-                    {post.categories[0] && (
-                      <>
-                        <li>
-                          <Link 
-                            href={`/categories?filter=${encodeURIComponent(post.categories[0])}`}
-                            className="hover:text-primary transition-colors"
-                          >
-                            {post.categories[0]}
-                          </Link>
-                        </li>
-                        <li>/</li>
-                      </>
-                    )}
-                    <li className="text-foreground font-medium line-clamp-1">
-                      {post.title}
-                    </li>
-                  </ol>
-                </nav>
-
-                {/* Header */}
-                <header className="mb-8 sm:mb-10 lg:mb-12">
-                  <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-foreground leading-tight mb-6 sm:mb-8">
+        {/* Main Content - Full Width */}
+        <div className="max-w-none lg:max-w-4xl xl:max-w-5xl 2xl:max-w-6xl mx-auto">
+          <article>
+            <div>
+              {/* Breadcrumb Navigation */}
+              <nav className="mb-6 sm:mb-8" aria-label="Breadcrumb">
+                <ol className="flex items-center space-x-2 text-sm text-muted-foreground">
+                  <li>
+                    <Link href="/" className="hover:text-primary transition-colors">
+                      Home
+                    </Link>
+                  </li>
+                  <li>/</li>
+                  {post.categories[0] && (
+                    <>
+                      <li>
+                        <Link 
+                          href={`/categories?filter=${encodeURIComponent(post.categories[0])}`}
+                          className="hover:text-primary transition-colors"
+                        >
+                          {post.categories[0]}
+                        </Link>
+                      </li>
+                      <li>/</li>
+                    </>
+                  )}
+                  <li className="text-foreground font-medium line-clamp-1">
                     {post.title}
-                  </h1>
-                  
-                  {/* Meta Description */}
-                  <div className="bg-gradient-to-r from-primary/5 to-primary/10 border-l-4 border-primary rounded-r-lg p-4 sm:p-6 mb-6 sm:mb-8 lg:mb-10">
-                    <p className="text-base sm:text-lg lg:text-xl text-muted-foreground leading-relaxed italic">
-                      {post.metaDescription}
-                    </p>
-                  </div>
-                  
-                  {/* Enhanced Article Meta */}
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-6 mb-6 sm:mb-8 lg:mb-10">
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-hidden bg-primary/10 flex items-center justify-center flex-shrink-0">
-                        <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/40 flex items-center justify-center text-sm sm:text-base font-semibold text-primary">
-                          {getAuthorInitials()}
-                        </div>
+                  </li>
+                </ol>
+              </nav>
+
+              {/* Header */}
+              <header className="mb-8 sm:mb-10 lg:mb-12">
+                <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-foreground leading-tight mb-6 sm:mb-8">
+                  {post.title}
+                </h1>
+                
+                {/* Meta Description */}
+                <div className="bg-gradient-to-r from-primary/5 to-primary/10 border-l-4 border-primary rounded-r-lg p-4 sm:p-6 mb-6 sm:mb-8 lg:mb-10">
+                  <p className="text-base sm:text-lg lg:text-xl text-muted-foreground leading-relaxed italic">
+                    {post.metaDescription}
+                  </p>
+                </div>
+                
+                {/* Enhanced Article Meta */}
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-6 mb-6 sm:mb-8 lg:mb-10">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-hidden bg-primary/10 flex items-center justify-center flex-shrink-0">
+                      <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/40 flex items-center justify-center text-sm sm:text-base font-semibold text-primary">
+                        {getAuthorInitials()}
                       </div>
-                      <div className="min-w-0">
-                        <div className="font-medium text-foreground text-base sm:text-lg flex items-center gap-2">
-                          <User size={14} />
-                          {post.author}
+                    </div>
+                    <div className="min-w-0">
+                      <div className="font-medium text-foreground text-base sm:text-lg flex items-center gap-2">
+                        <User size={14} />
+                        {post.author}
+                      </div>
+                      <div className="text-sm sm:text-base text-muted-foreground space-y-1">
+                        <div className="flex items-center gap-2">
+                          <Calendar size={14} />
+                          <time dateTime={post.publishDate}>
+                            Published {format(publishDate, 'MMMM d, yyyy')}
+                          </time>
                         </div>
-                        <div className="text-sm sm:text-base text-muted-foreground space-y-1">
+                        {post.updatedAt !== post.publishDate && (
                           <div className="flex items-center gap-2">
-                            <Calendar size={14} />
-                            <time dateTime={post.publishDate}>
-                              Published {format(publishDate, 'MMMM d, yyyy')}
+                            <Clock size={14} />
+                            <time dateTime={post.updatedAt}>
+                              Updated {format(updatedDate, 'MMMM d, yyyy')}
                             </time>
                           </div>
-                          {post.updatedAt !== post.publishDate && (
-                            <div className="flex items-center gap-2">
-                              <Clock size={14} />
-                              <time dateTime={post.updatedAt}>
-                                Updated {format(updatedDate, 'MMMM d, yyyy')}
-                              </time>
-                            </div>
-                          )}
-                          <div className="flex items-center gap-4">
-                            <div className="flex items-center gap-1">
-                              <Clock size={14} />
-                              <span>{readingTime} min read</span>
-                            </div>
-                            <div className="flex items-center gap-1">
-                              <Eye size={14} />
-                              <span>{wordCount} words</span>
-                            </div>
+                        )}
+                        <div className="flex items-center gap-4">
+                          <div className="flex items-center gap-1">
+                            <Clock size={14} />
+                            <span>{readingTime} min read</span>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <Eye size={14} />
+                            <span>{wordCount} words</span>
                           </div>
                         </div>
                       </div>
                     </div>
-                    
-                    <div className="flex-shrink-0">
-                      <PostActions post={post} url={currentUrl} />
-                    </div>
                   </div>
+                  
+                  <div className="flex-shrink-0">
+                    <PostActions post={post} url={currentUrl} />
+                  </div>
+                </div>
 
-                  {/* Categories */}
-                  {post.categories.length > 0 && (
-                    <div className="flex flex-wrap gap-2 sm:gap-3 mb-6 sm:mb-8 lg:mb-10">
-                      {post.categories.map((category) => (
-                        <Link
-                          key={category}
-                          href={`/categories?filter=${encodeURIComponent(category)}`}
-                          className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-sm font-medium bg-secondary text-secondary-foreground border border-border hover:bg-primary hover:text-primary-foreground transition-colors"
-                        >
-                          <Tag size={12} className="mr-1" />
-                          {category}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </header>
-
-                {/* Featured Image */}
-                {post.featuredImageUrl && (
-                  <div className="mb-8 sm:mb-10 lg:mb-12">
-                    <div className="relative aspect-video overflow-hidden rounded-xl shadow-lg">
-                      <Image
-                        src={post.featuredImageUrl}
-                        alt={post.title}
-                        fill
-                        className="object-cover"
-                        priority
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 75vw, 60vw"
-                      />
-                    </div>
+                {/* Categories */}
+                {post.categories.length > 0 && (
+                  <div className="flex flex-wrap gap-2 sm:gap-3 mb-6 sm:mb-8 lg:mb-10">
+                    {post.categories.map((category) => (
+                      <Link
+                        key={category}
+                        href={`/categories?filter=${encodeURIComponent(category)}`}
+                        className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-sm font-medium bg-secondary text-secondary-foreground border border-border hover:bg-primary hover:text-primary-foreground transition-colors"
+                      >
+                        <Tag size={12} className="mr-1" />
+                        {category}
+                      </Link>
+                    ))}
                   </div>
                 )}
+              </header>
 
-                {/* Content */}
-                <div className="prose prose-lg max-w-none mb-8 sm:mb-10 lg:mb-12">
-                  <MarkdownRenderer content={post.content} />
-                </div>
-
-                {/* Social Sharing */}
+              {/* Featured Image */}
+              {post.featuredImageUrl && (
                 <div className="mb-8 sm:mb-10 lg:mb-12">
-                  <SocialShareButtons post={post} url={currentUrl} />
-                </div>
-
-                {/* Tags */}
-                {post.tags.length > 0 && (
-                  <div className="mb-8 sm:mb-10 lg:mb-12 pt-6 sm:pt-8 border-t border-border">
-                    <h3 className="text-lg sm:text-xl font-semibold text-foreground mb-4 sm:mb-6">Tags</h3>
-                    <div className="flex flex-wrap gap-2 sm:gap-3">
-                      {post.tags.map((tag) => (
-                        <span 
-                          key={tag} 
-                          className="inline-flex items-center px-3 py-1 sm:px-4 sm:py-2 rounded-full text-sm font-medium bg-muted text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors cursor-pointer"
-                        >
-                          #{tag}
-                        </span>
-                      ))}
-                    </div>
+                  <div className="relative aspect-video overflow-hidden rounded-xl shadow-lg">
+                    <Image
+                      src={post.featuredImageUrl}
+                      alt={post.title}
+                      fill
+                      className="object-cover"
+                      priority
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 75vw, 60vw"
+                    />
                   </div>
-                )}
-
-                {/* Enhanced Author Bio */}
-                <div className="mb-6 sm:mb-8 lg:mb-10 pt-6 sm:pt-8 border-t border-border">
-                  <AuthorCard
-                    author={post.author}
-                    avatar={getAuthorAvatar(post.author)}
-                    socialLinks={{
-                      twitter: "https://twitter.com/ailodi_tech",
-                      linkedin: "https://linkedin.com/company/ailodi",
-                      website: "https://ailodi.tech"
-                    }}
-                  />
                 </div>
+              )}
 
-                {/* Newsletter Subscription */}
-                <div className="mb-8 sm:mb-10 lg:mb-12">
-                  <SubscribeForm />
-                </div>
+              {/* Content */}
+              <div className="prose prose-lg max-w-none mb-8 sm:mb-10 lg:mb-12">
+                <MarkdownRenderer content={post.content} />
               </div>
-            </article>
+
+              {/* Social Sharing */}
+              <div className="mb-8 sm:mb-10 lg:mb-12">
+                <SocialShareButtons post={post} url={currentUrl} />
+              </div>
+
+              {/* Tags */}
+              {post.tags.length > 0 && (
+                <div className="mb-8 sm:mb-10 lg:mb-12 pt-6 sm:pt-8 border-t border-border">
+                  <h3 className="text-lg sm:text-xl font-semibold text-foreground mb-4 sm:mb-6">Tags</h3>
+                  <div className="flex flex-wrap gap-2 sm:gap-3">
+                    {post.tags.map((tag) => (
+                      <span 
+                        key={tag} 
+                        className="inline-flex items-center px-3 py-1 sm:px-4 sm:py-2 rounded-full text-sm font-medium bg-muted text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors cursor-pointer"
+                      >
+                        #{tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Enhanced Author Bio */}
+              <div className="mb-6 sm:mb-8 lg:mb-10 pt-6 sm:pt-8 border-t border-border">
+                <AuthorCard
+                  author={post.author}
+                  avatar={getAuthorAvatar(post.author)}
+                  socialLinks={{
+                    twitter: "https://twitter.com/ailodi_tech",
+                    linkedin: "https://linkedin.com/company/ailodi",
+                    website: "https://ailodi.tech"
+                  }}
+                />
+              </div>
+
+              {/* Newsletter Subscription */}
+              <div className="mb-8 sm:mb-10 lg:mb-12">
+                <SubscribeForm />
+              </div>
+            </div>
+          </article>
+
+          {/* Related Posts Section - Now in main content area */}
+          <div className="mb-8 sm:mb-10 lg:mb-12">
+            <RelatedPostsAside 
+              currentPostId={post.id} 
+              categories={post.categories} 
+            />
           </div>
 
-          {/* Sidebar */}
-          <aside className="lg:col-span-1">
-            <div className="sticky top-8 space-y-6 sm:space-y-8">
-              {/* Related Posts Aside */}
-              <RelatedPostsAside 
-                currentPostId={post.id} 
-                categories={post.categories} 
-              />
-              
-              {/* Ad Aside */}
-              <AdAside />
-            </div>
-          </aside>
+          {/* Sponsor Section - Now below related articles */}
+          <div className="mb-8 sm:mb-10 lg:mb-12">
+            <AdAside />
+          </div>
         </div>
       </div>
 
