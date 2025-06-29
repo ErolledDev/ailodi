@@ -11,7 +11,7 @@
     "start": "next start",
     "lint": "next lint",
     "preview": "npm run build && wrangler pages dev",
-    "deploy": "npm run build && wrangler pages deploy",
+    "deploy": "npm run build && wrangler deploy",
     "generate-metadata": "node scripts/generate-metadata.js"
   },
   "dependencies": {
