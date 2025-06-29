@@ -6,8 +6,8 @@ import { SocialShareButtons } from '@/components/social-share-buttons';
 import { PostActions } from '@/components/post-actions';
 import { AuthorCard } from '@/components/author-card';
 import { SubscribeForm } from '@/components/subscribe-form';
-import { AdAside } from '@/components/ad-aside';
-import { RelatedPostsAside } from '@/components/related-posts-aside';
+import { SponsorSection } from '@/components/sponsor-section';
+import { RelatedArticles } from '@/components/related-articles';
 import { getContentBySlug, getAllContent } from '@/lib/content';
 import type { Metadata } from 'next';
 import Image from 'next/image';
@@ -330,6 +330,12 @@ export default async function PostPage({ params }: PostPageProps) {
                 <div className="mb-8 sm:mb-10 lg:mb-12">
                   <SubscribeForm />
                 </div>
+
+                {/* Related Articles - Always shown below main content */}
+                <RelatedArticles 
+                  currentPostId={post.id} 
+                  categories={post.categories} 
+                />
               </div>
             </article>
           </div>
@@ -337,28 +343,15 @@ export default async function PostPage({ params }: PostPageProps) {
           {/* Sidebar - Hidden on mobile, visible on large screens */}
           <aside className="lg:col-span-1 hidden lg:block">
             <div className="sticky top-8 space-y-6 sm:space-y-8">
-              {/* Related Posts Aside */}
-              <RelatedPostsAside 
-                currentPostId={post.id} 
-                categories={post.categories} 
-              />
-              
-              {/* Ad Aside */}
-              <AdAside />
+              {/* Sponsor Section */}
+              <SponsorSection />
             </div>
           </aside>
         </div>
 
-        {/* Mobile-only sections - Shown below main content on small screens */}
-        <div className="lg:hidden mt-8 sm:mt-10 space-y-6 sm:space-y-8">
-          {/* Related Posts for Mobile */}
-          <RelatedPostsAside 
-            currentPostId={post.id} 
-            categories={post.categories} 
-          />
-          
-          {/* Ad Aside for Mobile */}
-          <AdAside />
+        {/* Mobile-only sponsor section - Shown below related articles on small screens */}
+        <div className="lg:hidden mt-8 sm:mt-10">
+          <SponsorSection />
         </div>
       </div>
 
