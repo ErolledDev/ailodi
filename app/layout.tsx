@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { Navigation } from '@/components/navigation';
 import { Footer } from '@/components/footer';
+import { PageProgressBar } from '@/components/page-progress-bar';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -168,6 +169,7 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
+        <PageProgressBar />
         <div className="min-h-screen flex flex-col">
           <Navigation />
           <main className="flex-1">
