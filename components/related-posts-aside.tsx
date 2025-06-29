@@ -115,10 +115,10 @@ export function RelatedPostsAside({ currentPostId, categories = [] }: RelatedPos
                 <h4 className="font-medium text-foreground text-xs sm:text-sm leading-tight line-clamp-2 group-hover:text-primary transition-colors mb-1 sm:mb-2">
                   {post.title}
                 </h4>
-                <div className="flex items-center gap-1 sm:gap-2 text-xs text-muted-foreground mb-1 sm:mb-2">
+                <div className="flex items-center gap-x-0.5 sm:gap-x-1 text-xs text-muted-foreground mb-1 sm:mb-2">
                   <span>{format(new Date(post.publishDate), 'MMM d')}</span>
                   <span>·</span>
-                  <div className="flex items-center gap-1">
+                  <div className="flex items-center gap-x-0.5">
                     <Clock size={8} className="sm:w-2.5 sm:h-2.5" />
                     <span>{Math.ceil(post.content.split(' ').length / 200)} min</span>
                   </div>
