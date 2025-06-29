@@ -1,67 +1,80 @@
 import { MetadataRoute } from 'next';
 import { getAllContent } from '@/lib/content';
 
+// Force dynamic rendering to ensure fresh data from external API
+export const dynamic = 'force-dynamic';
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech';
   
   // Static pages with enhanced priority and frequency
-  const staticPages = [
+  const staticPages: MetadataRoute.Sitemap = [
     {
       url: baseUrl,
       lastModified: new Date(),
-      changeFrequency: 'daily' as const,
+      changeFrequency: 'daily',
       priority: 1,
     },
     {
       url: `${baseUrl}/about`,
       lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
+      changeFrequency: 'monthly',
       priority: 0.8,
     },
     {
       url: `${baseUrl}/categories`,
       lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
+      changeFrequency: 'weekly',
       priority: 0.8,
     },
     {
       url: `${baseUrl}/contact`,
       lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
+      changeFrequency: 'monthly',
       priority: 0.7,
     },
     {
       url: `${baseUrl}/search`,
       lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
+      changeFrequency: 'weekly',
       priority: 0.6,
     },
     {
       url: `${baseUrl}/privacy-policy`,
       lastModified: new Date(),
-      changeFrequency: 'yearly' as const,
+      changeFrequency: 'yearly',
       priority: 0.3,
     },
     {
       url: `${baseUrl}/terms-of-service`,
       lastModified: new Date(),
-      changeFrequency: 'yearly' as const,
+      changeFrequency: 'yearly',
       priority: 0.3,
     },
     {
       url: `${baseUrl}/disclaimer`,
       lastModified: new Date(),
-      changeFrequency: 'yearly' as const,
+      changeFrequency: 'yearly',
       priority: 0.3,
     },
   ];
 
   // Dynamic blog posts with enhanced metadata
-  let blogPosts: any[] = [];
-  let categoryPages: any[] = [];
+  let blogPosts: MetadataRoute.Sitemap = [];
+  let categoryPages: MetadataRoute.Sitemap = [];
   
   try {
-    const posts = await getAllContent();
+    console.log('🗺️ SITEMAP: Fetching fresh content from API...');
+    
+    // Fetch fresh content with no caching to ensure latest data
+    const posts = await getAllContent({ 
+      cache: 'no-store',
+      headers: {
+        'Accept': 'application/json',
+      }
+    });
+    
+    console.log(`🗺️ SITEMAP: Successfully fetched ${posts.length} posts`);
     
     // Blog post URLs
     blogPosts = posts.map((post) => {
@@ -93,9 +106,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     }));
 
+    console.log(`🗺️ SITEMAP: Generated ${blogPosts.length} blog post URLs and ${categoryPages.length} category URLs`);
+
   } catch (error) {
-    console.error('Error fetching posts for sitemap:', error);
+    console.error('🗺️ SITEMAP ERROR: Failed to fetch posts for sitemap:', error);
+    
+    // Return static pages even if dynamic content fails
+    // This ensures the sitemap is still functional for core pages
+    console.log('🗺️ SITEMAP: Falling back to static pages only due to API error');
   }
 
-  return [...staticPages, ...blogPosts, ...categoryPages];
+  const allPages = [...staticPages, ...blogPosts, ...categoryPages];
+  
+  console.log(`🗺️ SITEMAP: Final sitemap contains ${allPages.length} total URLs`);
+  
+  return allPages;
 }

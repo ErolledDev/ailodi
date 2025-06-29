@@ -10,13 +10,13 @@ const nextConfig = {
     optimizePackageImports: ['lucide-react', '@radix-ui/react-icons'],
   },
   
-  // Output configuration for static export
-  output: 'export',
+  // REMOVED: output: 'export' to enable server-side features for dynamic sitemap
+  // This allows Next.js to generate dynamic routes like sitemap.xml at request time
   trailingSlash: true,
   
-  // Disable image optimization for static export
+  // Image optimization configuration
   images: {
-    unoptimized: true,
+    unoptimized: true, // Keep this for static assets
     formats: ['image/webp', 'image/avif'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
@@ -69,7 +69,11 @@ const nextConfig = {
         headers: [
           {
             key: 'Cache-Control',
-            value: 'public, max-age=86400, s-maxage=86400',
+            value: 'public, max-age=3600, s-maxage=3600', // Cache for 1 hour
+          },
+          {
+            key: 'Content-Type',
+            value: 'application/xml; charset=utf-8',
           },
         ],
       },
