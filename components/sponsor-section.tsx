@@ -23,69 +23,80 @@ export function SponsorSection() {
       cta: "Try Free",
       badge: "New",
       link: "#"
-    }
+    },
+    // Add more ads here if needed to see the grid in action
+    // {
+    //   id: 3,
+    //   title: "Data Science Bootcamp",
+    //   description: "Transform into a data professional with our intensive data science program. Learn Python, R, and more.",
+    //   image: "https://images.unsplash.com/photo-1579783900829-d58f334a1d48?w=300&h=200&fit=crop",
+    //   cta: "Enroll Now",
+    //   badge: "Popular",
+    //   link: "#"
+    // }
   ];
 
   return (
-    // This parent div now simply ensures it takes the full width available from its parent.
-    // The individual cards inside will also expand to 100% of this width.
-    <div className="w-full space-y-4 sm:space-y-6">
-      <div className="text-center">
+    <div className="w-full"> {/* Remove max-w and mx-auto from here */}
+      <div className="text-center mb-6 sm:mb-8"> {/* Added margin bottom for spacing */}
         <h3 className="text-base sm:text-lg font-semibold text-foreground mb-2">Sponsored</h3>
         <div className="w-8 sm:w-12 h-0.5 bg-primary mx-auto"></div>
       </div>
 
-      {ads.map((ad) => (
-        <Card key={ad.id} className="overflow-hidden transition-shadow duration-300 border-border/50 hover:shadow-lg">
-          <div className="relative">
-            <img
-              src={ad.image}
-              alt={ad.title}
-              className="w-full h-24 sm:h-32 object-cover"
-            />
-            <div className="absolute top-2 left-2">
-              <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-primary text-primary-foreground">
-                {ad.badge === "Featured" && <Star size={10} />}
-                {ad.badge === "New" && <Zap size={10} />}
-                {ad.badge}
-              </span>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+        {ads.map((ad) => (
+          <Card key={ad.id} className="overflow-hidden transition-shadow duration-300 border-border/50 hover:shadow-lg">
+            <div className="relative">
+              <img
+                src={ad.image}
+                alt={ad.title}
+                className="w-full h-24 sm:h-32 object-cover"
+              />
+              <div className="absolute top-2 left-2">
+                <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-primary text-primary-foreground">
+                  {ad.badge === "Featured" && <Star size={10} />}
+                  {ad.badge === "New" && <Zap size={10} />}
+                  {ad.badge === "Popular" && <Brain size={10} />} {/* Added Brain icon for "Popular" */}
+                  {ad.badge}
+                </span>
+              </div>
             </div>
-          </div>
-          <CardContent className="p-3 sm:p-4">
-            <h4 className="font-semibold text-foreground mb-2 line-clamp-2 text-sm sm:text-base">
-              {ad.title}
-            </h4>
-            <p className="text-xs sm:text-sm text-muted-foreground mb-3 line-clamp-3">
-              {ad.description}
+            <CardContent className="p-3 sm:p-4">
+              <h4 className="font-semibold text-foreground mb-2 line-clamp-2 text-sm sm:text-base">
+                {ad.title}
+              </h4>
+              <p className="text-xs sm:text-sm text-muted-foreground mb-3 line-clamp-3">
+                {ad.description}
+              </p>
+              <Button
+                size="sm"
+                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground text-xs sm:text-sm"
+                asChild
+              >
+                <a href={ad.link} target="_blank" rel="noopener noreferrer">
+                  {ad.cta}
+                  <ExternalLink size={12} className="ml-2" />
+                </a>
+              </Button>
+            </CardContent>
+          </Card>
+        ))}
+
+        <Card className="bg-muted/30 border-dashed border-2 border-muted-foreground/20 flex items-center justify-center text-center p-4 sm:p-6"> {/* Added flex and align-items/justify-content to center content vertically */}
+          <CardContent className="p-0"> {/* Removed padding from CardContent here as parent handles it */}
+            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-muted rounded-full flex items-center justify-center mx-auto mb-3">
+              <Brain size={18} className="text-muted-foreground" />
+            </div>
+            <h4 className="font-medium text-foreground mb-2 text-sm sm:text-base">Advertise Here</h4>
+            <p className="text-xs sm:text-sm text-muted-foreground mb-3">
+              Reach our engaged community of AI enthusiasts and tech professionals.
             </p>
-            <Button
-              size="sm"
-              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground text-xs sm:text-sm"
-              asChild
-            >
-              <a href={ad.link} target="_blank" rel="noopener noreferrer">
-                {ad.cta}
-                <ExternalLink size={12} className="ml-2" />
-              </a>
+            <Button variant="outline" size="sm" className="text-xs sm:text-sm">
+              Contact Us
             </Button>
           </CardContent>
         </Card>
-      ))}
-
-      <Card className="bg-muted/30 border-dashed border-2 border-muted-foreground/20">
-        <CardContent className="p-4 sm:p-6 text-center">
-          <div className="w-10 h-10 sm:w-12 sm:h-12 bg-muted rounded-full flex items-center justify-center mx-auto mb-3">
-            <Brain size={18} className="text-muted-foreground" />
-          </div>
-          <h4 className="font-medium text-foreground mb-2 text-sm sm:text-base">Advertise Here</h4>
-          <p className="text-xs sm:text-sm text-muted-foreground mb-3">
-            Reach our engaged community of AI enthusiasts and tech professionals.
-          </p>
-          <Button variant="outline" size="sm" className="text-xs sm:text-sm">
-            Contact Us
-          </Button>
-        </CardContent>
-      </Card>
+      </div>
     </div>
   );
 }
