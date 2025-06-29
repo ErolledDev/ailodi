@@ -30,7 +30,7 @@ export function SubscribeForm() {
 
   if (isSubscribed) {
     return (
-      <Card className="bg-gradient-to-r from-green-50 to-emerald-50 border-green-200 hover-lift">
+      <Card className="bg-gradient-to-r from-green-50 to-emerald-50 border-green-200">
         <CardContent className="p-4 sm:p-6">
           <div className="flex items-center gap-3 text-green-700">
             <div className="w-10 h-10 sm:w-12 sm:h-12 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
@@ -47,7 +47,7 @@ export function SubscribeForm() {
   }
 
   return (
-    <Card className="bg-gradient-to-r from-primary/5 to-primary/10 border-primary/20 hover-lift">
+    <Card className="bg-gradient-to-r from-primary/5 to-primary/10 border-primary/20">
       <CardHeader className="pb-3 sm:pb-4">
         <div className="flex items-start gap-3 sm:gap-4">
           <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
