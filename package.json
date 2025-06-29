@@ -6,9 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "deploy": "wrangler deploy",
-    "dev:worker": "wrangler dev"
+    "lint": "next lint"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
@@ -70,7 +68,6 @@
     "tailwindcss-animate": "^1.0.7",
     "typescript": "5.2.2",
     "vaul": "^0.9.9",
-    "wrangler": "^3.78.12",
     "zod": "^3.23.8"
   },
   "devDependencies": {
