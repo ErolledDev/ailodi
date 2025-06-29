@@ -3,10 +3,9 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { FolderOpen, FileText, Filter, Search } from 'lucide-react';
+import { FolderOpen, FileText, Filter } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
 import { EnhancedBlogCard } from '@/components/enhanced-blog-card';
 import type { BlogPost } from '@/types/blog';
 
@@ -23,7 +22,6 @@ export default function CategoriesPage() {
   const [categories, setCategories] = useState<CategoryData[]>([]);
   const [filteredCategories, setFilteredCategories] = useState<CategoryData[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(filterParam);
-  const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -61,18 +59,6 @@ export default function CategoriesPage() {
 
     fetchCategories();
   }, []);
-
-  useEffect(() => {
-    let filtered = categories;
-    
-    if (searchTerm) {
-      filtered = categories.filter(category =>
-        category.name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    }
-    
-    setFilteredCategories(filtered);
-  }, [categories, searchTerm]);
 
   if (loading) {
     return (
@@ -167,20 +153,6 @@ export default function CategoriesPage() {
         </p>
       </div>
 
-      {/* Search Categories */}
-      <div className="max-w-md mx-auto mb-12">
-        <div className="medium-search">
-          <Search size={16} className="medium-search-icon" />
-          <Input
-            type="search"
-            placeholder="Search categories..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="border-gray-200 focus:ring-gray-300 focus:border-gray-300"
-          />
-        </div>
-      </div>
-
       {filteredCategories.length === 0 ? (
         <div className="text-center py-16">
           <div className="w-24 h-24 bg-muted rounded-full flex items-center justify-center mx-auto mb-6">
@@ -188,7 +160,7 @@ export default function CategoriesPage() {
           </div>
           <h2 className="text-2xl font-bold text-foreground mb-4">No categories found</h2>
           <p className="text-lg text-muted-foreground">
-            No categories match your search term "{searchTerm}".
+            No categories are available at the moment.
           </p>
         </div>
       ) : (

@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Search, Filter, Clock } from 'lucide-react';
-import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
@@ -22,7 +21,6 @@ export default function SearchPage() {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [filteredPosts, setFilteredPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState(query);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [categories, setCategories] = useState<string[]>([]);
 
@@ -61,15 +59,6 @@ export default function SearchPage() {
   useEffect(() => {
     let filtered = posts;
 
-    // Filter by search term
-    if (searchTerm && searchTerm !== query) {
-      filtered = posts.filter(post =>
-        post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        post.metaDescription.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        post.content.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    }
-
     // Filter by category
     if (selectedCategory !== 'all') {
       filtered = filtered.filter(post =>
@@ -78,14 +67,7 @@ export default function SearchPage() {
     }
 
     setFilteredPosts(filtered);
-  }, [posts, searchTerm, selectedCategory, query]);
-
-  const handleSearchSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchTerm.trim()) {
-      window.location.href = `/search?q=${encodeURIComponent(searchTerm.trim())}`;
-    }
-  };
+  }, [posts, selectedCategory]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-background">
@@ -97,24 +79,14 @@ export default function SearchPage() {
         <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
           {query 
             ? `Found ${filteredPosts.length} ${filteredPosts.length === 1 ? 'article' : 'articles'} matching your search`
-            : 'Discover insights on AI, programming, automation, and future science'
+            : 'Use the search bar above to discover insights on AI, programming, automation, and future science'
           }
         </p>
       </div>
 
-      {/* Search and Filter */}
+      {/* Filter */}
       <div className="max-w-4xl mx-auto mb-12">
-        <div className="flex flex-col md:flex-row gap-4">
-          <form onSubmit={handleSearchSubmit} className="medium-search flex-1">
-            <Search size={16} className="medium-search-icon" />
-            <Input
-              type="search"
-              placeholder="Search AI insights, tutorials, and tech trends..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="border-gray-200 focus:ring-gray-300 focus:border-gray-300"
-            />
-          </form>
+        <div className="flex justify-center">
           <Select value={selectedCategory} onValueChange={setSelectedCategory}>
             <SelectTrigger className="w-full md:w-48 border-gray-200 focus:ring-gray-300 focus:border-gray-300">
               <Filter size={16} className="mr-2" />
@@ -157,7 +129,7 @@ export default function SearchPage() {
             <p className="text-lg text-muted-foreground mb-8 max-w-md mx-auto">
               {query 
                 ? `We couldn't find any articles matching "${query}". Try different keywords or browse our categories.`
-                : 'Enter a search term above to find articles on AI, programming, and technology trends.'
+                : 'Use the search bar above to find articles on AI, programming, and technology trends.'
               }
             </p>
             {query && (
@@ -168,7 +140,6 @@ export default function SearchPage() {
                     <button
                       key={suggestion}
                       onClick={() => {
-                        setSearchTerm(suggestion);
                         window.location.href = `/search?q=${encodeURIComponent(suggestion)}`;
                       }}
                       className="px-3 py-1.5 bg-primary/10 text-primary rounded-full text-sm font-medium hover:bg-primary/20"

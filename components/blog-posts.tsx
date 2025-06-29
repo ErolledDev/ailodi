@@ -4,8 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { format } from 'date-fns';
-import { CalendarDays, Clock, Search, Filter } from 'lucide-react';
-import { Input } from '@/components/ui/input';
+import { CalendarDays, Clock, Filter } from 'lucide-react';
 import {
   Select,
   SelectContent,
@@ -20,7 +19,6 @@ export function BlogPosts() {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [filteredPosts, setFilteredPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [categories, setCategories] = useState<string[]>([]);
 
@@ -53,15 +51,6 @@ export function BlogPosts() {
   useEffect(() => {
     let filtered = posts;
 
-    // Filter by search term
-    if (searchTerm) {
-      filtered = filtered.filter(post =>
-        post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        post.metaDescription.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        post.content.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    }
-
     // Filter by category
     if (selectedCategory !== 'all') {
       filtered = filtered.filter(post =>
@@ -70,7 +59,7 @@ export function BlogPosts() {
     }
 
     setFilteredPosts(filtered);
-  }, [posts, searchTerm, selectedCategory]);
+  }, [posts, selectedCategory]);
 
   if (loading) {
     return (
@@ -95,18 +84,8 @@ export function BlogPosts() {
   return (
     <section className="py-16 bg-white border-t border-gray-100">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Search and Filter */}
-        <div className="flex flex-col md:flex-row gap-4 mb-12">
-          <div className="medium-search flex-1">
-            <Search size={16} className="medium-search-icon" />
-            <Input
-              type="search"
-              placeholder="Search articles..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="border-gray-200 focus:ring-gray-300 focus:border-gray-300"
-            />
-          </div>
+        {/* Filter */}
+        <div className="flex justify-center mb-12">
           <Select value={selectedCategory} onValueChange={setSelectedCategory}>
             <SelectTrigger className="w-full md:w-48 border-gray-200 focus:ring-gray-300 focus:border-gray-300">
               <Filter size={16} className="mr-2" />
