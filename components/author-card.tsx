@@ -54,7 +54,7 @@ export function AuthorCard({
   };
 
   return (
-    <div className="bg-gradient-to-r from-muted/30 to-muted/10 rounded-xl p-4 sm:p-6 lg:p-8 border border-border/50 hover-lift">
+    <div className="bg-gradient-to-r from-muted/30 to-muted/10 rounded-xl p-4 sm:p-6 lg:p-8 border border-border/50">
       {/* Mobile Layout (< sm) */}
       <div className="block sm:hidden">
         <div className="flex flex-col items-center text-center space-y-4">
@@ -93,7 +93,7 @@ export function AuthorCard({
                     href={socialLinks.twitter}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-muted-foreground hover:text-blue-500 transition-colors p-2 rounded-full hover:bg-blue-50"
+                    className="text-muted-foreground hover:text-blue-500 transition-colors"
                     aria-label="Twitter profile"
                   >
                     <Twitter size={18} />
@@ -104,7 +104,7 @@ export function AuthorCard({
                     href={socialLinks.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-muted-foreground hover:text-blue-600 transition-colors p-2 rounded-full hover:bg-blue-50"
+                    className="text-muted-foreground hover:text-blue-600 transition-colors"
                     aria-label="LinkedIn profile"
                   >
                     <Linkedin size={18} />
@@ -115,7 +115,7 @@ export function AuthorCard({
                     href={socialLinks.website}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-muted-foreground hover:text-primary transition-colors p-2 rounded-full hover:bg-primary/10"
+                    className="text-muted-foreground hover:text-primary transition-colors"
                     aria-label="Website"
                   >
                     <Globe size={18} />
@@ -124,7 +124,7 @@ export function AuthorCard({
                 {socialLinks.email && (
                   <a
                     href={`mailto:${socialLinks.email}`}
-                    className="text-muted-foreground hover:text-primary transition-colors p-2 rounded-full hover:bg-primary/10"
+                    className="text-muted-foreground hover:text-primary transition-colors"
                     aria-label="Email"
                   >
                     <Mail size={18} />
@@ -195,7 +195,7 @@ export function AuthorCard({
                         href={socialLinks.twitter}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-muted-foreground hover:text-blue-500 transition-colors p-2 rounded-full hover:bg-blue-50"
+                        className="text-muted-foreground hover:text-blue-500 transition-colors"
                         aria-label="Twitter profile"
                       >
                         <Twitter size={18} />
@@ -206,7 +206,7 @@ export function AuthorCard({
                         href={socialLinks.linkedin}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-muted-foreground hover:text-blue-600 transition-colors p-2 rounded-full hover:bg-blue-50"
+                        className="text-muted-foreground hover:text-blue-600 transition-colors"
                         aria-label="LinkedIn profile"
                       >
                         <Linkedin size={18} />
@@ -217,7 +217,7 @@ export function AuthorCard({
                         href={socialLinks.website}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-muted-foreground hover:text-primary transition-colors p-2 rounded-full hover:bg-primary/10"
+                        className="text-muted-foreground hover:text-primary transition-colors"
                         aria-label="Website"
                       >
                         <Globe size={18} />
@@ -226,7 +226,7 @@ export function AuthorCard({
                     {socialLinks.email && (
                       <a
                         href={`mailto:${socialLinks.email}`}
-                        className="text-muted-foreground hover:text-primary transition-colors p-2 rounded-full hover:bg-primary/10"
+                        className="text-muted-foreground hover:text-primary transition-colors"
                         aria-label="Email"
                       >
                         <Mail size={18} />

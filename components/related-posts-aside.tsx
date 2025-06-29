@@ -60,7 +60,7 @@ export function RelatedPostsAside({ currentPostId, categories = [] }: RelatedPos
 
   if (loading) {
     return (
-      <Card className="hover-lift">
+      <Card>
         <CardHeader className="pb-3">
           <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
             <TrendingUp size={18} className="text-primary" />
@@ -85,7 +85,7 @@ export function RelatedPostsAside({ currentPostId, categories = [] }: RelatedPos
   }
 
   return (
-    <Card className="hover-lift">
+    <Card>
       <CardHeader className="pb-3">
         <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
           <TrendingUp size={18} className="text-primary" />
@@ -107,7 +107,7 @@ export function RelatedPostsAside({ currentPostId, categories = [] }: RelatedPos
                     alt={post.title}
                     width={64}
                     height={64}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+                    className="w-full h-full object-cover transition-transform duration-200"
                   />
                 </div>
               )}
@@ -131,8 +131,8 @@ export function RelatedPostsAside({ currentPostId, categories = [] }: RelatedPos
                   </div>
                 )}
               </div>
-              <div className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                <ArrowRight size={14} className="text-primary mt-1" />
+              <div className="flex-shrink-0">
+                <ArrowRight size={14} className="text-muted-foreground group-hover:text-primary transition-colors mt-1" />
               </div>
             </article>
           </Link>

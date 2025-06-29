@@ -64,7 +64,7 @@ export function SocialShareButtons({ post, url }: SocialShareButtonsProps) {
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
         <button 
           onClick={shareOnTwitter} 
-          className="inline-flex items-center justify-center gap-2 px-3 sm:px-4 py-2 sm:py-3 rounded-lg font-medium transition-all duration-200 text-xs sm:text-sm bg-blue-500 hover:bg-blue-600 text-white hover-lift"
+          className="inline-flex items-center justify-center gap-2 px-3 sm:px-4 py-2 sm:py-3 rounded-lg font-medium transition-colors duration-200 text-xs sm:text-sm bg-blue-500 hover:bg-blue-600 text-white"
           aria-label="Share on Twitter"
         >
           <Twitter size={16} />
@@ -73,7 +73,7 @@ export function SocialShareButtons({ post, url }: SocialShareButtonsProps) {
         
         <button 
           onClick={shareOnFacebook} 
-          className="inline-flex items-center justify-center gap-2 px-3 sm:px-4 py-2 sm:py-3 rounded-lg font-medium transition-all duration-200 text-xs sm:text-sm bg-blue-600 hover:bg-blue-700 text-white hover-lift"
+          className="inline-flex items-center justify-center gap-2 px-3 sm:px-4 py-2 sm:py-3 rounded-lg font-medium transition-colors duration-200 text-xs sm:text-sm bg-blue-600 hover:bg-blue-700 text-white"
           aria-label="Share on Facebook"
         >
           <Facebook size={16} />
@@ -82,7 +82,7 @@ export function SocialShareButtons({ post, url }: SocialShareButtonsProps) {
         
         <button 
           onClick={shareOnLinkedIn} 
-          className="inline-flex items-center justify-center gap-2 px-3 sm:px-4 py-2 sm:py-3 rounded-lg font-medium transition-all duration-200 text-xs sm:text-sm bg-blue-700 hover:bg-blue-800 text-white hover-lift"
+          className="inline-flex items-center justify-center gap-2 px-3 sm:px-4 py-2 sm:py-3 rounded-lg font-medium transition-colors duration-200 text-xs sm:text-sm bg-blue-700 hover:bg-blue-800 text-white"
           aria-label="Share on LinkedIn"
         >
           <Linkedin size={16} />
@@ -91,7 +91,7 @@ export function SocialShareButtons({ post, url }: SocialShareButtonsProps) {
         
         <button 
           onClick={shareOnReddit} 
-          className="inline-flex items-center justify-center gap-2 px-3 sm:px-4 py-2 sm:py-3 rounded-lg font-medium transition-all duration-200 text-xs sm:text-sm bg-orange-500 hover:bg-orange-600 text-white hover-lift"
+          className="inline-flex items-center justify-center gap-2 px-3 sm:px-4 py-2 sm:py-3 rounded-lg font-medium transition-colors duration-200 text-xs sm:text-sm bg-orange-500 hover:bg-orange-600 text-white"
           aria-label="Share on Reddit"
         >
           <MessageCircle size={16} />
@@ -100,7 +100,7 @@ export function SocialShareButtons({ post, url }: SocialShareButtonsProps) {
         
         <button 
           onClick={copyToClipboard} 
-          className="inline-flex items-center justify-center gap-2 px-3 sm:px-4 py-2 sm:py-3 rounded-lg font-medium transition-all duration-200 text-xs sm:text-sm bg-muted hover:bg-muted/80 text-foreground border border-border hover-lift col-span-2 sm:col-span-1"
+          className="inline-flex items-center justify-center gap-2 px-3 sm:px-4 py-2 sm:py-3 rounded-lg font-medium transition-colors duration-200 text-xs sm:text-sm bg-muted hover:bg-muted/80 text-foreground border border-border col-span-2 sm:col-span-1"
           aria-label="Copy link"
         >
           {copySuccess ? (

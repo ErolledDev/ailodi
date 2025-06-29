@@ -34,7 +34,7 @@ export function AdAside() {
       </div>
       
       {ads.map((ad) => (
-        <Card key={ad.id} className="overflow-hidden hover:shadow-lg transition-shadow duration-300 border-border/50 hover-lift">
+        <Card key={ad.id} className="overflow-hidden hover:shadow-lg transition-shadow duration-300 border-border/50">
           <div className="relative">
             <img
               src={ad.image}
@@ -70,7 +70,7 @@ export function AdAside() {
         </Card>
       ))}
       
-      <Card className="bg-muted/30 border-dashed border-2 border-muted-foreground/20 hover-lift">
+      <Card className="bg-muted/30 border-dashed border-2 border-muted-foreground/20">
         <CardContent className="p-4 sm:p-6 text-center">
           <div className="w-10 h-10 sm:w-12 sm:h-12 bg-muted rounded-full flex items-center justify-center mx-auto mb-3">
             <Brain size={18} className="text-muted-foreground" />
