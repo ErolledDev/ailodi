@@ -56,13 +56,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  // Dynamic blog posts with enhanced metadata
+  // Dynamic blog posts and category pages with enhanced metadata
   let blogPosts: any[] = [];
+  let categoryPages: any[] = [];
   
   try {
     const posts = await getAllContent();
     
-    // Blog post URLs only - no category URLs
+    // Blog post URLs
     blogPosts = posts.map((post) => {
       const postDate = new Date(post.updatedAt);
       const now = new Date();
@@ -83,10 +84,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       };
     });
 
+    // Category pages - Re-enabled for production
+    const categories = [...new Set(posts.flatMap(post => post.categories))];
+    categoryPages = categories.map((category) => ({
+      url: `${baseUrl}/categories?filter=${encodeURIComponent(category)}`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.7,
+    }));
+
   } catch (error) {
     console.error('Error fetching posts for sitemap:', error);
   }
 
-  // Return only static pages and blog posts - no category filter URLs
-  return [...staticPages, ...blogPosts];
+  return [...staticPages, ...blogPosts, ...categoryPages];
 }

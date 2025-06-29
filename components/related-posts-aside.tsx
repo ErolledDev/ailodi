@@ -60,19 +60,19 @@ export function RelatedPostsAside({ currentPostId, categories = [] }: RelatedPos
 
   if (loading) {
     return (
-      <Card>
+      <Card className="shadow-lg">
         <CardHeader className="pb-3">
           <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
             <TrendingUp size={18} className="text-primary" />
             Related Articles
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-3 sm:space-y-4">
+        <CardContent className="space-y-4">
           {[1, 2, 3, 4, 5, 6].map((i) => (
-            <div key={i} className="animate-pulse">
+            <div key={i} className="animate-pulse border-b border-border/50 last:border-b-0 pb-4 mb-4 last:pb-0 last:mb-0">
               <div className="h-12 sm:h-16 bg-muted rounded mb-2"></div>
-              <div className="h-3 sm:h-4 bg-muted rounded w-3/4 mb-1"></div>
-              <div className="h-2 sm:h-3 bg-muted rounded w-1/2"></div>
+              <div className="h-4 bg-muted rounded w-3/4 mb-1"></div>
+              <div className="h-3 bg-muted rounded w-1/2"></div>
             </div>
           ))}
         </CardContent>
@@ -85,21 +85,21 @@ export function RelatedPostsAside({ currentPostId, categories = [] }: RelatedPos
   }
 
   return (
-    <Card>
+    <Card className="shadow-lg">
       <CardHeader className="pb-3">
         <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
           <TrendingUp size={18} className="text-primary" />
           Related Articles
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-3 sm:space-y-4">
+      <CardContent className="space-y-0">
         {posts.map((post, index) => (
           <Link 
             key={post.id} 
             href={`/post/${post.slug}`}
-            className="block group"
+            className="block group p-2 sm:p-3 rounded-lg hover:bg-muted/50 transition-colors duration-200"
           >
-            <article className="flex gap-3 p-2 sm:p-3 rounded-lg hover:bg-muted/50 transition-colors duration-200">
+            <article className="flex gap-3 border-b border-border/50 last:border-b-0 pb-3 sm:pb-4 mb-3 sm:mb-4 last:pb-0 last:mb-0">
               {post.featuredImageUrl && (
                 <div className="w-12 h-12 sm:w-16 sm:h-16 flex-shrink-0 overflow-hidden rounded-md">
                   <Image
@@ -107,32 +107,32 @@ export function RelatedPostsAside({ currentPostId, categories = [] }: RelatedPos
                     alt={post.title}
                     width={64}
                     height={64}
-                    className="w-full h-full object-cover transition-transform duration-200"
+                    className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-105"
                   />
                 </div>
               )}
               <div className="flex-1 min-w-0">
-                <h4 className="font-medium text-foreground text-xs sm:text-sm leading-tight line-clamp-2 group-hover:text-primary transition-colors mb-1 sm:mb-2">
+                <h4 className="font-semibold text-foreground text-sm sm:text-base leading-tight line-clamp-2 group-hover:text-primary transition-colors mb-2">
                   {post.title}
                 </h4>
-                <div className="flex items-center gap-x-0.5 sm:gap-x-1 text-xs text-muted-foreground mb-1 sm:mb-2">
+                <div className="flex items-center gap-1 sm:gap-2 text-xs text-muted-foreground mb-2">
                   <span>{format(new Date(post.publishDate), 'MMM d')}</span>
                   <span>·</span>
-                  <div className="flex items-center gap-x-0.5">
-                    <Clock size={8} className="sm:w-2.5 sm:h-2.5" />
+                  <div className="flex items-center gap-1">
+                    <Clock size={10} className="sm:w-3 sm:h-3" />
                     <span>{Math.ceil(post.content.split(' ').length / 200)} min</span>
                   </div>
                 </div>
                 {post.categories.length > 0 && (
                   <div>
-                    <span className="inline-block px-1.5 py-0.5 sm:px-2 sm:py-1 rounded-full text-xs bg-primary/10 text-primary">
+                    <span className="inline-block px-2 py-1 sm:px-2.5 sm:py-1.5 rounded-full text-sm bg-primary/10 text-primary">
                       {post.categories[0]}
                     </span>
                   </div>
                 )}
               </div>
-              <div className="flex-shrink-0">
-                <ArrowRight size={14} className="text-muted-foreground group-hover:text-primary transition-colors mt-1" />
+              <div className="flex-shrink-0 ml-auto self-center">
+                <ArrowRight size={14} className="text-muted-foreground group-hover:text-primary transition-colors" />
               </div>
             </article>
           </Link>
