@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { format } from 'date-fns';
-import { Clock, BookmarkPlus, Bookmark, Heart, Share2, MoreHorizontal } from 'lucide-react';
+import { Clock, BookmarkPlus, Bookmark, Heart, MoreHorizontal } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
@@ -12,6 +12,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { ShareDialog } from '@/components/share-dialog';
 import type { BlogPost } from '@/types/blog';
 
 interface EnhancedBlogCardProps {
@@ -24,6 +25,7 @@ export function EnhancedBlogCard({ post, index = 0 }: EnhancedBlogCardProps) {
   const [isLiked, setIsLiked] = useState(false);
 
   const readingTime = Math.ceil(post.content.split(' ').length / 200);
+  const postUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech'}/post/${post.slug}`;
 
   const handleBookmark = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -35,20 +37,6 @@ export function EnhancedBlogCard({ post, index = 0 }: EnhancedBlogCardProps) {
     e.preventDefault();
     e.stopPropagation();
     setIsLiked(!isLiked);
-  };
-
-  const handleShare = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (navigator.share) {
-      navigator.share({
-        title: post.title,
-        text: post.metaDescription,
-        url: `/post/${post.slug}`,
-      });
-    } else {
-      navigator.clipboard.writeText(`${window.location.origin}/post/${post.slug}`);
-    }
   };
 
   const getAuthorInitials = () => {
@@ -154,15 +142,10 @@ export function EnhancedBlogCard({ post, index = 0 }: EnhancedBlogCardProps) {
             {isBookmarked ? <Bookmark size={16} className="fill-current" /> : <BookmarkPlus size={16} />}
           </Button>
           
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={handleShare}
-            className="text-muted-foreground"
-            aria-label="Share post"
-          >
-            <Share2 size={16} />
-          </Button>
+          {/* Share Dialog - Using the new consistent component */}
+          <div onClick={(e) => e.stopPropagation()}>
+            <ShareDialog post={post} url={postUrl} />
+          </div>
         </div>
 
         <DropdownMenu>
@@ -172,6 +155,7 @@ export function EnhancedBlogCard({ post, index = 0 }: EnhancedBlogCardProps) {
               size="sm"
               className="text-muted-foreground"
               aria-label="More options"
+              onClick={(e) => e.stopPropagation()}
             >
               <MoreHorizontal size={16} />
             </Button>
