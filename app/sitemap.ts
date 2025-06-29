@@ -56,7 +56,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  // Dynamic blog posts with enhanced metadata
+  // Dynamic blog posts and category pages with enhanced metadata
   let blogPosts: any[] = [];
   let categoryPages: any[] = [];
   
@@ -84,7 +84,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       };
     });
 
-    // Category pages
+    // Category pages - Re-enabled for production
     const categories = [...new Set(posts.flatMap(post => post.categories))];
     categoryPages = categories.map((category) => ({
       url: `${baseUrl}/categories?filter=${encodeURIComponent(category)}`,

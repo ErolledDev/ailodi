@@ -8,7 +8,11 @@ interface SearchResult {
   errorMessage?: string;
 }
 
-async function fetchWithRetry(url: string, options: RequestInit = {}, retries = 3): Promise<Response> {
+async function fetchWithRetry(
+  url: string, 
+  options: RequestInit = {}, 
+  retries = 3
+): Promise<Response> {
   for (let i = 0; i < retries; i++) {
     try {
       const response = await fetch(url, {
@@ -36,12 +40,13 @@ async function fetchWithRetry(url: string, options: RequestInit = {}, retries = 
   throw new Error('All fetch attempts failed');
 }
 
-export async function getAllContent(): Promise<BlogPost[]> {
+export async function getAllContent(options: RequestInit = {}): Promise<BlogPost[]> {
   try {
     const response = await fetchWithRetry(API_URL, {
       headers: {
         'Accept': 'application/json',
       },
+      ...options, // Allow passing cache options for sitemap generation
     });
     
     const data = await response.json();
