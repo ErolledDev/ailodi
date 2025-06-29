@@ -342,7 +342,7 @@ export default async function PostPage({ params }: PostPageProps) {
 
           {/* Sidebar - Hidden on mobile, visible on large screens */}
           <aside className="lg:col-span-1 hidden lg:block">
-            <div className="sticky top-8 space-y-6 sm:space-y-8">
+            <div className="sticky top-20 space-y-6 sm:space-y-8">
               {/* Sponsor Section */}
               <SponsorSection />
             </div>
