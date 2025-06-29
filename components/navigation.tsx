@@ -1,13 +1,24 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Menu, X, Search, Edit } from 'lucide-react';
+import { Menu, X, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
 export function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const router = useRouter();
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchQuery('');
+    }
+  };
 
   return (
     <nav className="medium-nav">
@@ -34,19 +45,16 @@ export function Navigation() {
             </Link>
             
             {/* Search */}
-            <div className="medium-search w-64">
+            <form onSubmit={handleSearchSubmit} className="medium-search w-64">
               <Search size={16} className="medium-search-icon" />
               <Input
                 type="search"
                 placeholder="Search AI & Tech insights..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
                 className="border-gray-200 focus:ring-gray-300 focus:border-gray-300"
               />
-            </div>
-
-            <Button size="sm" className="medium-btn medium-btn-primary">
-              <Edit size={16} className="mr-1" />
-              Write
-            </Button>
+            </form>
           </div>
 
           {/* Mobile menu button */}
@@ -96,14 +104,16 @@ export function Navigation() {
               </Link>
               
               {/* Mobile Search */}
-              <div className="medium-search px-2">
+              <form onSubmit={handleSearchSubmit} className="medium-search px-2">
                 <Search size={16} className="medium-search-icon" />
                 <Input
                   type="search"
                   placeholder="Search AI & Tech insights..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                   className="border-gray-200 focus:ring-gray-300 focus:border-gray-300"
                 />
-              </div>
+              </form>
             </div>
           </div>
         )}

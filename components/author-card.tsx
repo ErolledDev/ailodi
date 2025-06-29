@@ -1,15 +1,12 @@
 'use client';
 
-import { useState } from 'react';
 import Image from 'next/image';
-import { Button } from '@/components/ui/button';
-import { UserPlus, UserCheck, Twitter, Linkedin, Globe, Mail } from 'lucide-react';
+import { Twitter, Linkedin, Globe, Mail } from 'lucide-react';
 
 interface AuthorCardProps {
   author: string;
   bio?: string;
   avatar?: string;
-  isFollowing?: boolean;
   socialLinks?: {
     twitter?: string;
     linkedin?: string;
@@ -22,20 +19,12 @@ export function AuthorCard({
   author, 
   bio = "Tech writer and AI enthusiast. Passionate about sharing insights on cutting-edge technology, artificial intelligence, and the future of innovation.",
   avatar,
-  isFollowing: initialFollowing = false,
   socialLinks = {
     twitter: "https://twitter.com/ailodi_tech",
     linkedin: "https://linkedin.com/company/ailodi",
     website: "https://ailodi.tech"
   }
 }: AuthorCardProps) {
-  const [isFollowing, setIsFollowing] = useState(initialFollowing);
-
-  const handleFollow = () => {
-    setIsFollowing(!isFollowing);
-    // Here you would typically send to your backend
-  };
-
   // Generate a consistent avatar URL based on the author name
   const getAvatarUrl = () => {
     if (avatar) return avatar;
@@ -93,7 +82,7 @@ export function AuthorCard({
                     href={socialLinks.twitter}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-muted-foreground hover:text-blue-500 transition-colors"
+                    className="text-muted-foreground hover:text-blue-500"
                     aria-label="Twitter profile"
                   >
                     <Twitter size={18} />
@@ -104,7 +93,7 @@ export function AuthorCard({
                     href={socialLinks.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-muted-foreground hover:text-blue-600 transition-colors"
+                    className="text-muted-foreground hover:text-blue-600"
                     aria-label="LinkedIn profile"
                   >
                     <Linkedin size={18} />
@@ -115,7 +104,7 @@ export function AuthorCard({
                     href={socialLinks.website}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-muted-foreground hover:text-primary transition-colors"
+                    className="text-muted-foreground hover:text-primary"
                     aria-label="Website"
                   >
                     <Globe size={18} />
@@ -124,7 +113,7 @@ export function AuthorCard({
                 {socialLinks.email && (
                   <a
                     href={`mailto:${socialLinks.email}`}
-                    className="text-muted-foreground hover:text-primary transition-colors"
+                    className="text-muted-foreground hover:text-primary"
                     aria-label="Email"
                   >
                     <Mail size={18} />
@@ -132,25 +121,6 @@ export function AuthorCard({
                 )}
               </div>
             )}
-            
-            <Button
-              onClick={handleFollow}
-              variant={isFollowing ? "secondary" : "default"}
-              size="sm"
-              className="w-full transition-all duration-200"
-            >
-              {isFollowing ? (
-                <>
-                  <UserCheck size={16} className="mr-2" />
-                  Following
-                </>
-              ) : (
-                <>
-                  <UserPlus size={16} className="mr-2" />
-                  Follow
-                </>
-              )}
-            </Button>
           </div>
         </div>
       </div>
@@ -178,83 +148,60 @@ export function AuthorCard({
           </div>
           
           <div className="flex-1 min-w-0">
-            <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
-              <div className="flex-1 min-w-0">
-                <h3 className="text-xl lg:text-2xl font-bold text-foreground mb-2 leading-tight">
-                  {author}
-                </h3>
-                <p className="text-sm lg:text-base text-muted-foreground mb-4 leading-relaxed">
-                  {bio}
-                </p>
-                
-                {/* Social Links */}
-                {(socialLinks.twitter || socialLinks.linkedin || socialLinks.website || socialLinks.email) && (
-                  <div className="flex items-center gap-2 lg:gap-3">
-                    {socialLinks.twitter && (
-                      <a
-                        href={socialLinks.twitter}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-muted-foreground hover:text-blue-500 transition-colors"
-                        aria-label="Twitter profile"
-                      >
-                        <Twitter size={18} />
-                      </a>
-                    )}
-                    {socialLinks.linkedin && (
-                      <a
-                        href={socialLinks.linkedin}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-muted-foreground hover:text-blue-600 transition-colors"
-                        aria-label="LinkedIn profile"
-                      >
-                        <Linkedin size={18} />
-                      </a>
-                    )}
-                    {socialLinks.website && (
-                      <a
-                        href={socialLinks.website}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-muted-foreground hover:text-primary transition-colors"
-                        aria-label="Website"
-                      >
-                        <Globe size={18} />
-                      </a>
-                    )}
-                    {socialLinks.email && (
-                      <a
-                        href={`mailto:${socialLinks.email}`}
-                        className="text-muted-foreground hover:text-primary transition-colors"
-                        aria-label="Email"
-                      >
-                        <Mail size={18} />
-                      </a>
-                    )}
-                  </div>
+            <h3 className="text-xl lg:text-2xl font-bold text-foreground mb-2 leading-tight">
+              {author}
+            </h3>
+            <p className="text-sm lg:text-base text-muted-foreground mb-4 leading-relaxed">
+              {bio}
+            </p>
+            
+            {/* Social Links */}
+            {(socialLinks.twitter || socialLinks.linkedin || socialLinks.website || socialLinks.email) && (
+              <div className="flex items-center gap-2 lg:gap-3">
+                {socialLinks.twitter && (
+                  <a
+                    href={socialLinks.twitter}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-muted-foreground hover:text-blue-500"
+                    aria-label="Twitter profile"
+                  >
+                    <Twitter size={18} />
+                  </a>
+                )}
+                {socialLinks.linkedin && (
+                  <a
+                    href={socialLinks.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-muted-foreground hover:text-blue-600"
+                    aria-label="LinkedIn profile"
+                  >
+                    <Linkedin size={18} />
+                  </a>
+                )}
+                {socialLinks.website && (
+                  <a
+                    href={socialLinks.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-muted-foreground hover:text-primary"
+                    aria-label="Website"
+                  >
+                    <Globe size={18} />
+                  </a>
+                )}
+                {socialLinks.email && (
+                  <a
+                    href={`mailto:${socialLinks.email}`}
+                    className="text-muted-foreground hover:text-primary"
+                    aria-label="Email"
+                  >
+                    <Mail size={18} />
+                  </a>
                 )}
               </div>
-              
-              <Button
-                onClick={handleFollow}
-                variant={isFollowing ? "secondary" : "default"}
-                size="sm"
-                className="shrink-0 transition-all duration-200 lg:mt-0"
-              >
-                {isFollowing ? (
-                  <>
-                    <UserCheck size={16} className="mr-2" />
-                    Following
-                  </>
-                ) : (
-                  <>
-                    <UserPlus size={16} className="mr-2" />
-                    Follow
-                  </>
-                )}
-              </Button>
-            </div>
+            )}
           </div>
         </div>
       </div>

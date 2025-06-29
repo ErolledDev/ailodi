@@ -62,7 +62,7 @@ export function EnhancedBlogCard({ post, index = 0 }: EnhancedBlogCardProps) {
 
   return (
     <article 
-      className="group relative bg-card border border-border/50 rounded-xl p-6 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5 hover:border-primary/20 hover:-translate-y-1"
+      className="relative bg-card border border-border/50 rounded-xl p-4 sm:p-6 shadow-sm"
       role="article"
       aria-labelledby={`post-title-${post.id}`}
     >
@@ -89,7 +89,7 @@ export function EnhancedBlogCard({ post, index = 0 }: EnhancedBlogCardProps) {
             <div className="flex-1 space-y-3">
               <h2 
                 id={`post-title-${post.id}`}
-                className="text-xl md:text-2xl font-bold text-foreground leading-tight group-hover:text-primary transition-colors duration-200 line-clamp-2"
+                className="text-xl md:text-2xl font-bold text-foreground leading-tight line-clamp-2"
               >
                 {post.title}
               </h2>
@@ -122,7 +122,7 @@ export function EnhancedBlogCard({ post, index = 0 }: EnhancedBlogCardProps) {
                   alt={post.title}
                   width={160}
                   height={128}
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  className="w-full h-full object-cover"
                   sizes="(max-width: 768px) 128px, 160px"
                 />
               </div>
@@ -138,7 +138,7 @@ export function EnhancedBlogCard({ post, index = 0 }: EnhancedBlogCardProps) {
             variant="ghost"
             size="sm"
             onClick={handleLike}
-            className={`text-muted-foreground hover:text-red-500 transition-colors ${isLiked ? 'text-red-500' : ''}`}
+            className={`text-muted-foreground ${isLiked ? 'text-red-500' : ''}`}
             aria-label={isLiked ? 'Unlike post' : 'Like post'}
           >
             <Heart size={16} className={isLiked ? 'fill-current' : ''} />
@@ -148,7 +148,7 @@ export function EnhancedBlogCard({ post, index = 0 }: EnhancedBlogCardProps) {
             variant="ghost"
             size="sm"
             onClick={handleBookmark}
-            className={`text-muted-foreground hover:text-primary transition-colors ${isBookmarked ? 'text-primary' : ''}`}
+            className={`text-muted-foreground ${isBookmarked ? 'text-primary' : ''}`}
             aria-label={isBookmarked ? 'Remove bookmark' : 'Add bookmark'}
           >
             {isBookmarked ? <Bookmark size={16} className="fill-current" /> : <BookmarkPlus size={16} />}
@@ -158,7 +158,7 @@ export function EnhancedBlogCard({ post, index = 0 }: EnhancedBlogCardProps) {
             variant="ghost"
             size="sm"
             onClick={handleShare}
-            className="text-muted-foreground hover:text-primary transition-colors"
+            className="text-muted-foreground"
             aria-label="Share post"
           >
             <Share2 size={16} />
@@ -170,7 +170,7 @@ export function EnhancedBlogCard({ post, index = 0 }: EnhancedBlogCardProps) {
             <Button
               variant="ghost"
               size="sm"
-              className="text-muted-foreground hover:text-foreground transition-colors"
+              className="text-muted-foreground"
               aria-label="More options"
             >
               <MoreHorizontal size={16} />
