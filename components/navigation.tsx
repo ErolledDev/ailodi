@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Menu, X, Search, Brain } from 'lucide-react';
+import { Menu, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -38,11 +38,8 @@ export function Navigation() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 medium-nav-brand">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <Brain size={20} className="text-primary-foreground" />
-            </div>
-            <span>AI Lodi</span>
+          <Link href="/" className="medium-nav-brand">
+            AI Lodi
           </Link>
 
           {/* Desktop Navigation */}
@@ -88,10 +85,7 @@ export function Navigation() {
               </SheetTrigger>
               <SheetContent side="right" className="w-[300px] sm:w-[400px]">
                 <SheetHeader className="text-left">
-                  <SheetTitle className="flex items-center gap-2">
-                    <div className="w-6 h-6 bg-primary rounded-md flex items-center justify-center">
-                      <Brain size={14} className="text-primary-foreground" />
-                    </div>
+                  <SheetTitle>
                     AI Lodi
                   </SheetTitle>
                 </SheetHeader>

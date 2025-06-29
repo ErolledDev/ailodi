@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Brain, Twitter, Linkedin, Github, Mail, Rss } from 'lucide-react';
+import { Twitter, Linkedin, Github, Mail, Rss } from 'lucide-react';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -29,10 +29,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           {/* Brand Section */}
           <div className="lg:col-span-2">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                <Brain size={20} className="text-primary-foreground" />
-              </div>
+            <div className="mb-4">
               <span className="medium-footer-brand">AI Lodi</span>
             </div>
             <p className="text-muted-foreground mb-4 max-w-md leading-relaxed">
