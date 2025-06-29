@@ -4,10 +4,6 @@ import { getAllContent } from '@/lib/content';
 export const dynamic = 'force-static';
 export const revalidate = 0;
 
-export async function generateStaticParams() {
-  return [];
-}
-
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech';
   
