@@ -1,5 +1,6 @@
 'use client';
 
+import { Suspense } from 'react';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
@@ -15,7 +16,7 @@ interface CategoryData {
   posts: BlogPost[];
 }
 
-export default function CategoriesPage() {
+function CategoriesPageContent() {
   const searchParams = useSearchParams();
   const filterParam = searchParams.get('filter');
   
@@ -218,5 +219,34 @@ export default function CategoriesPage() {
         </div>
       )}
     </div>
+  );
+}
+
+function CategoriesPageLoading() {
+  return (
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="text-center mb-12">
+        <h1 className="text-4xl font-bold text-foreground mb-4">Categories</h1>
+        <p className="text-lg text-muted-foreground">Loading categories...</p>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {[1, 2, 3, 4, 5, 6].map((i) => (
+          <Card key={i} className="animate-pulse">
+            <CardContent className="p-6">
+              <div className="h-6 bg-muted rounded mb-4" />
+              <div className="h-4 bg-muted rounded w-1/3" />
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default function CategoriesPage() {
+  return (
+    <Suspense fallback={<CategoriesPageLoading />}>
+      <CategoriesPageContent />
+    </Suspense>
   );
 }
