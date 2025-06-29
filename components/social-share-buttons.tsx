@@ -1,6 +1,6 @@
 'use client';
 
-import { Twitter, Facebook, Linkedin, Share2, Copy, Check } from 'lucide-react';
+import { Twitter, Facebook, Linkedin, Share2, Copy, Check, MessageCircle } from 'lucide-react';
 import { useState } from 'react';
 import type { BlogPost } from '@/types/blog';
 
@@ -14,7 +14,7 @@ export function SocialShareButtons({ post, url }: SocialShareButtonsProps) {
 
   const shareOnTwitter = () => {
     const text = `${post.title} - ${post.metaDescription}`;
-    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}&hashtags=AI,Tech,Innovation`;
     window.open(twitterUrl, '_blank', 'width=600,height=400');
   };
 
@@ -26,6 +26,11 @@ export function SocialShareButtons({ post, url }: SocialShareButtonsProps) {
   const shareOnLinkedIn = () => {
     const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
     window.open(linkedinUrl, '_blank', 'width=600,height=400');
+  };
+
+  const shareOnReddit = () => {
+    const redditUrl = `https://reddit.com/submit?url=${encodeURIComponent(url)}&title=${encodeURIComponent(post.title)}`;
+    window.open(redditUrl, '_blank', 'width=600,height=400');
   };
 
   const copyToClipboard = async () => {
@@ -48,37 +53,54 @@ export function SocialShareButtons({ post, url }: SocialShareButtonsProps) {
   };
 
   return (
-    <div className="flex flex-col gap-4 mt-8 p-6 bg-muted/30 rounded-lg border border-border/50">
-      <h3 className="text-lg font-semibold text-foreground">Share this article</h3>
-      <div className="flex flex-wrap items-center gap-3">
-        <span className="text-sm text-muted-foreground">Share on:</span>
+    <div className="flex flex-col gap-4 sm:gap-6 mt-8 p-4 sm:p-6 bg-muted/30 rounded-xl border border-border/50">
+      <div className="flex items-center gap-3">
+        <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
+          <Share2 size={16} className="text-primary" />
+        </div>
+        <h3 className="text-base sm:text-lg font-semibold text-foreground">Share this article</h3>
+      </div>
+      
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
         <button 
           onClick={shareOnTwitter} 
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-200 text-sm bg-blue-500 hover:bg-blue-600 text-white"
+          className="inline-flex items-center justify-center gap-2 px-3 sm:px-4 py-2 sm:py-3 rounded-lg font-medium transition-all duration-200 text-xs sm:text-sm bg-blue-500 hover:bg-blue-600 text-white hover-lift"
           aria-label="Share on Twitter"
         >
           <Twitter size={16} />
-          Twitter
+          <span className="hidden sm:inline">Twitter</span>
         </button>
+        
         <button 
           onClick={shareOnFacebook} 
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-200 text-sm bg-blue-600 hover:bg-blue-700 text-white"
+          className="inline-flex items-center justify-center gap-2 px-3 sm:px-4 py-2 sm:py-3 rounded-lg font-medium transition-all duration-200 text-xs sm:text-sm bg-blue-600 hover:bg-blue-700 text-white hover-lift"
           aria-label="Share on Facebook"
         >
           <Facebook size={16} />
-          Facebook
+          <span className="hidden sm:inline">Facebook</span>
         </button>
+        
         <button 
           onClick={shareOnLinkedIn} 
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-200 text-sm bg-blue-700 hover:bg-blue-800 text-white"
+          className="inline-flex items-center justify-center gap-2 px-3 sm:px-4 py-2 sm:py-3 rounded-lg font-medium transition-all duration-200 text-xs sm:text-sm bg-blue-700 hover:bg-blue-800 text-white hover-lift"
           aria-label="Share on LinkedIn"
         >
           <Linkedin size={16} />
-          LinkedIn
+          <span className="hidden sm:inline">LinkedIn</span>
         </button>
+        
+        <button 
+          onClick={shareOnReddit} 
+          className="inline-flex items-center justify-center gap-2 px-3 sm:px-4 py-2 sm:py-3 rounded-lg font-medium transition-all duration-200 text-xs sm:text-sm bg-orange-500 hover:bg-orange-600 text-white hover-lift"
+          aria-label="Share on Reddit"
+        >
+          <MessageCircle size={16} />
+          <span className="hidden sm:inline">Reddit</span>
+        </button>
+        
         <button 
           onClick={copyToClipboard} 
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-200 text-sm bg-muted hover:bg-muted/80 text-foreground border border-border"
+          className="inline-flex items-center justify-center gap-2 px-3 sm:px-4 py-2 sm:py-3 rounded-lg font-medium transition-all duration-200 text-xs sm:text-sm bg-muted hover:bg-muted/80 text-foreground border border-border hover-lift col-span-2 sm:col-span-1"
           aria-label="Copy link"
         >
           {copySuccess ? (
@@ -89,11 +111,15 @@ export function SocialShareButtons({ post, url }: SocialShareButtonsProps) {
           ) : (
             <>
               <Copy size={16} />
-              Copy Link
+              <span>Copy Link</span>
             </>
           )}
         </button>
       </div>
+      
+      <p className="text-xs text-muted-foreground text-center">
+        Help others discover this AI & tech insight by sharing it with your network
+      </p>
     </div>
   );
 }

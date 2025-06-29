@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { UserPlus, UserCheck, Twitter, Linkedin, Globe } from 'lucide-react';
+import { UserPlus, UserCheck, Twitter, Linkedin, Globe, Mail } from 'lucide-react';
 
 interface AuthorCardProps {
   author: string;
@@ -14,6 +14,7 @@ interface AuthorCardProps {
     twitter?: string;
     linkedin?: string;
     website?: string;
+    email?: string;
   };
 }
 
@@ -53,82 +54,90 @@ export function AuthorCard({
   };
 
   return (
-    <div className="bg-gradient-to-r from-muted/30 to-muted/10 rounded-xl p-6 border border-border/50">
-      <div className="flex items-start gap-4">
-        <div className="relative">
-          <div className="w-16 h-16 rounded-full overflow-hidden bg-primary/10 flex items-center justify-center">
-            {avatar ? (
-              <Image
-                src={getAvatarUrl()}
-                alt={`${author}'s avatar`}
-                width={64}
-                height={64}
-                className="w-full h-full object-cover"
-              />
-            ) : (
-              <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/40 flex items-center justify-center text-lg font-semibold text-primary">
-                {getInitials()}
-              </div>
-            )}
-          </div>
-          <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full border-2 border-background"></div>
-        </div>
-        
-        <div className="flex-1 min-w-0">
-          <div className="flex items-start justify-between gap-4">
-            <div className="flex-1">
-              <h3 className="text-xl font-bold text-foreground mb-1 leading-tight">
-                {author}
-              </h3>
-              <p className="text-sm text-muted-foreground mb-3 leading-relaxed">
-                {bio}
-              </p>
-              
-              {/* Social Links */}
-              {(socialLinks.twitter || socialLinks.linkedin || socialLinks.website) && (
-                <div className="flex items-center gap-2 mb-4">
-                  {socialLinks.twitter && (
-                    <a
-                      href={socialLinks.twitter}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-muted-foreground hover:text-blue-500 transition-colors"
-                      aria-label="Twitter profile"
-                    >
-                      <Twitter size={16} />
-                    </a>
-                  )}
-                  {socialLinks.linkedin && (
-                    <a
-                      href={socialLinks.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-muted-foreground hover:text-blue-600 transition-colors"
-                      aria-label="LinkedIn profile"
-                    >
-                      <Linkedin size={16} />
-                    </a>
-                  )}
-                  {socialLinks.website && (
-                    <a
-                      href={socialLinks.website}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-muted-foreground hover:text-primary transition-colors"
-                      aria-label="Website"
-                    >
-                      <Globe size={16} />
-                    </a>
-                  )}
+    <div className="bg-gradient-to-r from-muted/30 to-muted/10 rounded-xl p-4 sm:p-6 lg:p-8 border border-border/50 hover-lift">
+      {/* Mobile Layout (< sm) */}
+      <div className="block sm:hidden">
+        <div className="flex flex-col items-center text-center space-y-4">
+          <div className="relative">
+            <div className="w-20 h-20 rounded-full overflow-hidden bg-primary/10 flex items-center justify-center">
+              {avatar ? (
+                <Image
+                  src={getAvatarUrl()}
+                  alt={`${author}'s avatar`}
+                  width={80}
+                  height={80}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/40 flex items-center justify-center text-xl font-semibold text-primary">
+                  {getInitials()}
                 </div>
               )}
             </div>
+            <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-2 border-background"></div>
+          </div>
+          
+          <div className="space-y-3">
+            <h3 className="text-xl font-bold text-foreground leading-tight">
+              {author}
+            </h3>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              {bio}
+            </p>
+            
+            {/* Social Links */}
+            {(socialLinks.twitter || socialLinks.linkedin || socialLinks.website || socialLinks.email) && (
+              <div className="flex items-center justify-center gap-3">
+                {socialLinks.twitter && (
+                  <a
+                    href={socialLinks.twitter}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-muted-foreground hover:text-blue-500 transition-colors p-2 rounded-full hover:bg-blue-50"
+                    aria-label="Twitter profile"
+                  >
+                    <Twitter size={18} />
+                  </a>
+                )}
+                {socialLinks.linkedin && (
+                  <a
+                    href={socialLinks.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-muted-foreground hover:text-blue-600 transition-colors p-2 rounded-full hover:bg-blue-50"
+                    aria-label="LinkedIn profile"
+                  >
+                    <Linkedin size={18} />
+                  </a>
+                )}
+                {socialLinks.website && (
+                  <a
+                    href={socialLinks.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-muted-foreground hover:text-primary transition-colors p-2 rounded-full hover:bg-primary/10"
+                    aria-label="Website"
+                  >
+                    <Globe size={18} />
+                  </a>
+                )}
+                {socialLinks.email && (
+                  <a
+                    href={`mailto:${socialLinks.email}`}
+                    className="text-muted-foreground hover:text-primary transition-colors p-2 rounded-full hover:bg-primary/10"
+                    aria-label="Email"
+                  >
+                    <Mail size={18} />
+                  </a>
+                )}
+              </div>
+            )}
             
             <Button
               onClick={handleFollow}
               variant={isFollowing ? "secondary" : "default"}
               size="sm"
-              className="shrink-0 transition-all duration-200"
+              className="w-full transition-all duration-200"
             >
               {isFollowing ? (
                 <>
@@ -142,6 +151,110 @@ export function AuthorCard({
                 </>
               )}
             </Button>
+          </div>
+        </div>
+      </div>
+
+      {/* Tablet and Desktop Layout (>= sm) */}
+      <div className="hidden sm:block">
+        <div className="flex items-start gap-4 lg:gap-6">
+          <div className="relative flex-shrink-0">
+            <div className="w-16 h-16 lg:w-20 lg:h-20 rounded-full overflow-hidden bg-primary/10 flex items-center justify-center">
+              {avatar ? (
+                <Image
+                  src={getAvatarUrl()}
+                  alt={`${author}'s avatar`}
+                  width={80}
+                  height={80}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/40 flex items-center justify-center text-lg lg:text-xl font-semibold text-primary">
+                  {getInitials()}
+                </div>
+              )}
+            </div>
+            <div className="absolute -bottom-1 -right-1 w-5 h-5 lg:w-6 lg:h-6 bg-green-500 rounded-full border-2 border-background"></div>
+          </div>
+          
+          <div className="flex-1 min-w-0">
+            <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
+              <div className="flex-1 min-w-0">
+                <h3 className="text-xl lg:text-2xl font-bold text-foreground mb-2 leading-tight">
+                  {author}
+                </h3>
+                <p className="text-sm lg:text-base text-muted-foreground mb-4 leading-relaxed">
+                  {bio}
+                </p>
+                
+                {/* Social Links */}
+                {(socialLinks.twitter || socialLinks.linkedin || socialLinks.website || socialLinks.email) && (
+                  <div className="flex items-center gap-2 lg:gap-3">
+                    {socialLinks.twitter && (
+                      <a
+                        href={socialLinks.twitter}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-muted-foreground hover:text-blue-500 transition-colors p-2 rounded-full hover:bg-blue-50"
+                        aria-label="Twitter profile"
+                      >
+                        <Twitter size={18} />
+                      </a>
+                    )}
+                    {socialLinks.linkedin && (
+                      <a
+                        href={socialLinks.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-muted-foreground hover:text-blue-600 transition-colors p-2 rounded-full hover:bg-blue-50"
+                        aria-label="LinkedIn profile"
+                      >
+                        <Linkedin size={18} />
+                      </a>
+                    )}
+                    {socialLinks.website && (
+                      <a
+                        href={socialLinks.website}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-muted-foreground hover:text-primary transition-colors p-2 rounded-full hover:bg-primary/10"
+                        aria-label="Website"
+                      >
+                        <Globe size={18} />
+                      </a>
+                    )}
+                    {socialLinks.email && (
+                      <a
+                        href={`mailto:${socialLinks.email}`}
+                        className="text-muted-foreground hover:text-primary transition-colors p-2 rounded-full hover:bg-primary/10"
+                        aria-label="Email"
+                      >
+                        <Mail size={18} />
+                      </a>
+                    )}
+                  </div>
+                )}
+              </div>
+              
+              <Button
+                onClick={handleFollow}
+                variant={isFollowing ? "secondary" : "default"}
+                size="sm"
+                className="shrink-0 transition-all duration-200 lg:mt-0"
+              >
+                {isFollowing ? (
+                  <>
+                    <UserCheck size={16} className="mr-2" />
+                    Following
+                  </>
+                ) : (
+                  <>
+                    <UserPlus size={16} className="mr-2" />
+                    Follow
+                  </>
+                )}
+              </Button>
+            </div>
           </div>
         </div>
       </div>
