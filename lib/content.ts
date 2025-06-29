@@ -2,6 +2,12 @@ import type { BlogPost } from '@/types/blog';
 
 const API_URL = 'https://blogform.netlify.app/api/content.json';
 
+interface SearchResult {
+  posts: BlogPost[];
+  hasError: boolean;
+  errorMessage?: string;
+}
+
 async function fetchWithRetry(url: string, options: RequestInit = {}, retries = 3): Promise<Response> {
   for (let i = 0; i < retries; i++) {
     try {
@@ -105,13 +111,16 @@ function calculateSimilarity(str1: string, str2: string): number {
   return matches / Math.max(words1.length, words2.length);
 }
 
-// Enhanced search function with keyword matching and scoring
-export async function searchPosts(query: string): Promise<BlogPost[]> {
+// Enhanced search function with proper error handling
+export async function searchPosts(query: string): Promise<SearchResult> {
   try {
     const posts = await getAllContent();
     
     if (!query.trim()) {
-      return posts;
+      return {
+        posts,
+        hasError: false
+      };
     }
     
     const normalizedQuery = normalizeText(query);
@@ -186,9 +195,22 @@ export async function searchPosts(query: string): Promise<BlogPost[]> {
       .sort((a, b) => b.score - a.score)
       .map(({ post }) => post);
     
-    return filteredPosts;
+    return {
+      posts: filteredPosts,
+      hasError: false
+    };
   } catch (error) {
     console.error('Error searching posts:', error);
-    return [];
+    return {
+      posts: [],
+      hasError: true,
+      errorMessage: error instanceof Error ? error.message : 'Unknown error occurred'
+    };
   }
+}
+
+// Legacy function for backward compatibility - will be removed in future versions
+export async function searchPostsLegacy(query: string): Promise<BlogPost[]> {
+  const result = await searchPosts(query);
+  return result.posts;
 }

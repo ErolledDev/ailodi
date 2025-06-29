@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { Search, Clock } from 'lucide-react';
+import { Search, Clock, AlertCircle, RefreshCw } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import { EnhancedBlogCard } from '@/components/enhanced-blog-card';
 import { searchPosts, getAllContent } from '@/lib/content';
 import type { BlogPost } from '@/types/blog';
@@ -13,30 +14,48 @@ export default function SearchPage() {
   
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const fetchSearchResults = async () => {
+    try {
+      setLoading(true);
+      setHasError(false);
+      setErrorMessage('');
+      
+      if (query) {
+        // Search for posts matching the query
+        const searchResult = await searchPosts(query);
+        
+        if (searchResult.hasError) {
+          setHasError(true);
+          setErrorMessage(searchResult.errorMessage || 'Failed to fetch search results');
+          setPosts([]);
+        } else {
+          setPosts(searchResult.posts);
+        }
+      } else {
+        // If no query, show all posts
+        const allPosts = await getAllContent();
+        setPosts(allPosts);
+      }
+    } catch (error) {
+      console.error('Error in search page:', error);
+      setHasError(true);
+      setErrorMessage('An unexpected error occurred while searching');
+      setPosts([]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    async function fetchSearchResults() {
-      try {
-        setLoading(true);
-        
-        if (query) {
-          // Search for posts matching the query
-          const searchResults = await searchPosts(query);
-          setPosts(searchResults);
-        } else {
-          // If no query, show all posts
-          const allPosts = await getAllContent();
-          setPosts(allPosts);
-        }
-      } catch (error) {
-        console.error('Error fetching search results:', error);
-      } finally {
-        setLoading(false);
-      }
-    }
-
     fetchSearchResults();
   }, [query]);
+
+  const handleRetry = () => {
+    fetchSearchResults();
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-background">
@@ -47,7 +66,9 @@ export default function SearchPage() {
         </h1>
         <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
           {query 
-            ? `Found ${posts.length} ${posts.length === 1 ? 'article' : 'articles'} matching your search`
+            ? hasError 
+              ? 'We encountered an issue while searching. Please try again.'
+              : `Found ${posts.length} ${posts.length === 1 ? 'article' : 'articles'} matching your search`
             : 'Use the search bar above to discover insights on AI, programming, automation, and future science'
           }
         </p>
@@ -67,6 +88,30 @@ export default function SearchPage() {
               </div>
             ))}
           </div>
+        ) : hasError ? (
+          <div className="text-center py-16">
+            <div className="w-24 h-24 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-6">
+              <AlertCircle size={32} className="text-red-500" />
+            </div>
+            <h2 className="text-2xl font-bold text-foreground mb-4">
+              Search Error
+            </h2>
+            <p className="text-lg text-muted-foreground mb-8 max-w-md mx-auto">
+              We're having trouble connecting to our content service. This might be a temporary issue.
+            </p>
+            <div className="space-y-4">
+              <Button
+                onClick={handleRetry}
+                className="bg-primary hover:bg-primary/90 text-primary-foreground"
+              >
+                <RefreshCw size={16} className="mr-2" />
+                Try Again
+              </Button>
+              <p className="text-sm text-muted-foreground">
+                Error details: {errorMessage}
+              </p>
+            </div>
+          </div>
         ) : posts.length === 0 ? (
           <div className="text-center py-16">
             <div className="w-24 h-24 bg-muted rounded-full flex items-center justify-center mx-auto mb-6">
@@ -77,7 +122,7 @@ export default function SearchPage() {
             </h2>
             <p className="text-lg text-muted-foreground mb-8 max-w-md mx-auto">
               {query 
-                ? `We couldn't find any articles matching "${query}". Try different keywords or browse our categories.`
+                ? `We couldn't find any articles matching "${query}". Try different keywords or explore our suggested topics below.`
                 : 'Use the search bar above to find articles on AI, programming, and technology trends.'
               }
             </p>
@@ -91,7 +136,7 @@ export default function SearchPage() {
                       onClick={() => {
                         window.location.href = `/search?q=${encodeURIComponent(suggestion)}`;
                       }}
-                      className="px-3 py-1.5 bg-primary/10 text-primary rounded-full text-sm font-medium hover:bg-primary/20"
+                      className="px-3 py-1.5 bg-primary/10 text-primary rounded-full text-sm font-medium hover:bg-primary/20 transition-colors"
                     >
                       {suggestion}
                     </button>
