@@ -19,31 +19,23 @@ export function SponsorSection() {
       id: 2,
       title: "Premium Developer Tools",
       description: "Boost your productivity with AI-powered coding assistants and advanced development environments.",
-      image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=300&h=200&fit=fit",
+      image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=300&h=200&fit=crop",
       cta: "Try Free",
       badge: "New",
       link: "#"
-    },
-    // Add more ads here if needed to see the grid in action
-    // {
-    //   id: 3,
-    //   title: "Data Science Bootcamp",
-    //   description: "Transform into a data professional with our intensive data science program. Learn Python, R, and more.",
-    //   image: "https://images.unsplash.com/photo-1579783900829-d58f334a1d48?w=300&h=200&fit=crop",
-    //   cta: "Enroll Now",
-    //   badge: "Popular",
-    //   link: "#"
-    // }
+    }
   ];
 
   return (
+    // This wrapper ensures the section itself remains a flexible width,
+    // but the content within respects a max-width, mimicking a sidebar behavior.
     <div className="w-full">
-      <div className="text-center mb-6 sm:mb-8">
-        <h3 className="text-base sm:text-lg font-semibold text-foreground mb-2">Sponsored</h3>
-        <div className="w-8 sm:w-12 h-0.5 bg-primary mx-auto"></div>
-      </div>
+      <div className="max-w-sm mx-auto space-y-4 sm:space-y-6 lg:max-w-none lg:mx-0"> {/* Reintroduced width controls */}
+        <div className="text-center">
+          <h3 className="text-base sm:text-lg font-semibold text-foreground mb-2">Sponsored</h3>
+          <div className="w-8 sm:w-12 h-0.5 bg-primary mx-auto"></div>
+        </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
         {ads.map((ad) => (
           <Card key={ad.id} className="overflow-hidden transition-shadow duration-300 border-border/50 hover:shadow-lg">
             <div className="relative">
@@ -56,7 +48,6 @@ export function SponsorSection() {
                 <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-primary text-primary-foreground">
                   {ad.badge === "Featured" && <Star size={10} />}
                   {ad.badge === "New" && <Zap size={10} />}
-                  {ad.badge === "Popular" && <Brain size={10} />}
                   {ad.badge}
                 </span>
               </div>
@@ -82,9 +73,8 @@ export function SponsorSection() {
           </Card>
         ))}
 
-        {/* Advertise Here Card - Modified for correct stacking on small screens */}
         <Card className="bg-muted/30 border-dashed border-2 border-muted-foreground/20">
-          <CardContent className="p-4 sm:p-6 text-center h-full flex flex-col justify-center"> {/* Added flex-col and justify-center */}
+          <CardContent className="p-4 sm:p-6 text-center">
             <div className="w-10 h-10 sm:w-12 sm:h-12 bg-muted rounded-full flex items-center justify-center mx-auto mb-3">
               <Brain size={18} className="text-muted-foreground" />
             </div>
@@ -92,7 +82,7 @@ export function SponsorSection() {
             <p className="text-xs sm:text-sm text-muted-foreground mb-3">
               Reach our engaged community of AI enthusiasts and tech professionals.
             </p>
-            <Button variant="outline" size="sm" className="text-xs sm:text-sm mt-auto"> {/* Added mt-auto for bottom alignment if space allows */}
+            <Button variant="outline" size="sm" className="text-xs sm:text-sm">
               Contact Us
             </Button>
           </CardContent>
