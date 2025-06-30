@@ -7,17 +7,25 @@ const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech';
 const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME || 'AI Lodi';
 const SITE_DESCRIPTION = process.env.NEXT_PUBLIC_SITE_DESCRIPTION || 'AI Lodi is your ultimate guide to modern technology, AI breakthroughs, programming trends, and future science.';
 
-// Fetch with retry mechanism
+// Fetch with retry mechanism and explicit cache control
 async function fetchWithRetry(url, retries = 3) {
   for (let i = 0; i < retries; i++) {
     try {
-      const response = await fetch(url);
+      // Force fresh data by bypassing any cache
+      const response = await fetch(url, {
+        cache: 'no-store',
+        headers: {
+          'Cache-Control': 'no-cache',
+          'Pragma': 'no-cache'
+        }
+      });
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
+      console.log(`✅ BUILD: Successfully fetched fresh data from API (attempt ${i + 1})`);
       return response;
     } catch (error) {
-      console.warn(`Fetch attempt ${i + 1} failed:`, error.message);
+      console.warn(`⚠️ BUILD: Fetch attempt ${i + 1} failed:`, error.message);
       if (i === retries - 1) throw error;
       await new Promise(resolve => setTimeout(resolve, Math.pow(2, i) * 1000));
     }
@@ -131,7 +139,7 @@ function generateRSSFeed(posts) {
   const rssXml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/">
   <channel>
-    <title>${SITE_NAME} - Your Global Tech Insights &amp; AI Innovation Hub</title>
+    <title>${SITE_NAME} - Your Global Tech Insights & AI Innovation Hub</title>
     <description>${SITE_DESCRIPTION}</description>
     <link>${BASE_URL}</link>
     <atom:link href="${BASE_URL}/feed.xml" rel="self" type="application/rss+xml"/>
@@ -172,12 +180,13 @@ function generateRSSFeed(posts) {
 // Main function
 async function generateMetadata() {
   try {
-    console.log('🔄 Fetching content from API...');
+    console.log('🔄 BUILD: Fetching fresh content from API...');
     const response = await fetchWithRetry(API_URL);
     const data = await response.json();
     const publishedPosts = data.filter(post => post.status === 'published');
     
-    console.log(`📚 Found ${publishedPosts.length} published posts`);
+    console.log(`📚 BUILD: Found ${publishedPosts.length} published posts`);
+    console.log(`📝 BUILD: Latest posts:`, publishedPosts.slice(0, 3).map(p => p.title));
 
     // Ensure public directory exists
     const publicDir = path.join(process.cwd(), 'public');
@@ -186,20 +195,20 @@ async function generateMetadata() {
     }
 
     // Generate and write sitemap
-    console.log('🗺️  Generating sitemap.xml...');
+    console.log('🗺️ BUILD: Generating sitemap.xml...');
     const sitemap = generateSitemap(publishedPosts);
     fs.writeFileSync(path.join(publicDir, 'sitemap.xml'), sitemap, 'utf8');
-    console.log('✅ sitemap.xml generated successfully');
+    console.log('✅ BUILD: sitemap.xml generated successfully');
 
     // Generate and write RSS feed
-    console.log('📡 Generating feed.xml...');
+    console.log('📡 BUILD: Generating feed.xml...');
     const rss = generateRSSFeed(publishedPosts);
     fs.writeFileSync(path.join(publicDir, 'feed.xml'), rss, 'utf8');
-    console.log('✅ feed.xml generated successfully');
+    console.log('✅ BUILD: feed.xml generated successfully');
 
-    console.log('🎉 All metadata files generated successfully!');
+    console.log('🎉 BUILD: All metadata files generated successfully with fresh content!');
   } catch (error) {
-    console.error('❌ Error generating metadata:', error);
+    console.error('❌ BUILD: Error generating metadata:', error);
     process.exit(1);
   }
 }

@@ -4,7 +4,8 @@ export async function GET() {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech';
   
   try {
-    const posts = await getAllContent();
+    // Force fresh data fetch for RSS generation
+    const posts = await getAllContent({ cache: 'no-store' });
     const latestPosts = posts
       .sort((a, b) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime())
       .slice(0, 20); // Latest 20 posts

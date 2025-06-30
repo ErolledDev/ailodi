@@ -46,7 +46,7 @@ export async function getAllContent(options: RequestInit = {}): Promise<BlogPost
       headers: {
         'Accept': 'application/json',
       },
-      ...options, // Allow passing cache options for sitemap generation
+      ...options, // Allow passing cache options for build-time calls
     });
     
     const data = await response.json();
@@ -65,6 +65,7 @@ export async function getContentBySlug(slug: string): Promise<BlogPost | null> {
       headers: {
         'Accept': 'application/json',
       },
+      // For individual post fetching, we can use cache since this is typically called at runtime
     });
     
     const data = await response.json();

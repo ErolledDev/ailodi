@@ -13,12 +13,18 @@ interface PostPageProps {
 
 export async function generateStaticParams() {
   try {
-    const posts = await getAllContent();
-    return posts.map((post) => ({
+    // Force fresh data fetch during build time by bypassing cache
+    const posts = await getAllContent({ cache: 'no-store' });
+    console.log(`🏗️ BUILD: Generating static params for ${posts.length} posts`);
+    
+    const params = posts.map((post) => ({
       slug: post.slug,
     }));
+    
+    console.log('🏗️ BUILD: Generated slugs:', params.map(p => p.slug).slice(0, 5), '...');
+    return params;
   } catch (error) {
-    console.error('Error generating static params:', error);
+    console.error('❌ BUILD: Error generating static params:', error);
     return [];
   }
 }

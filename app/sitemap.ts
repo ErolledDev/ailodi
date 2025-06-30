@@ -61,7 +61,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   let categoryPages: any[] = [];
   
   try {
-    const posts = await getAllContent();
+    // Force fresh data fetch during build time by bypassing cache
+    const posts = await getAllContent({ cache: 'no-store' });
+    console.log(`🗺️ SITEMAP: Generating sitemap for ${posts.length} posts`);
     
     // Blog post URLs
     blogPosts = posts.map((post) => {
@@ -84,7 +86,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       };
     });
 
-    // Category pages - Re-enabled for production
+    // Category pages
     const categories = [...new Set(posts.flatMap(post => post.categories))];
     categoryPages = categories.map((category) => ({
       url: `${baseUrl}/categories?filter=${encodeURIComponent(category)}`,
@@ -93,8 +95,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     }));
 
+    console.log(`🗺️ SITEMAP: Generated ${blogPosts.length} post URLs and ${categoryPages.length} category URLs`);
+
   } catch (error) {
-    console.error('Error fetching posts for sitemap:', error);
+    console.error('❌ SITEMAP: Error fetching posts for sitemap:', error);
   }
 
   return [...staticPages, ...blogPosts, ...categoryPages];
