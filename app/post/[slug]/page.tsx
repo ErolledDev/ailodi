@@ -44,7 +44,7 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
       };
     }
 
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech';
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.xyz';
     const postUrl = `${baseUrl}/post/${post.slug}`;
     const readingTime = Math.ceil(post.content.split(' ').length / 200);
 
@@ -134,7 +134,7 @@ export default async function PostPage({ params }: PostPageProps) {
     notFound();
   }
 
-  const currentUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech'}/post/${post.slug}`;
+  const currentUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.xyz'}/post/${post.slug}`;
 
   return (
     <div className="min-h-screen bg-background">
@@ -169,18 +169,18 @@ export default async function PostPage({ params }: PostPageProps) {
             "@type": "BlogPosting",
             "headline": post.title,
             "description": post.metaDescription,
-            "image": post.featuredImageUrl || `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech'}/og-image.jpg`,
+            "image": post.featuredImageUrl || `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.xyz'}/og-image.jpg`,
             "author": {
               "@type": "Person",
               "name": post.author,
-              "url": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech'}/author/${encodeURIComponent(post.author.toLowerCase().replace(/\s+/g, '-'))}`
+              "url": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.xyz'}/author/${encodeURIComponent(post.author.toLowerCase().replace(/\s+/g, '-'))}`
             },
             "publisher": {
               "@type": "Organization",
               "name": "AI Lodi",
               "logo": {
                 "@type": "ImageObject",
-                "url": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech'}/logo.png`,
+                "url": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.xyz'}/logo.png`,
                 "width": 512,
                 "height": 512
               }
@@ -226,13 +226,13 @@ export default async function PostPage({ params }: PostPageProps) {
                 "@type": "ListItem",
                 "position": 1,
                 "name": "Home",
-                "item": process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech'
+                "item": process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.xyz'
               },
               ...(post.categories[0] ? [{
                 "@type": "ListItem",
                 "position": 2,
                 "name": post.categories[0],
-                "item": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech'}/categories?filter=${encodeURIComponent(post.categories[0])}`
+                "item": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.xyz'}/categories?filter=${encodeURIComponent(post.categories[0])}`
               }] : []),
               {
                 "@type": "ListItem",

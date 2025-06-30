@@ -21,7 +21,7 @@ export function SEOHead({
   description = 'AI Lodi is your ultimate guide to modern technology, AI breakthroughs, programming trends, and future science.',
   keywords = [],
   image = '/og-image.jpg',
-  url = 'https://ailodi.tech',
+  url = 'https://ailodi.xyz',
   type = 'website',
   publishedTime,
   modifiedTime,
@@ -29,7 +29,7 @@ export function SEOHead({
   section,
   tags = [],
 }: SEOHeadProps) {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.xyz';
   const fullImageUrl = image.startsWith('http') ? image : `${baseUrl}${image}`;
   const fullUrl = url.startsWith('http') ? url : `${baseUrl}${url}`;
 

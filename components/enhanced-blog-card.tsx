@@ -25,7 +25,7 @@ export function EnhancedBlogCard({ post, index = 0 }: EnhancedBlogCardProps) {
   const [isLiked, setIsLiked] = useState(false);
 
   const readingTime = Math.ceil(post.content.split(' ').length / 200);
-  const postUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech'}/post/${post.slug}`;
+  const postUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.xyz'}/post/${post.slug}`;
 
   const handleBookmark = (e: React.MouseEvent) => {
     e.preventDefault();

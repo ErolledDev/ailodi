@@ -3,7 +3,7 @@ const path = require('path');
 
 // Configuration
 const API_URL = 'https://blogform.netlify.app/api/content.json';
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech';
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.xyz';
 const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME || 'AI Lodi';
 const SITE_DESCRIPTION = process.env.NEXT_PUBLIC_SITE_DESCRIPTION || 'AI Lodi is your ultimate guide to modern technology, AI breakthroughs, programming trends, and future science.';
 
@@ -144,8 +144,8 @@ function generateRSSFeed(posts) {
     <link>${BASE_URL}</link>
     <atom:link href="${BASE_URL}/feed.xml" rel="self" type="application/rss+xml"/>
     <language>en-US</language>
-    <managingEditor>hello@ailodi.tech (AI Lodi Team)</managingEditor>
-    <webMaster>hello@ailodi.tech (AI Lodi Team)</webMaster>
+    <managingEditor>hello@ailodi.xyz (AI Lodi Team)</managingEditor>
+    <webMaster>hello@ailodi.xyz (AI Lodi Team)</webMaster>
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
     <category>Technology</category>
     <category>Artificial Intelligence</category>

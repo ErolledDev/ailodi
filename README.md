@@ -56,17 +56,17 @@ Edit `.env.local` with your configuration:
 NEXT_PUBLIC_API_URL=https://blogform.netlify.app/api/content.json
 
 # Site Configuration
-NEXT_PUBLIC_SITE_URL=https://ailodi.tech
+NEXT_PUBLIC_SITE_URL=https://ailodi.xyz
 NEXT_PUBLIC_SITE_NAME=AI Lodi
 NEXT_PUBLIC_SITE_DESCRIPTION=AI Lodi is your ultimate guide to modern technology, AI breakthroughs, programming trends, and future science.
 
 # Analytics (optional)
 NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
-NEXT_PUBLIC_PLAUSIBLE_DOMAIN=ailodi.tech
+NEXT_PUBLIC_PLAUSIBLE_DOMAIN=ailodi.xyz
 
 # Contact Form (optional)
-CONTACT_EMAIL=hello@ailodi.tech
-COLLABORATE_EMAIL=collaborate@ailodi.tech
+CONTACT_EMAIL=hello@ailodi.xyz
+COLLABORATE_EMAIL=collaborate@ailodi.xyz
 ```
 
 ### 3. Development Server

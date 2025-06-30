@@ -12,7 +12,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.xyz'),
   title: {
     default: 'AI Lodi - Your Global Tech Insights & AI Innovation Hub | Latest AI Trends 2025',
     template: '%s | AI Lodi - Tech Insights & AI Innovation'
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     'AR VR',
     'tech careers'
   ],
-  authors: [{ name: 'AI Lodi Team', url: 'https://ailodi.tech/about' }],
+  authors: [{ name: 'AI Lodi Team', url: 'https://ailodi.xyz/about' }],
   creator: 'AI Lodi',
   publisher: 'AI Lodi',
   category: 'Technology',
@@ -62,7 +62,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech',
+    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.xyz',
     title: 'AI Lodi - Your Global Tech Insights & AI Innovation Hub | Latest AI Trends 2025',
     description: 'AI Lodi is your ultimate guide to modern technology, AI breakthroughs, programming trends, and future science. Get in-depth analysis, tutorials, and insights on cutting-edge tech innovations.',
     siteName: 'AI Lodi',
@@ -113,7 +113,7 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech',
+    canonical: process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.xyz',
     languages: {
       'en-US': '/en-US',
       'x-default': '/',
@@ -174,10 +174,10 @@ export default function RootLayout({
               "@type": "Organization",
               "name": "AI Lodi",
               "alternateName": "AI Lodi Tech",
-              "url": process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech',
+              "url": process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.xyz',
               "logo": {
                 "@type": "ImageObject",
-                "url": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech'}/logo.png`,
+                "url": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.xyz'}/logo.png`,
                 "width": 512,
                 "height": 512
               },
@@ -192,7 +192,7 @@ export default function RootLayout({
               "contactPoint": {
                 "@type": "ContactPoint",
                 "contactType": "customer service",
-                "email": "hello@ailodi.tech",
+                "email": "hello@ailodi.xyz",
                 "availableLanguage": "English"
               },
               "address": {
@@ -223,7 +223,7 @@ export default function RootLayout({
               "@type": "WebSite",
               "name": "AI Lodi",
               "alternateName": "AI Lodi Tech Insights",
-              "url": process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech',
+              "url": process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.xyz',
               "description": "AI Lodi is your ultimate guide to modern technology, AI breakthroughs, programming trends, and future science. Get in-depth analysis, tutorials, and insights on cutting-edge tech innovations.",
               "inLanguage": "en-US",
               "isAccessibleForFree": true,
@@ -232,14 +232,14 @@ export default function RootLayout({
                 "name": "AI Lodi",
                 "logo": {
                   "@type": "ImageObject",
-                  "url": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech'}/logo.png`
+                  "url": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.xyz'}/logo.png`
                 }
               },
               "potentialAction": {
                 "@type": "SearchAction",
                 "target": {
                   "@type": "EntryPoint",
-                  "urlTemplate": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech'}/search?q={search_term_string}`
+                  "urlTemplate": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.xyz'}/search?q={search_term_string}`
                 },
                 "query-input": "required name=search_term_string"
               },
@@ -268,19 +268,19 @@ export default function RootLayout({
                   "@type": "ListItem",
                   "position": 1,
                   "name": "Home",
-                  "item": process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech'
+                  "item": process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.xyz'
                 },
                 {
                   "@type": "ListItem",
                   "position": 2,
                   "name": "AI Insights",
-                  "item": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech'}/categories?filter=AI`
+                  "item": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.xyz'}/categories?filter=AI`
                 },
                 {
                   "@type": "ListItem",
                   "position": 3,
                   "name": "Programming",
-                  "item": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech'}/categories?filter=Programming`
+                  "item": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.xyz'}/categories?filter=Programming`
                 }
               ]
             })

@@ -1,7 +1,7 @@
 import { getAllContent } from '@/lib/content';
 
 export async function GET() {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.xyz';
   
   try {
     // Force fresh data fetch for RSS generation
@@ -18,8 +18,8 @@ export async function GET() {
     <link>${baseUrl}</link>
     <atom:link href="${baseUrl}/feed.xml" rel="self" type="application/rss+xml"/>
     <language>en-US</language>
-    <managingEditor>hello@ailodi.tech (AI Lodi Team)</managingEditor>
-    <webMaster>hello@ailodi.tech (AI Lodi Team)</webMaster>
+    <managingEditor>hello@ailodi.xyz (AI Lodi Team)</managingEditor>
+    <webMaster>hello@ailodi.xyz (AI Lodi Team)</webMaster>
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
     <category>Technology</category>
     <category>Artificial Intelligence</category>

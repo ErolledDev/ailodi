@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next';
 import { getAllContent } from '@/lib/content';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.tech';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.xyz';
   
   // Static pages with enhanced priority and frequency
   const staticPages = [

@@ -3,7 +3,7 @@
 ## 🚀 Project Overview
 
 **Project Name:** AI Lodi - Your Global Tech Insights & AI Innovation Hub  
-**Live Demo:** [https://ailodi.tech](https://ailodi.tech)  
+**Live Demo:** [https://ailodi.xyz](https://ailodi.xyz)  
 **Built with:** Bolt.new + Next.js 14 + TypeScript + Tailwind CSS  
 **Deployment:** Cloudflare Workers/Pages (Static Export)
 
@@ -266,8 +266,8 @@ The project embodies a **meta-level AI application** - using AI to build a platf
 
 ## 📞 Contact & Links
 
-**Live Demo:** [https://ailodi.tech](https://ailodi.tech)  
-**Email:** hello@ailodi.tech  
+**Live Demo:** [https://ailodi.xyz](https://ailodi.xyz)  
+**Email:** hello@ailodi.xyz  
 **Built with Bolt.new Badge:** ✅ Prominently displayed  
 **Deployment:** Cloudflare Workers (Production Ready)
 
