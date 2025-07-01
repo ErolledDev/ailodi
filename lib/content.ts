@@ -15,29 +15,17 @@ async function fetchWithRetry(
 ): Promise<Response> {
   for (let i = 0; i < retries; i++) {
     try {
-      const response = await fetch(url, {
-        ...options,
-        signal: AbortSignal.timeout(10000), // 10 second timeout
-      });
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      
+      // Remove cache: 'no-store' from options if present
+      const { cache, ...rest } = options;
+      const response = await fetch(url, rest);
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
       return response;
-    } catch (error) {
-      console.warn(`Fetch attempt ${i + 1} failed:`, error);
-      
-      if (i === retries - 1) {
-        throw error;
-      }
-      
-      // Wait before retrying (exponential backoff)
-      await new Promise(resolve => setTimeout(resolve, Math.pow(2, i) * 1000));
+    } catch (err) {
+      if (i === retries - 1) throw err;
+      await new Promise(res => setTimeout(res, 500));
     }
   }
-  
-  throw new Error('All fetch attempts failed');
+  throw new Error('Max retries reached');
 }
 
 export async function getAllContent(options: RequestInit = {}): Promise<BlogPost[]> {
