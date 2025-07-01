@@ -1,3 +1,5 @@
+![Ailodi Screenshot](https://i.ibb.co/TSDTQ80/ailodi.jpg)
+
 # AI Lodi - Bolt.new Hackathon Entry
 
 ## 🚀 Project Overview
