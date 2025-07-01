@@ -8,29 +8,20 @@ const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME || 'AI Lodi';
 const SITE_DESCRIPTION = process.env.NEXT_PUBLIC_SITE_DESCRIPTION || 'AI Lodi is your ultimate guide to modern technology, AI breakthroughs, programming trends, and future science.';
 
 // Fetch with retry mechanism and explicit cache control
-async function fetchWithRetry(url, retries = 3) {
+async function fetchWithRetry(url, options = {}, retries = 3) {
   for (let i = 0; i < retries; i++) {
     try {
-      // Force fresh data by bypassing any cache with explicit headers
-      const response = await fetch(url, {
-        cache: 'no-store',
-        headers: {
-          'Cache-Control': 'no-cache, no-store, must-revalidate',
-          'Pragma': 'no-cache',
-          'Expires': '0'
-        }
-      });
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      console.log(`✅ BUILD: Successfully fetched fresh data from API (attempt ${i + 1})`);
+      // Remove cache: 'no-store' from options if present
+      const { cache, ...rest } = options;
+      const response = await fetch(url, rest);
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
       return response;
-    } catch (error) {
-      console.warn(`⚠️ BUILD: Fetch attempt ${i + 1} failed:`, error.message);
-      if (i === retries - 1) throw error;
-      await new Promise(resolve => setTimeout(resolve, Math.pow(2, i) * 1000));
+    } catch (err) {
+      if (i === retries - 1) throw err;
+      await new Promise(res => setTimeout(res, 500));
     }
   }
+  throw new Error('Max retries reached');
 }
 
 // Generate sitemap.xml
