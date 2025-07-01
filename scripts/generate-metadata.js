@@ -11,12 +11,13 @@ const SITE_DESCRIPTION = process.env.NEXT_PUBLIC_SITE_DESCRIPTION || 'AI Lodi is
 async function fetchWithRetry(url, retries = 3) {
   for (let i = 0; i < retries; i++) {
     try {
-      // Force fresh data by bypassing any cache
+      // Force fresh data by bypassing any cache with explicit headers
       const response = await fetch(url, {
         cache: 'no-store',
         headers: {
-          'Cache-Control': 'no-cache',
-          'Pragma': 'no-cache'
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0'
         }
       });
       if (!response.ok) {
@@ -180,7 +181,7 @@ function generateRSSFeed(posts) {
 // Main function
 async function generateMetadata() {
   try {
-    console.log('🔄 BUILD: Fetching fresh content from API...');
+    console.log('🔄 BUILD: Fetching fresh content from API with explicit cache bypass...');
     const response = await fetchWithRetry(API_URL);
     const data = await response.json();
     const publishedPosts = data.filter(post => post.status === 'published');
@@ -195,13 +196,13 @@ async function generateMetadata() {
     }
 
     // Generate and write sitemap
-    console.log('🗺️ BUILD: Generating sitemap.xml...');
+    console.log('🗺️ BUILD: Generating sitemap.xml with fresh content...');
     const sitemap = generateSitemap(publishedPosts);
     fs.writeFileSync(path.join(publicDir, 'sitemap.xml'), sitemap, 'utf8');
     console.log('✅ BUILD: sitemap.xml generated successfully');
 
     // Generate and write RSS feed
-    console.log('📡 BUILD: Generating feed.xml...');
+    console.log('📡 BUILD: Generating feed.xml with fresh content...');
     const rss = generateRSSFeed(publishedPosts);
     fs.writeFileSync(path.join(publicDir, 'feed.xml'), rss, 'utf8');
     console.log('✅ BUILD: feed.xml generated successfully');

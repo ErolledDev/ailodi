@@ -4,11 +4,15 @@ export async function GET() {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.xyz';
   
   try {
-    // Remove cache: 'no-store' to allow static generation
-    const posts = await getAllContent();
+    console.log('📡 BUILD: Generating RSS feed with fresh content...');
+    
+    // Force fresh content fetch for RSS feed generation
+    const posts = await getAllContent({ cache: 'no-store' });
     const latestPosts = posts
       .sort((a, b) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime())
       .slice(0, 20); // Latest 20 posts
+
+    console.log(`📡 BUILD: RSS feed generated with ${latestPosts.length} latest posts`);
 
     const rssXml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/">
@@ -55,7 +59,7 @@ export async function GET() {
       },
     });
   } catch (error) {
-    console.error('Error generating RSS feed:', error);
+    console.error('❌ BUILD: Error generating RSS feed:', error);
     return new Response('Error generating RSS feed', { status: 500 });
   }
 }

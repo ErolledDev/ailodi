@@ -42,40 +42,56 @@ async function fetchWithRetry(
 
 export async function getAllContent(options: RequestInit = {}): Promise<BlogPost[]> {
   try {
-    // For static export compatibility, use default caching behavior
-    // Remove any cache: 'no-store' options that would cause DYNAMIC_SERVER_USAGE
-    const cleanOptions = { ...options };
-    delete cleanOptions.cache;
+    console.log('🔄 BUILD: Fetching fresh content from API...');
     
+    // Force fresh data fetch by explicitly setting cache: 'no-store'
+    // This ensures we always get the latest content during build time
     const response = await fetchWithRetry(API_URL, {
       headers: {
         'Accept': 'application/json',
+        'Cache-Control': 'no-cache',
+        'Pragma': 'no-cache',
       },
-      ...cleanOptions,
+      cache: 'no-store', // Force fresh fetch every time
+      ...options,
     });
     
     const data = await response.json();
     const publishedPosts = data.filter((post: BlogPost) => post.status === 'published');
     
+    console.log(`📚 BUILD: Successfully fetched ${publishedPosts.length} published posts`);
+    console.log(`📝 BUILD: Latest posts:`, publishedPosts.slice(0, 3).map(p => p.title));
+    
     return publishedPosts;
   } catch (error) {
-    console.error('Error fetching content:', error);
+    console.error('❌ BUILD: Error fetching content:', error);
     return [];
   }
 }
 
 export async function getContentBySlug(slug: string): Promise<BlogPost | null> {
   try {
+    console.log(`🔍 BUILD: Fetching content for slug: ${slug}`);
+    
+    // Force fresh data fetch for individual posts
     const response = await fetchWithRetry(API_URL, {
       headers: {
         'Accept': 'application/json',
+        'Cache-Control': 'no-cache',
+        'Pragma': 'no-cache',
       },
-      // For individual post fetching, we can use cache since this is typically called at runtime
+      cache: 'no-store', // Force fresh fetch every time
     });
     
     const data = await response.json();
     const publishedPosts = data.filter((post: BlogPost) => post.status === 'published');
     const post = publishedPosts.find((p: BlogPost) => p.slug === slug);
+    
+    if (post) {
+      console.log(`✅ BUILD: Found post: ${post.title}`);
+    } else {
+      console.log(`❌ BUILD: Post not found for slug: ${slug}`);
+    }
     
     return post || null;
   } catch (error) {
@@ -86,7 +102,8 @@ export async function getContentBySlug(slug: string): Promise<BlogPost | null> {
 
 export async function getPostsByCategory(category: string): Promise<BlogPost[]> {
   try {
-    const posts = await getAllContent();
+    // Force fresh data fetch for category filtering
+    const posts = await getAllContent({ cache: 'no-store' });
     return posts.filter(post => post.categories.includes(category));
   } catch (error) {
     console.error('Error fetching posts by category:', error);
@@ -125,7 +142,8 @@ export async function searchPosts(query: string): Promise<SearchResult> {
   console.log('🔍 SEARCH DEBUG: Starting search with query:', query);
   
   try {
-    const posts = await getAllContent();
+    // Force fresh data fetch for search
+    const posts = await getAllContent({ cache: 'no-store' });
     console.log('📚 SEARCH DEBUG: Fetched posts from API:', posts.length, 'posts');
     
     // Log first few post titles for verification

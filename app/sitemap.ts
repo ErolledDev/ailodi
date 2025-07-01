@@ -61,9 +61,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   let categoryPages: any[] = [];
   
   try {
-    // Remove cache: 'no-store' to allow static generation
-    const posts = await getAllContent();
-    console.log(`🗺️ SITEMAP: Generating sitemap for ${posts.length} posts`);
+    console.log('🗺️ BUILD: Generating sitemap with fresh content...');
+    
+    // Force fresh content fetch for sitemap generation
+    const posts = await getAllContent({ cache: 'no-store' });
+    console.log(`🗺️ BUILD: Generating sitemap for ${posts.length} posts`);
     
     // Blog post URLs
     blogPosts = posts.map((post) => {
@@ -95,10 +97,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     }));
 
-    console.log(`🗺️ SITEMAP: Generated ${blogPosts.length} post URLs and ${categoryPages.length} category URLs`);
+    console.log(`🗺️ BUILD: Generated ${blogPosts.length} post URLs and ${categoryPages.length} category URLs`);
 
   } catch (error) {
-    console.error('❌ SITEMAP: Error fetching posts for sitemap:', error);
+    console.error('❌ BUILD: Error fetching posts for sitemap:', error);
   }
 
   return [...staticPages, ...blogPosts, ...categoryPages];
