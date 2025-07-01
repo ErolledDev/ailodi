@@ -23,18 +23,7 @@ export function GoogleAnalytics({ gaId }: GoogleAnalyticsProps) {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    if (!gaId) {
-      console.warn('⚠️ GA: No GA ID provided');
-      return;
-    }
-
-    if (typeof window === 'undefined') {
-      console.warn('⚠️ GA: Window not available (SSR)');
-      return;
-    }
-
-    if (!window.gtag) {
-      console.warn('⚠️ GA: gtag function not available');
+    if (!gaId || typeof window === 'undefined' || !window.gtag) {
       return;
     }
 
@@ -45,20 +34,7 @@ export function GoogleAnalytics({ gaId }: GoogleAnalyticsProps) {
       page_path: url,
       page_title: document.title,
     });
-
-    console.log('📊 GA: Page view tracked:', url);
   }, [pathname, searchParams, gaId]);
-
-  // Debug effect to check GA status
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      console.log('🔍 GA Component Debug:');
-      console.log('- GA ID:', gaId);
-      console.log('- gtag available:', typeof window.gtag);
-      console.log('- dataLayer available:', typeof window.dataLayer);
-      console.log('- Current pathname:', pathname);
-    }
-  }, [gaId, pathname]);
 
   return null;
 }

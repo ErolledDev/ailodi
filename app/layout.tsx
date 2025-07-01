@@ -203,23 +203,11 @@ export default function RootLayout({
                     allow_google_signals: false,
                     allow_ad_personalization_signals: false
                   });
-                  console.log('📊 Google Analytics initialized with ID: ${gaId}');
                 `,
               }}
             />
           </>
         )}
-        
-        {/* Debug: Log GA ID availability */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              console.log('🔍 GA Debug Info:');
-              console.log('GA ID from env:', '${gaId || 'NOT_SET'}');
-              console.log('GA Scripts included:', ${gaId ? 'true' : 'false'});
-            `,
-          }}
-        />
         
         {/* Enhanced Structured Data for Organization */}
         <script
