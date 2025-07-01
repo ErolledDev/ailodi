@@ -61,8 +61,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   let categoryPages: any[] = [];
   
   try {
-    // Force fresh data fetch during build time by bypassing cache
-    const posts = await getAllContent({ cache: 'no-store' });
+    // Remove cache: 'no-store' to allow static generation
+    const posts = await getAllContent();
     console.log(`🗺️ SITEMAP: Generating sitemap for ${posts.length} posts`);
     
     // Blog post URLs

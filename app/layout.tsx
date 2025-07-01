@@ -1,6 +1,7 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { Inter, Playfair_Display } from 'next/font/google';
+import { Suspense } from 'react';
 import { Navigation } from '@/components/navigation';
 import { Footer } from '@/components/footer';
 import { PageProgressBar } from '@/components/page-progress-bar';
@@ -145,6 +146,14 @@ export const metadata: Metadata = {
     'msapplication-config': '/browserconfig.xml',
   },
 };
+
+function GoogleAnalyticsWrapper({ gaId }: { gaId: string }) {
+  return (
+    <Suspense fallback={null}>
+      <GoogleAnalytics gaId={gaId} />
+    </Suspense>
+  );
+}
 
 export default function RootLayout({
   children,
@@ -344,8 +353,8 @@ export default function RootLayout({
           <Footer />
         </div>
         
-        {/* Google Analytics Page View Tracking Component */}
-        {gaId && <GoogleAnalytics gaId={gaId} />}
+        {/* Google Analytics Page View Tracking Component - Wrapped in Suspense */}
+        {gaId && <GoogleAnalyticsWrapper gaId={gaId} />}
       </body>
     </html>
   );

@@ -42,11 +42,16 @@ async function fetchWithRetry(
 
 export async function getAllContent(options: RequestInit = {}): Promise<BlogPost[]> {
   try {
+    // For static export compatibility, use default caching behavior
+    // Remove any cache: 'no-store' options that would cause DYNAMIC_SERVER_USAGE
+    const cleanOptions = { ...options };
+    delete cleanOptions.cache;
+    
     const response = await fetchWithRetry(API_URL, {
       headers: {
         'Accept': 'application/json',
       },
-      ...options, // Allow passing cache options for build-time calls
+      ...cleanOptions,
     });
     
     const data = await response.json();

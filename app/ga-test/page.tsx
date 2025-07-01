@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 
-export default function GATestPage() {
+function GATestContent() {
   const [gaStatus, setGaStatus] = useState<{
     gaId: string | null;
     gtagAvailable: boolean;
@@ -113,5 +113,26 @@ export default function GATestPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+function GATestLoading() {
+  return (
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h1 className="text-3xl font-bold mb-8">Google Analytics Test Page</h1>
+      <div className="animate-pulse space-y-6">
+        <div className="bg-muted rounded-lg h-32"></div>
+        <div className="bg-muted rounded-lg h-24"></div>
+        <div className="bg-muted rounded-lg h-40"></div>
+      </div>
+    </div>
+  );
+}
+
+export default function GATestPage() {
+  return (
+    <Suspense fallback={<GATestLoading />}>
+      <GATestContent />
+    </Suspense>
   );
 }
