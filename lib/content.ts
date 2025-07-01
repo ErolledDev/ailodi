@@ -60,7 +60,7 @@ export async function getAllContent(options: RequestInit = {}): Promise<BlogPost
     const publishedPosts = data.filter((post: BlogPost) => post.status === 'published');
     
     console.log(`📚 BUILD: Successfully fetched ${publishedPosts.length} published posts`);
-    console.log(`📝 BUILD: Latest posts:`, publishedPosts.slice(0, 3).map(p => p.title));
+    console.log(`📝 BUILD: Latest posts:`, publishedPosts.slice(0, 3).map((p: BlogPost) => p.title));
     
     return publishedPosts;
   } catch (error) {
@@ -148,7 +148,7 @@ export async function searchPosts(query: string): Promise<SearchResult> {
     
     // Log first few post titles for verification
     if (posts.length > 0) {
-      console.log('📝 SEARCH DEBUG: Sample post titles:', posts.slice(0, 3).map(p => p.title));
+      console.log('📝 SEARCH DEBUG: Sample post titles:', posts.slice(0, 3).map((p: BlogPost) => p.title));
     }
     
     if (!query.trim()) {
