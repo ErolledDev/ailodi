@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { RefreshCw, Filter } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -13,58 +13,31 @@ import {
 import { EnhancedBlogCard } from '@/components/enhanced-blog-card';
 import type { BlogPost } from '@/types/blog';
 
-const INITIAL_DISPLAY_COUNT = 5;
 const POSTS_PER_LOAD = 5;
 
-export function BlogPosts() {
-  const [allPosts, setAllPosts] = useState<BlogPost[]>([]);
-  const [displayedPosts, setDisplayedPosts] = useState<BlogPost[]>([]);
-  const [loading, setLoading] = useState(true);
+interface BlogPostsProps {
+  initialPosts: BlogPost[];
+  allPosts: BlogPost[];
+}
+
+export function BlogPosts({ initialPosts, allPosts }: BlogPostsProps) {
+  const [displayedPosts, setDisplayedPosts] = useState<BlogPost[]>(initialPosts);
   const [loadingMore, setLoadingMore] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [categories, setCategories] = useState<string[]>([]);
-  const [filteredAllPosts, setFilteredAllPosts] = useState<BlogPost[]>([]);
+  
+  // Extract unique categories from all posts
+  const categories = Array.from(new Set(allPosts.flatMap(post => post.categories)));
 
-  useEffect(() => {
-    async function fetchPosts() {
-      try {
-        const response = await fetch('https://blogform.netlify.app/api/content.json');
-        const data = await response.json();
-        const publishedPosts = data
-          .filter((post: BlogPost) => post.status === 'published')
-          .sort((a: BlogPost, b: BlogPost) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime());
-        
-        setAllPosts(publishedPosts);
-        setFilteredAllPosts(publishedPosts);
-        setDisplayedPosts(publishedPosts.slice(0, INITIAL_DISPLAY_COUNT));
-        
-        // Extract unique categories
-        const allCategories: string[] = publishedPosts.flatMap((post: BlogPost) => post.categories);
-        const uniqueCategories: string[] = Array.from(new Set(allCategories));
-        setCategories(uniqueCategories);
-      } catch (error) {
-        console.error('Error fetching posts:', error);
-      } finally {
-        setLoading(false);
-      }
+  const handleCategoryChange = (category: string) => {
+    setSelectedCategory(category);
+    
+    let filteredPosts = allPosts;
+    if (category !== 'all') {
+      filteredPosts = allPosts.filter(post => post.categories.includes(category));
     }
-
-    fetchPosts();
-  }, []);
-
-  useEffect(() => {
-    let filtered = allPosts;
-
-    // Filter by category
-    if (selectedCategory !== 'all') {
-      filtered = filtered.filter(post =>
-        post.categories.includes(selectedCategory)
-      );
-    }
-
-    setFilteredAllPosts(filtered);
-    setDisplayedPosts(filtered.slice(0, INITIAL_DISPLAY_COUNT));
-  }, [allPosts, selectedCategory]);
+    
+    setDisplayedPosts(filteredPosts.slice(0, POSTS_PER_LOAD));
+  };
 
   const loadMore = async () => {
     setLoadingMore(true);
@@ -72,39 +45,23 @@ export function BlogPosts() {
     // Simulate loading delay for better UX
     await new Promise(resolve => setTimeout(resolve, 500));
     
+    let filteredPosts = allPosts;
+    if (selectedCategory !== 'all') {
+      filteredPosts = allPosts.filter(post => post.categories.includes(selectedCategory));
+    }
+    
     const currentCount = displayedPosts.length;
-    const nextPosts = filteredAllPosts.slice(currentCount, currentCount + POSTS_PER_LOAD);
+    const nextPosts = filteredPosts.slice(currentCount, currentCount + POSTS_PER_LOAD);
     setDisplayedPosts(prev => [...prev, ...nextPosts]);
     setLoadingMore(false);
   };
 
-  const hasMorePosts = displayedPosts.length < filteredAllPosts.length;
+  const getFilteredPostsCount = () => {
+    if (selectedCategory === 'all') return allPosts.length;
+    return allPosts.filter(post => post.categories.includes(selectedCategory)).length;
+  };
 
-  if (loading) {
-    return (
-      <section className="py-16 bg-white border-t border-gray-100">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">All Articles</h2>
-            <p className="text-lg text-muted-foreground">
-              Explore our complete collection of tech insights and analysis.
-            </p>
-          </div>
-          <div className="space-y-8">
-            {[1, 2, 3, 4, 5].map((i) => (
-              <div key={i} className="bg-card border border-border/50 rounded-xl p-6 animate-pulse">
-                <div className="space-y-4">
-                  <div className="h-4 bg-muted rounded mb-4 w-1/4" />
-                  <div className="h-8 bg-muted rounded mb-2" />
-                  <div className="h-4 bg-muted rounded w-3/4" />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-    );
-  }
+  const hasMorePosts = displayedPosts.length < getFilteredPostsCount();
 
   return (
     <section className="py-16 bg-white border-t border-gray-100">
@@ -119,7 +76,7 @@ export function BlogPosts() {
 
         {/* Category Filter */}
         <div className="flex justify-center mb-12">
-          <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+          <Select value={selectedCategory} onValueChange={handleCategoryChange}>
             <SelectTrigger className="w-full md:w-48 border-gray-200 focus:ring-gray-300 focus:border-gray-300">
               <Filter size={16} className="mr-2" />
               <SelectValue placeholder="Category" />
@@ -167,14 +124,14 @@ export function BlogPosts() {
                     <>
                       Load More Articles
                       <span className="ml-2 text-sm opacity-80">
-                        ({filteredAllPosts.length - displayedPosts.length} remaining)
+                        ({getFilteredPostsCount() - displayedPosts.length} remaining)
                       </span>
                     </>
                   )}
                 </Button>
                 
                 <p className="text-sm text-muted-foreground mt-4">
-                  Showing {displayedPosts.length} of {filteredAllPosts.length} articles
+                  Showing {displayedPosts.length} of {getFilteredPostsCount()} articles
                 </p>
               </div>
             )}

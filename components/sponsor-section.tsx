@@ -10,7 +10,7 @@ export function SponsorSection() {
       id: 1,
       title: "AI & Machine Learning Mastery",
       description: "Master cutting-edge AI technologies with our comprehensive course. From neural networks to LLMs.",
-      image: "https://www.investopedia.com/thmb/lVM0xLRchf-SU6kjEPV_EucULX0=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/GettyImages-652553849-8c6576b265644ebdb68e47064d4fb276.jpg",
+      image: "https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=400&h=200&fit=crop",
       cta: "Start Learning",
       badge: "Featured",
       link: "#"
@@ -19,7 +19,7 @@ export function SponsorSection() {
       id: 2,
       title: "Premium Developer Tools",
       description: "Boost your productivity with AI-powered coding assistants and advanced development environments.",
-      image: "https://images.pexels.com/photos/32438148/pexels-photo-32438148.jpeg",
+      image: "https://images.pexels.com/photos/574071/pexels-photo-574071.jpeg?auto=compress&cs=tinysrgb&w=400&h=200&fit=crop",
       cta: "Try Free",
       badge: "New",
       link: "#"
@@ -45,6 +45,9 @@ export function SponsorSection() {
                 src={ad.image}
                 alt={ad.title}
                 className="w-full h-24 sm:h-32 object-cover"
+                loading="lazy"
+                width="400"
+                height="200"
               />
               <div className="absolute top-2 left-2">
                 <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-primary text-primary-foreground">

@@ -23,6 +23,7 @@ const nextConfig = {
     domains: [
       'firebasestorage.googleapis.com',
       'images.unsplash.com',
+      'images.pexels.com',
       'cdn.jsdelivr.net',
       'via.placeholder.com',
       'api.dicebear.com',
