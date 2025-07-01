@@ -6,7 +6,7 @@ A modern, professional blog built with Next.js 14, designed for optimal SEO perf
 
 ## 🚀 Features
 
-- **Modern Design**: Clean, professional interface inspired by Medium with enhanced typography
+- **Modern Design**: Clean, professional interface inspired by Medium with enhanced typography.
 - **Dynamic Content**: Fetches content from external API without requiring redeployment
 - **SEO Optimized**: Comprehensive SEO with meta tags, Open Graph, Twitter Cards, structured data, and RSS feeds
 - **Responsive Design**: Mobile-first approach that works flawlessly on all devices
