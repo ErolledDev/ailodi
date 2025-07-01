@@ -4,6 +4,7 @@ import { Inter, Playfair_Display } from 'next/font/google';
 import { Navigation } from '@/components/navigation';
 import { Footer } from '@/components/footer';
 import { PageProgressBar } from '@/components/page-progress-bar';
+import { GoogleAnalytics } from '@/components/google-analytics';
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -113,7 +114,7 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    google: 'your-google-verification-code',
+    google: process.env.NEXT_PUBLIC_GA_ID || 'your-google-verification-code',
     yandex: 'your-yandex-verification-code',
     yahoo: 'your-yahoo-verification-code',
     other: {
@@ -150,6 +151,8 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const gaId = process.env.NEXT_PUBLIC_GA_ID;
+
   return (
     <html lang="en" suppressHydrationWarning className={`${inter.variable} ${playfairDisplay.variable}`}>
       <head>
@@ -169,6 +172,33 @@ export default function RootLayout({
         
         {/* DNS prefetch for performance */}
         <link rel="dns-prefetch" href="https://blogform.netlify.app" />
+        
+        {/* Google Analytics */}
+        {gaId && (
+          <>
+            <script
+              async
+              src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
+            />
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+                  gtag('config', '${gaId}', {
+                    page_path: window.location.pathname,
+                    send_page_view: true,
+                    anonymize_ip: true,
+                    allow_google_signals: false,
+                    allow_ad_personalization_signals: false
+                  });
+                  console.log('📊 Google Analytics initialized with ID: ${gaId}');
+                `,
+              }}
+            />
+          </>
+        )}
         
         {/* Enhanced Structured Data for Organization */}
         <script
@@ -301,6 +331,9 @@ export default function RootLayout({
           </main>
           <Footer />
         </div>
+        
+        {/* Google Analytics Page View Tracking */}
+        {gaId && <GoogleAnalytics gaId={gaId} />}
       </body>
     </html>
   );
