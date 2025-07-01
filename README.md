@@ -1,3 +1,5 @@
+![Ailodi Screenshot](https://i.ibb.co/TSDTQ80/ailodi.jpg)
+
 # AI Lodi - Professional Next.js Tech Blog
 
 A modern, professional blog built with Next.js 14, designed for optimal SEO performance and user experience. Features a clean, Medium-inspired design with dynamic content fetching, comprehensive SEO optimization, and production-ready deployment configuration for Cloudflare Workers.
