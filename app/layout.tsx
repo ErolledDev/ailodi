@@ -114,7 +114,7 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    google: process.env.NEXT_PUBLIC_GA_ID || 'your-google-verification-code',
+    google: process.env.NEXT_PUBLIC_GA_ID || 'G-XQZ074X48F',
     yandex: 'your-yandex-verification-code',
     yahoo: 'your-yahoo-verification-code',
     other: {
@@ -151,6 +151,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // Get GA ID from environment variable
   const gaId = process.env.NEXT_PUBLIC_GA_ID;
 
   return (
@@ -173,7 +174,7 @@ export default function RootLayout({
         {/* DNS prefetch for performance */}
         <link rel="dns-prefetch" href="https://blogform.netlify.app" />
         
-        {/* Google Analytics */}
+        {/* Google Analytics - Always include if GA ID is available */}
         {gaId && (
           <>
             <script
@@ -199,6 +200,17 @@ export default function RootLayout({
             />
           </>
         )}
+        
+        {/* Debug: Log GA ID availability */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              console.log('🔍 GA Debug Info:');
+              console.log('GA ID from env:', '${gaId || 'NOT_SET'}');
+              console.log('GA Scripts included:', ${gaId ? 'true' : 'false'});
+            `,
+          }}
+        />
         
         {/* Enhanced Structured Data for Organization */}
         <script
@@ -332,7 +344,7 @@ export default function RootLayout({
           <Footer />
         </div>
         
-        {/* Google Analytics Page View Tracking */}
+        {/* Google Analytics Page View Tracking Component */}
         {gaId && <GoogleAnalytics gaId={gaId} />}
       </body>
     </html>

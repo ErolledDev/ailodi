@@ -10,6 +10,7 @@ declare global {
       targetId: string | Date,
       config?: Record<string, any>
     ) => void;
+    dataLayer: any[];
   }
 }
 
@@ -22,7 +23,20 @@ export function GoogleAnalytics({ gaId }: GoogleAnalyticsProps) {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    if (!gaId || !window.gtag) return;
+    if (!gaId) {
+      console.warn('⚠️ GA: No GA ID provided');
+      return;
+    }
+
+    if (typeof window === 'undefined') {
+      console.warn('⚠️ GA: Window not available (SSR)');
+      return;
+    }
+
+    if (!window.gtag) {
+      console.warn('⚠️ GA: gtag function not available');
+      return;
+    }
 
     const url = pathname + (searchParams.toString() ? `?${searchParams.toString()}` : '');
     
@@ -34,6 +48,17 @@ export function GoogleAnalytics({ gaId }: GoogleAnalyticsProps) {
 
     console.log('📊 GA: Page view tracked:', url);
   }, [pathname, searchParams, gaId]);
+
+  // Debug effect to check GA status
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      console.log('🔍 GA Component Debug:');
+      console.log('- GA ID:', gaId);
+      console.log('- gtag available:', typeof window.gtag);
+      console.log('- dataLayer available:', typeof window.dataLayer);
+      console.log('- Current pathname:', pathname);
+    }
+  }, [gaId, pathname]);
 
   return null;
 }
