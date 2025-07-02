@@ -2,7 +2,7 @@
 
 This document outlines crucial steps and configurations required after development to ensure optimal SEO, performance, and user experience for the AI Lodi website. These steps primarily involve placing specific asset files and updating configuration files with their correct paths and details.
 
-## 1. Required Asset Files
+## 1. Required Asset Files.
 
 All the following image and icon files **must be placed directly into the `public/` directory** of your project. The `public/` folder serves static assets directly from the root of your domain (e.g., `public/og-image.jpg` is accessible at `yourdomain.com/og-image.jpg`).
 
