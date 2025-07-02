@@ -32,42 +32,14 @@ export function ArticleLayout({ post, currentUrl }: ArticleLayoutProps) {
       .slice(0, 2);
   };
 
-  const getAuthorAvatar = (authorName: string) => {
-    const seed = encodeURIComponent(authorName);
-    return `https://api.dicebear.com/7.x/avataaars/svg?seed=${seed}&backgroundColor=3b82f6&radius=50`;
+  // Use Pexels image for consistent avatar
+  const getAuthorAvatar = () => {
+    return 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop&crop=face';
   };
 
   return (
     <article className="max-w-none lg:max-w-3xl xl:max-w-4xl 2xl:max-w-5xl">
       <div>
-        {/* Breadcrumb Navigation */}
-        <nav className="mb-6 sm:mb-8" aria-label="Breadcrumb">
-          <ol className="flex items-center space-x-2 text-sm text-muted-foreground">
-            <li>
-              <Link href="/" className="hover:text-primary transition-colors">
-                Home
-              </Link>
-            </li>
-            <li>/</li>
-            {post.categories[0] && (
-              <>
-                <li>
-                  <Link 
-                    href={`/categories?filter=${encodeURIComponent(post.categories[0])}`}
-                    className="hover:text-primary transition-colors"
-                  >
-                    {post.categories[0]}
-                  </Link>
-                </li>
-                <li>/</li>
-              </>
-            )}
-            <li className="text-foreground font-medium line-clamp-1">
-              {post.title}
-            </li>
-          </ol>
-        </nav>
-
         {/* Header */}
         <header className="mb-8 sm:mb-10 lg:mb-12">
           <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-foreground leading-tight mb-6 sm:mb-8">
@@ -85,9 +57,13 @@ export function ArticleLayout({ post, currentUrl }: ArticleLayoutProps) {
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-6 mb-6 sm:mb-8 lg:mb-10">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-hidden bg-primary/10 flex items-center justify-center flex-shrink-0">
-                <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/40 flex items-center justify-center text-sm sm:text-base font-semibold text-primary">
-                  {getAuthorInitials()}
-                </div>
+                <Image
+                  src={getAuthorAvatar()}
+                  alt={`${post.author}'s avatar`}
+                  width={56}
+                  height={56}
+                  className="w-full h-full object-cover"
+                />
               </div>
               <div className="min-w-0">
                 <div className="font-medium text-foreground text-base sm:text-lg flex items-center gap-2">
@@ -192,7 +168,7 @@ export function ArticleLayout({ post, currentUrl }: ArticleLayoutProps) {
         <div className="mb-6 sm:mb-8 lg:mb-10 pt-6 sm:pt-8 border-t border-border">
           <AuthorCard
             author={post.author}
-            avatar={getAuthorAvatar(post.author)}
+            avatar={getAuthorAvatar()}
             socialLinks={{
               twitter: "https://twitter.com/ailodi_tech",
               linkedin: "https://linkedin.com/company/ailodi",
