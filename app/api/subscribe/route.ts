@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-
+ced
 export async function POST(request: NextRequest) {
   try {
     // Get the email from the request body
