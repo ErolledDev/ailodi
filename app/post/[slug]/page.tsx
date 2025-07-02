@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import { ArticleLayout } from '@/components/article-layout';
 import { SponsorSection } from '@/components/sponsor-section';
+import { ValineComments } from '@/components/valine-comments';
 import { getContentBySlug, getAllContent } from '@/lib/content';
 import type { Metadata } from 'next';
 import type { BlogPost } from '@/types/blog';
@@ -148,6 +149,12 @@ export default async function PostPage({ params }: PostPageProps) {
           {/* Main Content */}
           <div className="lg:col-span-3">
             <ArticleLayout post={post} currentUrl={currentUrl} />
+            
+            {/* Valine Comments Section */}
+            <ValineComments 
+              path={`/post/${post.slug}`}
+              title={post.title}
+            />
           </div>
 
           {/* Sidebar - Hidden on mobile, visible on large screens */}
@@ -159,7 +166,7 @@ export default async function PostPage({ params }: PostPageProps) {
           </aside>
         </div>
 
-        {/* Mobile-only sponsor section - Shown below related articles on small screens */}
+        {/* Mobile-only sponsor section - Shown below comments on small screens */}
         <div className="lg:hidden mt-8 sm:mt-10">
           <SponsorSection />
         </div>
