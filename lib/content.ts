@@ -15,18 +15,14 @@ async function fetchWithRetry(
 ): Promise<Response> {
   for (let i = 0; i < retries; i++) {
     try {
-      // Force fresh fetch with cache busting
-      const cacheBustUrl = `${url}?_t=${Date.now()}&_r=${Math.random()}`;
-      const response = await fetch(cacheBustUrl, {
+      // Use standard fetch without cache busting for static builds
+      const response = await fetch(url, {
         ...options,
         headers: {
           'Accept': 'application/json',
-          'Cache-Control': 'no-cache, no-store, must-revalidate',
-          'Pragma': 'no-cache',
-          'Expires': '0',
+          'User-Agent': 'AI-Lodi-Blog/1.0',
           ...options.headers,
         },
-        cache: 'no-store',
       });
       
       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -42,17 +38,13 @@ async function fetchWithRetry(
 
 export async function getAllContent(options: RequestInit = {}): Promise<BlogPost[]> {
   try {
-    console.log('🔄 BUILD: Fetching fresh content from API with cache busting...');
+    console.log('🔄 BUILD: Fetching content from API...');
     
     const response = await fetchWithRetry(API_URL, {
       headers: {
         'Accept': 'application/json',
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
-        'Pragma': 'no-cache',
-        'Expires': '0',
         'User-Agent': 'AI-Lodi-Blog/1.0',
       },
-      cache: 'no-store',
       ...options,
     });
     
@@ -93,12 +85,8 @@ export async function getContentBySlug(slug: string): Promise<BlogPost | null> {
     const response = await fetchWithRetry(API_URL, {
       headers: {
         'Accept': 'application/json',
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
-        'Pragma': 'no-cache',
-        'Expires': '0',
         'User-Agent': 'AI-Lodi-Blog/1.0',
       },
-      cache: 'no-store',
     });
     
     const data = await response.json();
