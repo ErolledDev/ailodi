@@ -14,6 +14,12 @@ const nextConfig = {
   output: 'export',
   trailingSlash: true,
   
+  // Disable caching during build for fresh content
+  onDemandEntries: {
+    maxInactiveAge: 0,
+    pagesBufferLength: 0,
+  },
+  
   // Image optimization configuration for Cloudflare
   images: {
     unoptimized: true, // Required for static export
@@ -54,6 +60,12 @@ const nextConfig = {
     }
     
     return config;
+  },
+  
+  // Enhanced build configuration for fresh content
+  generateBuildId: async () => {
+    // Use timestamp and random string to ensure fresh builds
+    return `build-${Date.now()}-${Math.random().toString(36).substring(7)}`;
   },
 };
 

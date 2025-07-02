@@ -11,14 +11,30 @@ const SITE_DESCRIPTION = process.env.NEXT_PUBLIC_SITE_DESCRIPTION || 'AI Lodi is
 async function fetchWithRetry(url, options = {}, retries = 3) {
   for (let i = 0; i < retries; i++) {
     try {
-      // Remove cache: 'no-store' from options if present
-      const { cache, ...rest } = options;
-      const response = await fetch(url, rest);
+      // Force fresh fetch with cache busting and unique timestamp
+      const cacheBustUrl = `${url}?_t=${Date.now()}&_r=${Math.random()}&_build=${process.env.CF_PAGES_COMMIT_SHA || 'local'}`;
+      
+      const response = await fetch(cacheBustUrl, {
+        ...options,
+        headers: {
+          'Accept': 'application/json',
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0',
+          'User-Agent': 'AI-Lodi-Build-Script/1.0',
+          'X-Requested-With': 'XMLHttpRequest',
+          ...options.headers,
+        },
+        cache: 'no-store',
+      });
+      
       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
       return response;
     } catch (err) {
+      console.error(`🔄 BUILD: Metadata fetch attempt ${i + 1} failed:`, err);
       if (i === retries - 1) throw err;
-      await new Promise(res => setTimeout(res, 500));
+      // Exponential backoff with jitter
+      await new Promise(res => setTimeout(res, (1000 * (i + 1)) + Math.random() * 1000));
     }
   }
   throw new Error('Max retries reached');
@@ -79,7 +95,7 @@ function generateSitemap(posts) {
 
   // Blog post URLs
   const blogPosts = posts.map((post) => {
-    const postDate = new Date(post.updatedAt);
+    const postDate = new Date(post.updatedAt || post.publishDate);
     const now = new Date();
     const daysSinceUpdate = Math.floor((now.getTime() - postDate.getTime()) / (1000 * 60 * 60 * 24));
     
@@ -98,7 +114,7 @@ function generateSitemap(posts) {
   });
 
   // Category pages
-  const categoriesArray = posts.flatMap(post => post.categories);
+  const categoriesArray = posts.flatMap(post => post.categories || []);
   const categories = Array.from(new Set(categoriesArray));
   const categoryPages = categories.map((category) => ({
     url: `${BASE_URL}/categories/?filter=${encodeURIComponent(category)}`,
@@ -160,7 +176,7 @@ function generateRSSFeed(posts) {
       <guid isPermaLink="true">${BASE_URL}/post/${post.slug}/</guid>
       <pubDate>${new Date(post.publishDate).toUTCString()}</pubDate>
       <dc:creator><![CDATA[${post.author}]]></dc:creator>
-      ${post.categories.map(category => `<category><![CDATA[${category}]]></category>`).join('')}
+      ${(post.categories || []).map(category => `<category><![CDATA[${category}]]></category>`).join('')}
       ${post.featuredImageUrl ? `<enclosure url="${post.featuredImageUrl}" type="image/jpeg"/>` : ''}
     </item>`).join('')}
   </channel>
@@ -172,13 +188,30 @@ function generateRSSFeed(posts) {
 // Main function
 async function generateMetadata() {
   try {
-    console.log('🔄 BUILD: Fetching fresh content from API with explicit cache bypass...');
+    console.log('🔄 BUILD: Starting metadata generation with enhanced cache busting...');
+    console.log('🔄 BUILD: Build environment:', {
+      commit: process.env.CF_PAGES_COMMIT_SHA || 'local',
+      branch: process.env.CF_PAGES_BRANCH || 'local',
+      timestamp: new Date().toISOString()
+    });
+    
     const response = await fetchWithRetry(API_URL);
     const data = await response.json();
-    const publishedPosts = data.filter(post => post.status === 'published');
+    
+    // Validate and filter data
+    if (!Array.isArray(data)) {
+      console.error('❌ BUILD: API returned non-array data:', typeof data);
+      throw new Error('Invalid API response format');
+    }
+    
+    const publishedPosts = data.filter(post => {
+      if (!post || typeof post !== 'object') return false;
+      if (!post.id || !post.title || !post.slug || post.status !== 'published') return false;
+      return true;
+    });
     
     console.log(`📚 BUILD: Found ${publishedPosts.length} published posts`);
-    console.log(`📝 BUILD: Latest posts:`, publishedPosts.slice(0, 3).map(p => p.title));
+    console.log(`📝 BUILD: Latest posts:`, publishedPosts.slice(0, 5).map(p => `"${p.title}" (${p.slug})`));
 
     // Ensure public directory exists
     const publicDir = path.join(process.cwd(), 'public');
@@ -197,6 +230,17 @@ async function generateMetadata() {
     const rss = generateRSSFeed(publishedPosts);
     fs.writeFileSync(path.join(publicDir, 'feed.xml'), rss, 'utf8');
     console.log('✅ BUILD: feed.xml generated successfully');
+
+    // Write a build info file for debugging
+    const buildInfo = {
+      timestamp: new Date().toISOString(),
+      postsCount: publishedPosts.length,
+      posts: publishedPosts.map(p => ({ title: p.title, slug: p.slug, updatedAt: p.updatedAt })),
+      commit: process.env.CF_PAGES_COMMIT_SHA || 'local',
+      branch: process.env.CF_PAGES_BRANCH || 'local'
+    };
+    fs.writeFileSync(path.join(publicDir, 'build-info.json'), JSON.stringify(buildInfo, null, 2), 'utf8');
+    console.log('📋 BUILD: build-info.json generated for debugging');
 
     console.log('🎉 BUILD: All metadata files generated successfully with fresh content!');
   } catch (error) {

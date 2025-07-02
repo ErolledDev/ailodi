@@ -12,7 +12,9 @@
     "lint": "next lint",
     "preview": "npm run build && wrangler pages dev",
     "deploy": "npm run build && wrangler deploy",
-    "generate-metadata": "node scripts/generate-metadata.js"
+    "generate-metadata": "node scripts/generate-metadata.js",
+    "clean": "rm -rf .next out public/sitemap.xml public/feed.xml public/build-info.json",
+    "fresh-build": "npm run clean && npm run build"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",

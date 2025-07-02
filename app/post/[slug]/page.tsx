@@ -13,8 +13,10 @@ interface PostPageProps {
 
 export async function generateStaticParams() {
   try {
-    // Force fresh data fetch during build time by bypassing cache
-    const posts = await getAllContent({ cache: 'no-store' });
+    console.log('🏗️ BUILD: Starting generateStaticParams with enhanced cache busting...');
+    
+    // Force fresh data fetch during build time with enhanced cache busting
+    const posts = await getAllContent();
     console.log(`🏗️ BUILD: Generating static params for ${posts.length} posts`);
     
     const params = posts.map((post) => ({
@@ -22,6 +24,8 @@ export async function generateStaticParams() {
     }));
     
     console.log('🏗️ BUILD: Generated slugs:', params.map(p => p.slug).slice(0, 5), '...');
+    console.log('🏗️ BUILD: Total static params generated:', params.length);
+    
     return params;
   } catch (error) {
     console.error('❌ BUILD: Error generating static params:', error);
@@ -126,11 +130,12 @@ export default async function PostPage({ params }: PostPageProps) {
   try {
     post = await getContentBySlug(params.slug);
   } catch (error) {
-    console.error('Error fetching post:', error);
+    console.error('❌ BUILD: Error fetching post:', error);
     notFound();
   }
 
   if (!post || post.status !== 'published') {
+    console.log(`❌ BUILD: Post not found or not published for slug: ${params.slug}`);
     notFound();
   }
 

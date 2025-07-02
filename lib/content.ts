@@ -15,14 +15,26 @@ async function fetchWithRetry(
 ): Promise<Response> {
   for (let i = 0; i < retries; i++) {
     try {
-      // Remove cache: 'no-store' from options if present
-      const { cache, ...rest } = options;
-      const response = await fetch(url, rest);
+      // Force fresh fetch with cache busting
+      const cacheBustUrl = `${url}?_t=${Date.now()}&_r=${Math.random()}`;
+      const response = await fetch(cacheBustUrl, {
+        ...options,
+        headers: {
+          'Accept': 'application/json',
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0',
+          ...options.headers,
+        },
+        cache: 'no-store',
+      });
+      
       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
       return response;
     } catch (err) {
+      console.error(`🔄 BUILD: Fetch attempt ${i + 1} failed:`, err);
       if (i === retries - 1) throw err;
-      await new Promise(res => setTimeout(res, 500));
+      await new Promise(res => setTimeout(res, 1000 * (i + 1))); // Exponential backoff
     }
   }
   throw new Error('Max retries reached');
@@ -30,27 +42,44 @@ async function fetchWithRetry(
 
 export async function getAllContent(options: RequestInit = {}): Promise<BlogPost[]> {
   try {
-    console.log('🔄 BUILD: Fetching fresh content from API...');
+    console.log('🔄 BUILD: Fetching fresh content from API with cache busting...');
     
-    // Force fresh data fetch by explicitly setting cache: 'no-store'
-    // This ensures we always get the latest content during build time
     const response = await fetchWithRetry(API_URL, {
       headers: {
         'Accept': 'application/json',
-        'Cache-Control': 'no-cache',
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
         'Pragma': 'no-cache',
+        'Expires': '0',
+        'User-Agent': 'AI-Lodi-Blog/1.0',
       },
-      cache: 'no-store', // Force fresh fetch every time
+      cache: 'no-store',
       ...options,
     });
     
     const data = await response.json();
-    const publishedPosts = data.filter((post: BlogPost) => post.status === 'published');
+    
+    // Validate data structure
+    if (!Array.isArray(data)) {
+      console.error('❌ BUILD: API returned non-array data:', typeof data);
+      return [];
+    }
+    
+    const publishedPosts = data.filter((post: any) => {
+      // Validate post structure
+      if (!post || typeof post !== 'object') return false;
+      if (!post.id || !post.title || !post.slug || post.status !== 'published') return false;
+      return true;
+    });
     
     console.log(`📚 BUILD: Successfully fetched ${publishedPosts.length} published posts`);
     console.log(`📝 BUILD: Latest posts:`, publishedPosts.slice(0, 3).map((p: BlogPost) => p.title));
     
-    return publishedPosts;
+    // Sort by updated date to ensure consistent ordering
+    const sortedPosts = publishedPosts.sort((a: BlogPost, b: BlogPost) => 
+      new Date(b.updatedAt || b.publishDate).getTime() - new Date(a.updatedAt || a.publishDate).getTime()
+    );
+    
+    return sortedPosts;
   } catch (error) {
     console.error('❌ BUILD: Error fetching content:', error);
     return [];
@@ -61,37 +90,47 @@ export async function getContentBySlug(slug: string): Promise<BlogPost | null> {
   try {
     console.log(`🔍 BUILD: Fetching content for slug: ${slug}`);
     
-    // Force fresh data fetch for individual posts
     const response = await fetchWithRetry(API_URL, {
       headers: {
         'Accept': 'application/json',
-        'Cache-Control': 'no-cache',
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
         'Pragma': 'no-cache',
+        'Expires': '0',
+        'User-Agent': 'AI-Lodi-Blog/1.0',
       },
-      cache: 'no-store', // Force fresh fetch every time
+      cache: 'no-store',
     });
     
     const data = await response.json();
-    const publishedPosts = data.filter((post: BlogPost) => post.status === 'published');
+    
+    if (!Array.isArray(data)) {
+      console.error('❌ BUILD: API returned non-array data for slug fetch');
+      return null;
+    }
+    
+    const publishedPosts = data.filter((post: any) => 
+      post && typeof post === 'object' && post.status === 'published'
+    );
+    
     const post = publishedPosts.find((p: BlogPost) => p.slug === slug);
     
     if (post) {
       console.log(`✅ BUILD: Found post: ${post.title}`);
     } else {
       console.log(`❌ BUILD: Post not found for slug: ${slug}`);
+      console.log(`📋 BUILD: Available slugs:`, publishedPosts.map((p: BlogPost) => p.slug).slice(0, 10));
     }
     
     return post || null;
   } catch (error) {
-    console.error('Error fetching content by slug:', error);
+    console.error('❌ BUILD: Error fetching content by slug:', error);
     return null;
   }
 }
 
 export async function getPostsByCategory(category: string): Promise<BlogPost[]> {
   try {
-    // Force fresh data fetch for category filtering
-    const posts = await getAllContent({ cache: 'no-store' });
+    const posts = await getAllContent();
     return posts.filter(post => post.categories.includes(category));
   } catch (error) {
     console.error('Error fetching posts by category:', error);
@@ -130,8 +169,7 @@ export async function searchPosts(query: string): Promise<SearchResult> {
   console.log('🔍 SEARCH DEBUG: Starting search with query:', query);
   
   try {
-    // Force fresh data fetch for search
-    const posts = await getAllContent({ cache: 'no-store' });
+    const posts = await getAllContent();
     console.log('📚 SEARCH DEBUG: Fetched posts from API:', posts.length, 'posts');
     
     // Log first few post titles for verification
