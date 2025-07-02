@@ -3,15 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { format } from 'date-fns';
-import { Clock, BookmarkPlus, Bookmark, Heart, MoreHorizontal } from 'lucide-react';
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import { Clock, Share2 } from 'lucide-react';
 import { ShareDialog } from '@/components/share-dialog';
 import type { BlogPost } from '@/types/blog';
 
@@ -21,23 +13,8 @@ interface EnhancedBlogCardProps {
 }
 
 export function EnhancedBlogCard({ post, index = 0 }: EnhancedBlogCardProps) {
-  const [isBookmarked, setIsBookmarked] = useState(false);
-  const [isLiked, setIsLiked] = useState(false);
-
   const readingTime = Math.ceil(post.content.split(' ').length / 200);
   const postUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.xyz'}/post/${post.slug}`;
-
-  const handleBookmark = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsBookmarked(!isBookmarked);
-  };
-
-  const handleLike = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsLiked(!isLiked);
-  };
 
   const getAuthorInitials = () => {
     return post.author
@@ -46,6 +23,11 @@ export function EnhancedBlogCard({ post, index = 0 }: EnhancedBlogCardProps) {
       .join('')
       .toUpperCase()
       .slice(0, 2);
+  };
+
+  // Use Pexels image for consistent avatar
+  const getAuthorAvatar = () => {
+    return 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop&crop=face';
   };
 
   return (
@@ -58,8 +40,14 @@ export function EnhancedBlogCard({ post, index = 0 }: EnhancedBlogCardProps) {
         <div className="space-y-4">
           {/* Author and Meta Info */}
           <div className="flex items-center gap-3 text-sm text-muted-foreground">
-            <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center text-xs font-medium text-primary">
-              {getAuthorInitials()}
+            <div className="w-6 h-6 rounded-full overflow-hidden bg-primary/10 flex items-center justify-center">
+              <Image
+                src={getAuthorAvatar()}
+                alt={`${post.author}'s avatar`}
+                width={24}
+                height={24}
+                className="w-full h-full object-cover"
+              />
             </div>
             <span className="font-medium text-foreground">{post.author}</span>
             <span>·</span>
@@ -119,53 +107,18 @@ export function EnhancedBlogCard({ post, index = 0 }: EnhancedBlogCardProps) {
         </div>
       </Link>
 
-      {/* Action Buttons */}
-      <div className="flex items-center justify-between mt-4 pt-4 border-t border-border/50">
-        <div className="flex items-center gap-1">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={handleLike}
-            className={`text-muted-foreground ${isLiked ? 'text-red-500' : ''}`}
-            aria-label={isLiked ? 'Unlike post' : 'Like post'}
-          >
-            <Heart size={16} className={isLiked ? 'fill-current' : ''} />
-          </Button>
-          
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={handleBookmark}
-            className={`text-muted-foreground ${isBookmarked ? 'text-primary' : ''}`}
-            aria-label={isBookmarked ? 'Remove bookmark' : 'Add bookmark'}
-          >
-            {isBookmarked ? <Bookmark size={16} className="fill-current" /> : <BookmarkPlus size={16} />}
-          </Button>
-          
-          {/* Share Dialog - Using the new consistent component */}
-          <div onClick={(e) => e.stopPropagation()}>
-            <ShareDialog post={post} url={postUrl} />
-          </div>
-        </div>
-
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="text-muted-foreground"
-              aria-label="More options"
-              onClick={(e) => e.stopPropagation()}
+      {/* Share Button - Moved to right side */}
+      <div className="flex justify-end mt-4 pt-4 border-t border-border/50">
+        <div onClick={(e) => e.stopPropagation()}>
+          <ShareDialog post={post} url={postUrl}>
+            <button
+              className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3 text-muted-foreground"
+              aria-label="Share post"
             >
-              <MoreHorizontal size={16} />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem>Save for later</DropdownMenuItem>
-            <DropdownMenuItem>Hide this post</DropdownMenuItem>
-            <DropdownMenuItem>Report post</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+              <Share2 size={16} />
+            </button>
+          </ShareDialog>
+        </div>
       </div>
     </article>
   );
