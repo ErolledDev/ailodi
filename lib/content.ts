@@ -15,13 +15,28 @@ async function fetchWithRetry(
 ): Promise<Response> {
   for (let i = 0; i < retries; i++) {
     try {
-      // Use standard fetch without cache busting for static builds
-      const response = await fetch(url, {
+      // Remove cache-busting parameters to ensure static URL
+      const cleanUrl = new URL(url);
+      cleanUrl.searchParams.delete('_t');
+      cleanUrl.searchParams.delete('_r');
+      const staticUrl = cleanUrl.toString();
+      
+      // Filter out dynamic cache headers from options
+      const filteredHeaders = { ...options.headers };
+      if (filteredHeaders && typeof filteredHeaders === 'object') {
+        delete (filteredHeaders as any)['Cache-Control'];
+        delete (filteredHeaders as any)['Pragma'];
+        delete (filteredHeaders as any)['Expires'];
+      }
+      
+      // Use static fetch configuration for build-time caching
+      const response = await fetch(staticUrl, {
         ...options,
+        cache: 'force-cache', // Force static caching for build
         headers: {
           'Accept': 'application/json',
           'User-Agent': 'AI-Lodi-Blog/1.0',
-          ...options.headers,
+          ...filteredHeaders,
         },
       });
       
