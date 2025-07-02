@@ -1,15 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { BookmarkPlus, Bookmark, MoreHorizontal, Flag, ExternalLink, Heart } from 'lucide-react';
+import { BookmarkPlus, Bookmark, ExternalLink, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { ShareDialog } from '@/components/share-dialog';
 import type { BlogPost } from '@/types/blog';
 
@@ -40,17 +33,23 @@ export function PostActions({ post, url }: PostActionsProps) {
     // Here you would typically send to your backend
   };
 
-  const reportPost = () => {
-    // Handle reporting functionality
-    console.log('Post reported');
-  };
-
   const openInNewTab = () => {
     window.open(url, '_blank');
   };
 
   return (
     <div className="flex items-center gap-2">
+      {/* Like Button */}
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={handleLike}
+        className={`text-muted-foreground ${isLiked ? 'text-red-500' : ''}`}
+        aria-label={isLiked ? 'Unlike post' : 'Like post'}
+      >
+        <Heart size={20} className={isLiked ? 'fill-current' : ''} />
+      </Button>
+
       {/* Bookmark Button */}
       <Button
         variant="ghost"
@@ -66,37 +65,19 @@ export function PostActions({ post, url }: PostActionsProps) {
         )}
       </Button>
 
-      {/* Share Dialog - Using the new consistent component */}
+      {/* Share Dialog */}
       <ShareDialog post={post} url={url} />
 
-      {/* More Options Menu */}
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="text-muted-foreground"
-            aria-label="More options"
-          >
-            <MoreHorizontal size={20} />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-48">
-          <DropdownMenuItem onClick={handleLike} className="cursor-pointer">
-            <Heart size={16} className={`mr-2 ${isLiked ? 'fill-current text-red-500' : ''}`} />
-            {isLiked ? 'Unlike' : 'Like'} this article
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={openInNewTab} className="cursor-pointer">
-            <ExternalLink size={16} className="mr-2" />
-            Open in new tab
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={reportPost} className="cursor-pointer text-red-600">
-            <Flag size={16} className="mr-2" />
-            Report article
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+      {/* Open in New Tab */}
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={openInNewTab}
+        className="text-muted-foreground"
+        aria-label="Open in new tab"
+      >
+        <ExternalLink size={20} />
+      </Button>
     </div>
   );
 }
