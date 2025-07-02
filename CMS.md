@@ -1,6 +1,6 @@
 Got it. Let's start from the very beginning, assuming you have a Cloudflare account, a GitHub account, and a basic Cloudflare Worker project ready in a GitHub repository.
 
-The goal is to automatically deploy your Cloudflare Worker whenever you publish content in your CMS.
+The goal is to automatically deploy your Cloudflare Worker whenever you publish content in your CMS
 
 Full Guide: Automated Cloudflare Worker Deployment from CMS Publish Action
 This guide will walk you through setting up a workflow where your CMS (Content Management System) triggers a deployment of your Cloudflare Worker via GitHub Actions.
