@@ -25,12 +25,10 @@ export function AuthorCard({
     website: "https://ailodi.tech"
   }
 }: AuthorCardProps) {
-  // Generate a consistent avatar URL based on the author name
+  // Use Pexels image for consistent avatar
   const getAvatarUrl = () => {
     if (avatar) return avatar;
-    // Use a service like DiceBear or UI Avatars for consistent avatars
-    const seed = encodeURIComponent(author);
-    return `https://api.dicebear.com/7.x/avataaars/svg?seed=${seed}&backgroundColor=3b82f6&radius=50`;
+    return 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop&crop=face';
   };
 
   const getInitials = () => {
@@ -49,19 +47,13 @@ export function AuthorCard({
         <div className="flex flex-col items-center text-center space-y-4">
           <div className="relative">
             <div className="w-20 h-20 rounded-full overflow-hidden bg-primary/10 flex items-center justify-center">
-              {avatar ? (
-                <Image
-                  src={getAvatarUrl()}
-                  alt={`${author}'s avatar`}
-                  width={80}
-                  height={80}
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/40 flex items-center justify-center text-xl font-semibold text-primary">
-                  {getInitials()}
-                </div>
-              )}
+              <Image
+                src={getAvatarUrl()}
+                alt={`${author}'s avatar`}
+                width={80}
+                height={80}
+                className="w-full h-full object-cover"
+              />
             </div>
             <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-2 border-background"></div>
           </div>
@@ -130,19 +122,13 @@ export function AuthorCard({
         <div className="flex items-start gap-4 lg:gap-6">
           <div className="relative flex-shrink-0">
             <div className="w-16 h-16 lg:w-20 lg:h-20 rounded-full overflow-hidden bg-primary/10 flex items-center justify-center">
-              {avatar ? (
-                <Image
-                  src={getAvatarUrl()}
-                  alt={`${author}'s avatar`}
-                  width={80}
-                  height={80}
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/40 flex items-center justify-center text-lg lg:text-xl font-semibold text-primary">
-                  {getInitials()}
-                </div>
-              )}
+              <Image
+                src={getAvatarUrl()}
+                alt={`${author}'s avatar`}
+                width={80}
+                height={80}
+                className="w-full h-full object-cover"
+              />
             </div>
             <div className="absolute -bottom-1 -right-1 w-5 h-5 lg:w-6 lg:h-6 bg-green-500 rounded-full border-2 border-background"></div>
           </div>
