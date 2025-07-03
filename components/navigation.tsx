@@ -65,7 +65,7 @@ export function Navigation() {
                 placeholder="Search AI & Tech insights..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="border-gray-200 focus:ring-gray-300 focus:border-gray-300"
+                className="border-border focus:ring-primary focus:border-primary"
               />
             </form>
           </div>
@@ -77,7 +77,7 @@ export function Navigation() {
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="text-gray-700"
+                  className="text-muted-foreground"
                   aria-label="Open navigation menu"
                 >
                   <Menu size={24} />
@@ -99,7 +99,7 @@ export function Navigation() {
                       placeholder="Search AI & Tech insights..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      className="border-gray-200 focus:ring-gray-300 focus:border-gray-300"
+                      className="border-border focus:ring-primary focus:border-primary"
                     />
                   </form>
 

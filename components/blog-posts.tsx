@@ -64,7 +64,7 @@ export function BlogPosts({ initialPosts, allPosts }: BlogPostsProps) {
   const hasMorePosts = displayedPosts.length < getFilteredPostsCount();
 
   return (
-    <section className="py-16 bg-white border-t border-gray-100">
+    <section className="py-16 bg-background border-t border-border/50 transition-colors duration-300">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">All Articles</h2>
@@ -77,7 +77,7 @@ export function BlogPosts({ initialPosts, allPosts }: BlogPostsProps) {
         {/* Category Filter */}
         <div className="flex justify-center mb-12">
           <Select value={selectedCategory} onValueChange={handleCategoryChange}>
-            <SelectTrigger className="w-full md:w-48 border-gray-200 focus:ring-gray-300 focus:border-gray-300">
+            <SelectTrigger className="w-full md:w-48 border-border focus:ring-primary focus:border-primary">
               <Filter size={16} className="mr-2" />
               <SelectValue placeholder="Category" />
             </SelectTrigger>
@@ -94,7 +94,7 @@ export function BlogPosts({ initialPosts, allPosts }: BlogPostsProps) {
 
         {displayedPosts.length === 0 ? (
           <div className="text-center py-16">
-            <p className="text-gray-600 text-lg">
+            <p className="text-muted-foreground text-lg">
               No articles found matching your criteria.
             </p>
           </div>

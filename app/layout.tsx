@@ -2,6 +2,7 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Inter, Playfair_Display } from 'next/font/google';
 import { Suspense } from 'react';
+import { ThemeProvider } from 'next-themes';
 import { Navigation } from '@/components/navigation';
 import { Footer } from '@/components/footer';
 import { PageProgressBar } from '@/components/page-progress-bar';
@@ -136,7 +137,7 @@ export const metadata: Metadata = {
   },
   other: {
     'theme-color': '#22c55e',
-    'color-scheme': 'light',
+    'color-scheme': 'light dark',
     'mobile-web-app-capable': 'yes',
     'apple-mobile-web-app-capable': 'yes',
     'apple-mobile-web-app-status-bar-style': 'default',
@@ -171,7 +172,7 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#22c55e" />
-        <meta name="color-scheme" content="light" />
+        <meta name="color-scheme" content="light dark" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
         
         {/* Preconnect to external domains for performance */}
@@ -332,17 +333,24 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
-        <PageProgressBar />
-        <div className="min-h-screen flex flex-col">
-          <Navigation />
-          <main className="flex-1">
-            {children}
-          </main>
-          <Footer />
-        </div>
-        
-        {/* Google Analytics Page View Tracking Component - Wrapped in Suspense */}
-        {gaId && <GoogleAnalyticsWrapper gaId={gaId} />}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <PageProgressBar />
+          <div className="min-h-screen flex flex-col">
+            <Navigation />
+            <main className="flex-1">
+              {children}
+            </main>
+            <Footer />
+          </div>
+          
+          {/* Google Analytics Page View Tracking Component - Wrapped in Suspense */}
+          {gaId && <GoogleAnalyticsWrapper gaId={gaId} />}
+        </ThemeProvider>
       </body>
     </html>
   );

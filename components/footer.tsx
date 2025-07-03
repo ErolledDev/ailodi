@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Twitter, Linkedin, Github, Mail, Rss } from 'lucide-react';
+import { ThemeToggle } from '@/components/theme-toggle';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -43,7 +44,7 @@ export function Footer() {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 bg-muted rounded-lg flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors"
+                  className="w-10 h-10 bg-muted rounded-lg flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/10 transition-all duration-200"
                   aria-label={`Follow us on ${social.name}`}
                 >
                   <social.icon size={18} />
@@ -60,7 +61,7 @@ export function Footer() {
                 <li key={link.name}>
                   <Link 
                     href={link.href} 
-                    className="text-muted-foreground hover:text-primary transition-colors"
+                    className="text-muted-foreground hover:text-primary transition-colors duration-200"
                   >
                     {link.name}
                   </Link>
@@ -77,7 +78,7 @@ export function Footer() {
                 <li key={link.name}>
                   <Link 
                     href={link.href} 
-                    className="text-muted-foreground hover:text-primary transition-colors"
+                    className="text-muted-foreground hover:text-primary transition-colors duration-200"
                   >
                     {link.name}
                   </Link>
@@ -99,7 +100,7 @@ export function Footer() {
             <div className="flex items-center gap-2">
               <Link
                 href="/feed.xml"
-                className="inline-flex items-center gap-2 px-4 py-2 bg-muted hover:bg-muted/80 text-foreground rounded-lg transition-colors"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-muted hover:bg-muted/80 text-foreground rounded-lg transition-colors duration-200"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -108,7 +109,7 @@ export function Footer() {
               </Link>
               <Link
                 href="mailto:hello@ailodi.tech"
-                className="inline-flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg transition-colors"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg transition-colors duration-200"
               >
                 <Mail size={16} />
                 Subscribe
@@ -130,6 +131,8 @@ export function Footer() {
               <span>Powered by Next.js</span>
               <span>•</span>
               <span>Hosted on Cloudflare</span>
+              <span>•</span>
+              <ThemeToggle />
             </div>
           </div>
         </div>

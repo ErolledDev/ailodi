@@ -38,25 +38,26 @@
     --chart-5: 340 75% 55%;
     --radius: 0.75rem;
   }
+  
   .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
+    --background: 222 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
     --primary: 142 76% 36%;
     --primary-foreground: 355 20% 98%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
+    --secondary: 217 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217 32.6% 17.5%;
+    --input: 217 32.6% 17.5%;
     --ring: 142 76% 36%;
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
@@ -79,7 +80,7 @@
   }
   
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground transition-colors duration-300;
     font-family: var(--font-inter);
     line-height: 1.6;
     letter-spacing: -0.003em;
@@ -295,14 +296,21 @@
 
 /* Enhanced Card Styles with better performance */
 .medium-card {
-  @apply bg-card border border-border/50 rounded-xl p-4 sm:p-6;
+  @apply bg-card border border-border/50 rounded-xl p-4 sm:p-6 transition-all duration-200;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-  transition: box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.dark .medium-card {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
 }
 
 .medium-card:hover {
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   transform: translateY(-1px);
+}
+
+.dark .medium-card:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
 }
 
 .medium-card-content {
@@ -341,10 +349,9 @@
 
 /* Enhanced Navigation with better performance */
 .medium-nav {
-  @apply bg-background/95 border-b border-border/50 sticky top-0 z-50;
+  @apply bg-background/95 border-b border-border/50 sticky top-0 z-50 transition-colors duration-300;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  transition: background-color 0.2s ease-in-out;
 }
 
 .medium-nav-brand {
@@ -356,10 +363,9 @@
 }
 
 .medium-nav-link {
-  @apply font-medium;
+  @apply font-medium transition-colors duration-200;
   font-size: 14px;
   color: hsl(var(--muted-foreground));
-  transition: color 0.2s ease-in-out;
 }
 
 .medium-nav-link:hover {
@@ -374,7 +380,7 @@
 
 /* Enhanced Hero Section */
 .medium-hero {
-  @apply bg-gradient-to-br from-background via-primary/5 to-background py-16 sm:py-20 md:py-32;
+  @apply bg-gradient-to-br from-background via-primary/5 to-background py-16 sm:py-20 md:py-32 transition-colors duration-300;
 }
 
 .medium-hero-title {
@@ -400,9 +406,8 @@
 
 /* Enhanced Buttons with better performance */
 .medium-btn {
-  @apply inline-flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-3 rounded-full font-medium;
+  @apply inline-flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-3 rounded-full font-medium transition-all duration-200;
   font-size: 14px;
-  transition: all 0.2s ease-in-out;
 }
 
 @media (min-width: 640px) {
@@ -424,7 +429,7 @@
 }
 
 .medium-btn-secondary {
-  @apply border;
+  @apply border transition-all duration-200;
   background-color: hsl(var(--background));
   color: hsl(var(--foreground));
   border-color: hsl(var(--border));
@@ -437,7 +442,7 @@
 
 /* Enhanced Footer */
 .medium-footer {
-  @apply bg-muted/30 border-t border-border/50;
+  @apply bg-muted/30 border-t border-border/50 transition-colors duration-300;
   color: hsl(var(--muted-foreground));
 }
 
@@ -459,12 +464,11 @@
 }
 
 .medium-search input {
-  @apply w-full pl-8 sm:pl-10 pr-3 sm:pr-4 py-2 sm:py-2.5 border rounded-full focus:ring-2;
+  @apply w-full pl-8 sm:pl-10 pr-3 sm:pr-4 py-2 sm:py-2.5 border rounded-full focus:ring-2 transition-all duration-200;
   font-size: 13px;
   border-color: hsl(var(--border));
   background-color: hsl(var(--background));
   color: hsl(var(--foreground));
-  transition: all 0.2s ease-in-out;
 }
 
 @media (min-width: 640px) {
@@ -513,6 +517,10 @@
 .hover-lift:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.dark .hover-lift:hover {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 
 /* Enhanced Focus States for accessibility */
@@ -665,8 +673,12 @@
 
 /* Valine Comment Form */
 .valine-container .vwrap {
-  @apply border border-border rounded-lg p-4 mb-6 bg-card;
+  @apply border border-border rounded-lg p-4 mb-6 bg-card transition-colors duration-300;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.dark .valine-container .vwrap {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
 }
 
 .valine-container .vwrap .vheader {
@@ -674,9 +686,8 @@
 }
 
 .valine-container .vwrap .vheader .vinput {
-  @apply border border-border rounded-md px-3 py-2 bg-background text-foreground;
+  @apply border border-border rounded-md px-3 py-2 bg-background text-foreground transition-all duration-200;
   font-size: 14px;
-  transition: border-color 0.2s ease-in-out;
 }
 
 .valine-container .vwrap .vheader .vinput:focus {
@@ -706,8 +717,7 @@
 
 /* Valine Submit Button */
 .valine-container .vwrap .vcontrol .vsubmit {
-  @apply bg-primary text-primary-foreground px-6 py-2 rounded-md font-medium;
-  transition: all 0.2s ease-in-out;
+  @apply bg-primary text-primary-foreground px-6 py-2 rounded-md font-medium transition-all duration-200;
   border: none;
   cursor: pointer;
 }
@@ -728,8 +738,7 @@
 }
 
 .valine-container .vemojis i {
-  @apply p-2 rounded hover:bg-muted cursor-pointer;
-  transition: background-color 0.2s ease-in-out;
+  @apply p-2 rounded hover:bg-muted cursor-pointer transition-colors duration-200;
 }
 
 /* Valine Comments List */
@@ -738,8 +747,12 @@
 }
 
 .valine-container .vlist .vcard {
-  @apply border border-border rounded-lg p-4 bg-card;
+  @apply border border-border rounded-lg p-4 bg-card transition-colors duration-300;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.dark .valine-container .vlist .vcard {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
 }
 
 .valine-container .vlist .vcard .vhead {
@@ -798,8 +811,7 @@
 }
 
 .valine-container .vlist .vcard .vat span {
-  @apply cursor-pointer hover:text-primary;
-  transition: color 0.2s ease-in-out;
+  @apply cursor-pointer hover:text-primary transition-colors duration-200;
 }
 
 /* Valine Pagination */
@@ -808,8 +820,7 @@
 }
 
 .valine-container .vpage .vmore {
-  @apply px-4 py-2 border border-border rounded-md text-foreground hover:bg-muted;
-  transition: background-color 0.2s ease-in-out;
+  @apply px-4 py-2 border border-border rounded-md text-foreground hover:bg-muted transition-colors duration-200;
   cursor: pointer;
 }
 
@@ -857,25 +868,37 @@
   }
 }
 
-/* Dark mode support for Valine (if you implement dark mode later) */
-@media (prefers-color-scheme: dark) {
-  .dark .valine-container .v {
-    color: hsl(var(--foreground)) !important;
+/* Dark mode specific improvements */
+.dark {
+  color-scheme: dark;
+}
+
+/* Smooth theme transitions */
+* {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 200ms;
+}
+
+/* Enhanced fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
-  
-  .dark .valine-container .vwrap {
-    @apply bg-card border-border;
-  }
-  
-  .dark .valine-container .vwrap .vheader .vinput {
-    @apply bg-background text-foreground border-border;
-  }
-  
-  .dark .valine-container .vwrap .vedit {
-    @apply bg-background border-border;
-  }
-  
-  .dark .valine-container .vwrap .vedit .veditor {
-    @apply text-foreground bg-transparent;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
+
+.fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+/* Staggered animations for multiple elements */
+.fade-in:nth-child(1) { animation-delay: 0.1s; }
+.fade-in:nth-child(2) { animation-delay: 0.2s; }
+.fade-in:nth-child(3) { animation-delay: 0.3s; }
+.fade-in:nth-child(4) { animation-delay: 0.4s; }
+.fade-in:nth-child(5) { animation-delay: 0.5s; }
