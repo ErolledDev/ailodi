@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { MessageSquare, Users, Clock, Shield } from 'lucide-react';
+import { MessageSquare, Users, Clock } from 'lucide-react';
 
 interface ValineCommentsProps {
   path: string;
@@ -38,7 +38,7 @@ export function ValineComments({ path, title }: ValineCommentsProps) {
           appKey: appKey,
           serverURLs: serverURLs || undefined,
           path: path,
-          placeholder: 'Share your thoughts about this article... (Math verification required)',
+          placeholder: 'Share your thoughts about this article...',
           avatar: 'retro',
           visitor: true,
           highlight: true,
@@ -48,7 +48,6 @@ export function ValineComments({ path, title }: ValineCommentsProps) {
           meta: ['nick', 'mail', 'link'],
           pageSize: 10,
           lang: 'en',
-          verify: true, // Enable math captcha verification
           emojiCDN: '//i0.hdslb.com/bfs/emote/',
           emojiMaps: {
             "tv_doge": "6ea59c827c414b4a2955fe79e0f6fd3dcd515e24.png",
@@ -102,45 +101,27 @@ export function ValineComments({ path, title }: ValineCommentsProps) {
             <MessageSquare size={16} className="text-primary" />
           </div>
           <h3 className="text-2xl font-bold text-foreground">Comments</h3>
-          <div className="flex items-center gap-2 px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm">
-            <Shield size={14} />
-            <span>Protected</span>
-          </div>
         </div>
         <p className="text-muted-foreground">
           Join the discussion and share your thoughts about this article. 
           Your feedback helps us create better content for the tech community.
         </p>
         
-        {/* Security Notice */}
-        <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-          <div className="flex items-start gap-2">
-            <Shield size={16} className="text-blue-600 mt-0.5 flex-shrink-0" />
-            <div className="text-sm">
-              <p className="text-blue-800 font-medium mb-1">Security Notice</p>
-              <p className="text-blue-700">
-                To prevent spam and ensure quality discussions, all comments require solving a simple math problem before submission.
-              </p>
-            </div>
+      {/* Community Guidelines */}
+      <div className="mt-8 p-4 bg-muted/30 rounded-lg border border-border/50">
+        <div className="flex items-start gap-3">
+          <Users size={16} className="text-primary mt-0.5 flex-shrink-0" />
+          <div className="space-y-2">
+            <h4 className="font-medium text-foreground">Community Guidelines</h4>
+            <ul className="text-sm text-muted-foreground space-y-1">
+              <li>• Be respectful and constructive in your comments</li>
+              <li>• Stay on topic and contribute meaningfully to the discussion</li>
+              <li>• No spam, self-promotion, or inappropriate content</li>
+              <li>• Help create a welcoming environment for all readers</li>
+            </ul>
           </div>
         </div>
-        
-        {/* Community Guidelines */}
-        <div className="mt-6 p-4 bg-muted/30 rounded-lg border border-border/50">
-          <div className="flex items-start gap-3">
-            <Users size={16} className="text-primary mt-0.5 flex-shrink-0" />
-            <div className="space-y-2">
-              <h4 className="font-medium text-foreground">Community Guidelines</h4>
-              <ul className="text-sm text-muted-foreground space-y-1">
-                <li>• Be respectful and constructive in your comments</li>
-                <li>• Stay on topic and contribute meaningfully to the discussion</li>
-                <li>• No spam, self-promotion, or inappropriate content</li>
-                <li>• Help create a welcoming environment for all readers</li>
-                <li>• Complete the math verification to post your comment</li>
-              </ul>
-            </div>
-          </div>
-        </div>
+      </div>
       </div>
 
       {/* Valine Comments Container */}
@@ -149,6 +130,7 @@ export function ValineComments({ path, title }: ValineCommentsProps) {
         id="valine-comments"
         className="valine-container"
       />
+
     </div>
   );
 }
