@@ -106,15 +106,7 @@ export function ValineComments({ path, title }: ValineCommentsProps) {
           Join the discussion and share your thoughts about this article. 
           Your feedback helps us create better content for the tech community.
         </p>
-      </div>
-
-      {/* Valine Comments Container */}
-      <div 
-        ref={valineRef} 
-        id="valine-comments"
-        className="valine-container"
-      />
-
+        
       {/* Community Guidelines */}
       <div className="mt-8 p-4 bg-muted/30 rounded-lg border border-border/50">
         <div className="flex items-start gap-3">
@@ -130,6 +122,15 @@ export function ValineComments({ path, title }: ValineCommentsProps) {
           </div>
         </div>
       </div>
+      </div>
+
+      {/* Valine Comments Container */}
+      <div 
+        ref={valineRef} 
+        id="valine-comments"
+        className="valine-container"
+      />
+
     </div>
   );
 }
