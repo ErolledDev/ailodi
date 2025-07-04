@@ -20,7 +20,7 @@ A **production-ready, commercial-grade** blog platform built with Next.js 14. Th
 - **Real-time Updates**: Content updates without redeployment
 
 ### **Enterprise Features**
-- **Comments System**: Valine + LeanCloud for user engagement
+- **Comments System**: Valine + LeanCloud for user engagement with security features
 - **Newsletter**: Built-in email subscription management
 - **Analytics Ready**: Google Analytics, Plausible, custom tracking
 - **PWA Support**: App-like experience with offline capabilities
@@ -57,10 +57,70 @@ A **production-ready, commercial-grade** blog platform built with Next.js 14. Th
 - **Related Posts**: AI-powered content recommendations
 
 ### **💬 User Engagement**
-- **Comments System**: Valine comments with moderation
+- **Comments System**: Valine comments with moderation and security features
 - **Social Sharing**: 10+ platforms including WhatsApp, Telegram
 - **Newsletter**: Email subscription with LeanCloud backend
 - **User Analytics**: Track engagement and popular content
+
+## 🛡️ Security Features
+
+### **Comments Security (Valine)**
+The integrated Valine comments system includes multiple security layers to prevent spam and abuse:
+
+#### **Math Captcha**
+- **Automatic Protection**: Simple math problems (e.g., "3 + 5 = ?") prevent automated spam
+- **User-Friendly**: Easy for humans, difficult for bots
+- **Configurable**: Can be enabled/disabled as needed
+
+#### **Content Moderation**
+- **Real-time Filtering**: Automatic detection of inappropriate content
+- **Admin Dashboard**: Review and moderate comments through LeanCloud console
+- **Blacklist Support**: Block specific words, phrases, or patterns
+
+#### **Rate Limiting**
+- **Spam Prevention**: Limits comment frequency per user/IP
+- **DDoS Protection**: Prevents comment flooding attacks
+- **Configurable Limits**: Adjust based on your community needs
+
+#### **User Verification**
+- **Email Validation**: Optional email verification for commenters
+- **IP Tracking**: Monitor and block problematic IP addresses
+- **User Profiles**: Track comment history and reputation
+
+#### **Security Configuration**
+To enable security features in your Valine setup:
+
+```typescript
+// In components/valine-comments.tsx
+new window.Valine({
+  el: valineRef.current,
+  appId: appId,
+  appKey: appKey,
+  
+  // Security Features
+  verify: true,              // Enable math captcha
+  visitor: true,             // Enable visitor tracking
+  recordIP: true,            // Record IP addresses for moderation
+  enableQQ: false,           // Disable QQ avatar fetching for privacy
+  
+  // Content Moderation
+  requiredFields: ['nick', 'mail'], // Require name and email
+  placeholder: 'Share your thoughts... (Math captcha required)',
+  
+  // Rate Limiting (handled by LeanCloud)
+  pageSize: 10,              // Comments per page
+  
+  // Additional Security
+  meta: ['nick', 'mail'],    // Required user fields
+  avatar: 'retro',           // Use retro avatars (no external requests)
+});
+```
+
+#### **LeanCloud Security Dashboard**
+- **Comment Moderation**: Review, approve, or delete comments
+- **User Management**: Block problematic users
+- **Analytics**: Track comment patterns and security events
+- **Backup**: Automatic comment backup and recovery
 
 ## 🛠️ Tech Stack
 
@@ -74,7 +134,7 @@ A **production-ready, commercial-grade** blog platform built with Next.js 14. Th
 
 ### **Backend & Services**
 - **LeanCloud** for data storage and user management
-- **Valine** for comments system
+- **Valine** for comments system with security features
 - **Cloudflare Workers** for edge deployment
 - **Any CMS/API** for content management
 
@@ -145,6 +205,107 @@ npm run dev
 ```bash
 npm run build
 ```
+
+## 🛡️ Security Configuration Guide
+
+### **Enabling Valine Security Features**
+
+#### **1. Math Captcha Setup**
+Edit `components/valine-comments.tsx` and add security options:
+
+```typescript
+new window.Valine({
+  // ... other config
+  verify: true,              // Enable math captcha
+  placeholder: 'Share your thoughts... (Please solve the math problem to post)',
+});
+```
+
+#### **2. Enhanced Security Configuration**
+```typescript
+new window.Valine({
+  el: valineRef.current,
+  appId: appId,
+  appKey: appKey,
+  serverURLs: serverURLs,
+  
+  // Security Settings
+  verify: true,                    // Math captcha
+  visitor: true,                   // Visitor tracking
+  recordIP: true,                  // IP recording for moderation
+  enableQQ: false,                 // Disable QQ integration for privacy
+  
+  // User Requirements
+  requiredFields: ['nick', 'mail'], // Require name and email
+  meta: ['nick', 'mail', 'link'],   // User input fields
+  
+  // Content Settings
+  placeholder: 'Share your thoughts about this article... (Math verification required)',
+  pageSize: 10,                    // Comments per page
+  lang: 'en',                      // Language
+  
+  // Avatar Settings (for privacy)
+  avatar: 'retro',                 // Use generated avatars
+  
+  // Moderation
+  highlight: true,                 // Code highlighting
+  mathJax: false,                  // Disable MathJax for security
+});
+```
+
+#### **3. LeanCloud Security Dashboard**
+1. **Access Dashboard**: Go to your LeanCloud app dashboard
+2. **Data Browser**: Navigate to `Comment` class to view all comments
+3. **Moderation Tools**:
+   - View comment content and metadata
+   - Delete inappropriate comments
+   - Block users by email or IP
+   - Export comment data for analysis
+
+#### **4. Additional Security Measures**
+```typescript
+// Optional: Add custom validation
+const initValine = () => {
+  if (window.Valine && valineRef.current) {
+    const valine = new window.Valine({
+      // ... config above
+      
+      // Custom validation callback
+      onSubmit: (comment) => {
+        // Add custom validation logic here
+        console.log('Comment submitted:', comment);
+      },
+      
+      // Custom error handling
+      onError: (error) => {
+        console.error('Valine error:', error);
+      }
+    });
+  }
+};
+```
+
+### **Security Best Practices**
+
+#### **1. Regular Monitoring**
+- Check LeanCloud dashboard weekly for spam comments
+- Monitor comment patterns and user behavior
+- Review IP addresses for suspicious activity
+
+#### **2. Content Guidelines**
+- Display clear community guidelines
+- Set expectations for appropriate behavior
+- Provide reporting mechanisms for users
+
+#### **3. Backup Strategy**
+- Regular export of comment data from LeanCloud
+- Backup user engagement metrics
+- Document moderation decisions
+
+#### **4. Privacy Compliance**
+- Inform users about data collection (IP, email)
+- Provide privacy policy links
+- Allow users to request data deletion
 
 ## 🎨 Complete Customization Guide
 
@@ -379,9 +540,27 @@ new window.Valine({
   appKey: appKey,
   placeholder: 'Your custom placeholder...',
   avatar: 'retro', // Avatar style
-  pageSize: 10, // Comments per page
-  lang: 'en', // Language
-  // ... other Valine options
+  visitor: true,
+  highlight: true,
+  recordIP: false,
+  enableQQ: false,
+  requiredFields: ['nick', 'mail'],
+  meta: ['nick', 'mail', 'link'],
+  pageSize: 10,
+  lang: 'en',
+  emojiCDN: '//i0.hdslb.com/bfs/emote/',
+  emojiMaps: {
+    "tv_doge": "6ea59c827c414b4a2955fe79e0f6fd3dcd515e24.png",
+    "tv_親親": "a8111ad55953ef5e3be3327ef94eb4a39d535d06.png",
+    "tv_偷笑": "bb690d4107620f1c15cff29509db529a73aee261.png",
+    "tv_再見": "180129b8ea851044ce71caf55cc8ce44bd4a4fc8.png",
+    "tv_冷漠": "b9cbc755c2b3ee43be07ca13de84e5b699a3a101.png",
+    "tv_發怒": "34ba3cd204d5b05fec70ce08fa9fa0dd612409ff.png",
+    "tv_發財": "34db290afd2963723c6eb3c4560667db7253a21a.png",
+    "tv_可愛": "9e55fd9b500ac4b96613539f1ce2f9499e314ed9.png",
+    "tv_呆": "fe1179ebaa191569b0d31cecafe7a2cd1c951c9d.png",
+    "tv_嗑瓜子": "37560a9f0b9a4b95e8e9e4b4e1e9e4b95e8e9e4b.png"
+  }
 });
 ```
 
@@ -722,6 +901,7 @@ This is a **commercial-grade product** designed for professional use. Not a free
 - **Input Sanitization**: Secure data handling
 - **API Security**: Rate limiting and validation
 - **Regular Audits**: Security vulnerability scanning
+- **Comment Security**: Math captcha, content moderation, IP tracking
 
 ### **📱 Compatibility**
 - **Browsers**: Chrome, Firefox, Safari, Edge (last 2 versions)
