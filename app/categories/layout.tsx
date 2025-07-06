@@ -3,31 +3,29 @@ import type { Metadata } from 'next';
 import type { BlogPost } from '@/types/blog';
 
 export async function generateMetadata({ 
+  params,
   searchParams 
 }: { 
-  searchParams: Record<string, string | string[] | undefined> 
+  params: {};
+  searchParams: { filter?: string };
 }): Promise<Metadata> {
-  // Safely extract filter parameter as a string
-  const filterValue = Array.isArray(searchParams.filter) 
-    ? searchParams.filter[0] 
-    : searchParams.filter;
-
+  const filter = searchParams.filter;
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.xyz';
 
-  if (filterValue) {
+  if (filter) {
     try {
       const allPosts = await getAllContent();
-      const categoryPosts = allPosts.filter(post => post.categories.includes(filterValue));
+      const categoryPosts = allPosts.filter(post => post.categories.includes(filter));
       const postCount = categoryPosts.length;
 
       return {
-        title: `${filterValue} Articles | AI Lodi - Tech Insights & AI Innovation`,
-        description: `Explore ${postCount} ${postCount === 1 ? 'article' : 'articles'} about ${filterValue} on AI Lodi. Discover cutting-edge insights, tutorials, and analysis in ${filterValue} and related technology topics.`,
+        title: `${filter} Articles | AI Lodi - Tech Insights & AI Innovation`,
+        description: `Explore ${postCount} ${postCount === 1 ? 'article' : 'articles'} about ${filter} on AI Lodi. Discover cutting-edge insights, tutorials, and analysis in ${filter} and related technology topics.`,
         keywords: [
-          filterValue.toLowerCase(),
-          `${filterValue} articles`,
-          `${filterValue} insights`,
-          `${filterValue} technology`,
+          filter.toLowerCase(),
+          `${filter} articles`,
+          `${filter} insights`,
+          `${filter} technology`,
           'AI Lodi',
           'tech blog',
           'programming',
@@ -35,27 +33,27 @@ export async function generateMetadata({
           'technology trends'
         ],
         openGraph: {
-          title: `${filterValue} Articles | AI Lodi`,
-          description: `Explore ${postCount} ${postCount === 1 ? 'article' : 'articles'} about ${filterValue} on AI Lodi. Discover cutting-edge insights and analysis.`,
+          title: `${filter} Articles | AI Lodi`,
+          description: `Explore ${postCount} ${postCount === 1 ? 'article' : 'articles'} about ${filter} on AI Lodi. Discover cutting-edge insights and analysis.`,
           type: 'website',
-          url: `${baseUrl}/categories?filter=${encodeURIComponent(filterValue)}`,
+          url: `${baseUrl}/categories?filter=${encodeURIComponent(filter)}`,
         },
         twitter: {
           card: 'summary_large_image',
-          title: `${filterValue} Articles | AI Lodi`,
-          description: `Explore ${postCount} ${postCount === 1 ? 'article' : 'articles'} about ${filterValue} on AI Lodi.`,
+          title: `${filter} Articles | AI Lodi`,
+          description: `Explore ${postCount} ${postCount === 1 ? 'article' : 'articles'} about ${filter} on AI Lodi.`,
         },
         alternates: {
-          canonical: `${baseUrl}/categories?filter=${encodeURIComponent(filterValue)}`,
+          canonical: `${baseUrl}/categories?filter=${encodeURIComponent(filter)}`,
         },
       };
     } catch (error) {
       console.error('Error generating category metadata:', error);
       return {
-        title: `${filterValue} Articles | AI Lodi - Tech Insights & AI Innovation`,
-        description: `Explore articles about ${filterValue} on AI Lodi. Discover cutting-edge insights, tutorials, and analysis in ${filterValue} and related technology topics.`,
+        title: `${filter} Articles | AI Lodi - Tech Insights & AI Innovation`,
+        description: `Explore articles about ${filter} on AI Lodi. Discover cutting-edge insights, tutorials, and analysis in ${filter} and related technology topics.`,
         alternates: {
-          canonical: `${baseUrl}/categories?filter=${encodeURIComponent(filterValue)}`,
+          canonical: `${baseUrl}/categories?filter=${encodeURIComponent(filter)}`,
         },
       };
     }

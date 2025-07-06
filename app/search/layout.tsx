@@ -2,25 +2,23 @@ import { getAllContent } from '@/lib/content';
 import type { Metadata } from 'next';
 
 export async function generateMetadata({ 
+  params,
   searchParams 
 }: { 
-  searchParams: Record<string, string | string[] | undefined> 
+  params: {};
+  searchParams: { q?: string };
 }): Promise<Metadata> {
-  // Safely extract query parameter as a string
-  const queryString = Array.isArray(searchParams.q) 
-    ? searchParams.q[0] 
-    : searchParams.q;
-
+  const query = searchParams.q || '';
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.xyz';
 
-  if (queryString) {
+  if (query) {
     return {
-      title: `Search Results for "${queryString}" | AI Lodi - Tech Insights & AI Innovation`,
-      description: `Find articles and insights on AI, programming, automation, and future science matching your search for "${queryString}" on AI Lodi. Discover relevant tech content and tutorials.`,
+      title: `Search Results for "${query}" | AI Lodi - Tech Insights & AI Innovation`,
+      description: `Find articles and insights on AI, programming, automation, and future science matching your search for "${query}" on AI Lodi. Discover relevant tech content and tutorials.`,
       keywords: [
-        queryString.toLowerCase(),
-        `${queryString} search`,
-        `${queryString} articles`,
+        query.toLowerCase(),
+        `${query} search`,
+        `${query} articles`,
         'AI Lodi search',
         'tech search',
         'AI articles',
@@ -29,18 +27,18 @@ export async function generateMetadata({
         'search results'
       ],
       openGraph: {
-        title: `Search Results for "${queryString}" | AI Lodi`,
-        description: `Find articles and insights matching your search for "${queryString}" on AI Lodi.`,
+        title: `Search Results for "${query}" | AI Lodi`,
+        description: `Find articles and insights matching your search for "${query}" on AI Lodi.`,
         type: 'website',
-        url: `${baseUrl}/search?q=${encodeURIComponent(queryString)}`,
+        url: `${baseUrl}/search?q=${encodeURIComponent(query)}`,
       },
       twitter: {
         card: 'summary_large_image',
-        title: `Search Results for "${queryString}" | AI Lodi`,
-        description: `Find articles and insights matching your search for "${queryString}" on AI Lodi.`,
+        title: `Search Results for "${query}" | AI Lodi`,
+        description: `Find articles and insights matching your search for "${query}" on AI Lodi.`,
       },
       alternates: {
-        canonical: `${baseUrl}/search?q=${encodeURIComponent(queryString)}`,
+        canonical: `${baseUrl}/search?q=${encodeURIComponent(query)}`,
       },
       robots: {
         index: false, // Don't index search result pages
