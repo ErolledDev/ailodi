@@ -23,7 +23,7 @@
     --secondary: 240 4.8% 95.9%;
     --secondary-foreground: 240 5.9% 10%;
     --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 35%; /* Improved contrast from 46.1% to 35% */
+    --muted-foreground: 240 3.8% 25%; /* Improved contrast from 35% to 25% for better accessibility */
     --accent: 240 4.8% 95.9%;
     --accent-foreground: 240 5.9% 10%;
     --destructive: 0 84.2% 60.2%;
@@ -51,7 +51,7 @@
     --secondary: 217 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
     --muted: 217 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 75%; /* Improved contrast from 65.1% to 75% */
+    --muted-foreground: 215 20.2% 85%; /* Improved contrast from 75% to 85% for better accessibility */
     --accent: 217 32.6% 17.5%;
     --accent-foreground: 210 40% 98%;
     --destructive: 0 62.8% 30.6%;
@@ -163,11 +163,11 @@
   /* High contrast mode support */
   @media (prefers-contrast: high) {
     :root {
-      --muted-foreground: 240 3.8% 20%;
+      --muted-foreground: 240 3.8% 15%;
     }
     
     .dark {
-      --muted-foreground: 215 20.2% 85%;
+      --muted-foreground: 215 20.2% 90%;
     }
   }
 }

@@ -36,7 +36,7 @@ export function SponsorSection() {
 
       {/* Responsive grid: 2 columns on small screens, 1 column on large screens (sidebar) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 sm:gap-6">
-        {ads.map((ad) => (
+        {ads.map((ad, index) => (
           <Card
             key={ad.id}
             className="overflow-hidden transition-shadow duration-300 border-border/50 hover:shadow-lg"
@@ -48,7 +48,8 @@ export function SponsorSection() {
                 width={400}
                 height={200}
                 className="w-full h-24 sm:h-32 object-cover"
-                loading="lazy"
+                loading={index < 2 ? "eager" : "lazy"}
+                priority={index < 2}
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
               />
               <div className="absolute top-2 left-2">

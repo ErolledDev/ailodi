@@ -180,9 +180,12 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://images.pexels.com" />
         <link rel="preconnect" href="https://api.dicebear.com" />
+        <link rel="preconnect" href="https://unpkg.com" />
         
         {/* DNS prefetch for performance */}
         <link rel="dns-prefetch" href="https://blogform.netlify.app" />
+        <link rel="dns-prefetch" href="https://unpkg.com" />
+        <link rel="dns-prefetch" href="https://k6ap8izm.api.lncldglobal.com" />
         
         {/* Google Analytics - Always include if GA ID is available */}
         {gaId && (

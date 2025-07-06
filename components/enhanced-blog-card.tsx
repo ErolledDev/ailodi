@@ -47,6 +47,7 @@ export function EnhancedBlogCard({ post, index = 0 }: EnhancedBlogCardProps) {
                 width={24}
                 height={24}
                 className="w-full h-full object-cover"
+                sizes="24px"
               />
             </div>
             <span className="font-medium text-foreground">{post.author}</span>

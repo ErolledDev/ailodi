@@ -101,7 +101,7 @@ export function RelatedArticles({ currentPostId, categories = [] }: RelatedArtic
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {posts.map((post) => (
+        {posts.map((post, index) => (
           <Link key={post.id} href={`/post/${post.slug}`} className="group">
             <Card className="overflow-hidden border border-border/50 transition-all duration-200 hover:shadow-lg hover:border-primary/20">
               <CardContent className="p-0">
@@ -115,6 +115,8 @@ export function RelatedArticles({ currentPostId, categories = [] }: RelatedArtic
                       height={192}
                       className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-105"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      loading={index < 3 ? "eager" : "lazy"}
+                      priority={index < 3}
                     />
                   </div>
                 )}
