@@ -3,6 +3,7 @@
 import { ExternalLink, Star, Zap, Brain } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import Image from 'next/image';
 
 export function SponsorSection() {
   const ads = [
@@ -41,13 +42,14 @@ export function SponsorSection() {
             className="overflow-hidden transition-shadow duration-300 border-border/50 hover:shadow-lg"
           >
             <div className="relative">
-              <img
+              <Image
                 src={ad.image}
                 alt={ad.title}
+                width={400}
+                height={200}
                 className="w-full h-24 sm:h-32 object-cover"
                 loading="lazy"
-                width="400"
-                height="200"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
               />
               <div className="absolute top-2 left-2">
                 <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-primary text-primary-foreground">

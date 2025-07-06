@@ -23,38 +23,31 @@ export function Hero() {
             Stay ahead with in-depth analysis and insights that matter.
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center" role="group" aria-label="Main actions">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" asChild className="medium-btn medium-btn-primary">
-              <Link href="#featured" aria-describedby="explore-description">
+              <Link href="#featured">
                 <Zap size={18} className="mr-2" aria-hidden="true" />
                 Explore Latest Insights
               </Link>
             </Button>
             <Button size="lg" variant="outline" asChild className="medium-btn medium-btn-secondary">
-              <Link href="/categories" aria-describedby="browse-description">
+              <Link href="/categories">
                 <Code size={18} className="mr-2" aria-hidden="true" />
                 Browse Categories
               </Link>
             </Button>
           </div>
           
-          <div id="explore-description" className="sr-only">
-            Explore our latest articles on AI and technology trends
-          </div>
-          <div id="browse-description" className="sr-only">
-            Browse articles organized by technology categories
-          </div>
-          
-          <div className="mt-8 flex justify-center items-center gap-8 text-sm text-muted-foreground" role="list" aria-label="Featured topics">
-            <div className="flex items-center gap-2" role="listitem">
+          <div className="mt-8 flex justify-center items-center gap-8 text-sm text-muted-foreground">
+            <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-primary rounded-full" aria-hidden="true"></div>
               <span>AI & Machine Learning</span>
             </div>
-            <div className="flex items-center gap-2" role="listitem">
+            <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-primary rounded-full" aria-hidden="true"></div>
               <span>Programming & Development</span>
             </div>
-            <div className="flex items-center gap-2" role="listitem">
+            <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-primary rounded-full" aria-hidden="true"></div>
               <span>Future Science</span>
             </div>

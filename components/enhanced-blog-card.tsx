@@ -33,14 +33,13 @@ export function EnhancedBlogCard({ post, index = 0 }: EnhancedBlogCardProps) {
   return (
     <article 
       className="relative bg-card border border-border/50 rounded-xl p-4 sm:p-6 shadow-sm"
-      role="article"
       aria-labelledby={`post-title-${post.id}`}
       aria-describedby={`post-excerpt-${post.id}`}
     >
-      <Link href={`/post/${post.slug}`} className="block" aria-describedby={`post-meta-${post.id}`}>
+      <Link href={`/post/${post.slug}`} className="block">
         <div className="space-y-4">
           {/* Author and Meta Info */}
-          <div id={`post-meta-${post.id}`} className="flex items-center gap-3 text-sm text-muted-foreground">
+          <div className="flex items-center gap-3 text-sm text-muted-foreground">
             <div className="w-6 h-6 rounded-full overflow-hidden bg-primary/10 flex items-center justify-center">
               <Image
                 src={getAuthorAvatar()}
@@ -78,12 +77,11 @@ export function EnhancedBlogCard({ post, index = 0 }: EnhancedBlogCardProps) {
                 {post.metaDescription}
               </p>
               
-              <div className="flex items-center gap-2" role="list" aria-label="Article categories">
+              <div className="flex items-center gap-2">
                 {post.categories.slice(0, 2).map((category) => (
                   <span 
                     key={category} 
                     className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20"
-                    role="listitem"
                   >
                     {category}
                   </span>

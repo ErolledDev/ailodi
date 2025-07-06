@@ -49,9 +49,9 @@ export function SubscribeForm() {
 
   if (isSubscribed) {
     return (
-      <Card className="bg-gradient-to-r from-green-50 to-emerald-50 border-green-200" role="status" aria-live="polite">
+      <Card className="bg-gradient-to-r from-green-50 to-emerald-50 border-green-200">
         <CardContent className="p-4 sm:p-6">
-          <div className="flex items-center gap-3 text-green-700">
+          <div className="flex items-center gap-3 text-green-700" role="status" aria-live="polite">
             <div className="w-10 h-10 sm:w-12 sm:h-12 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
               <Check size={20} className="text-green-600" aria-hidden="true" />
             </div>
@@ -98,18 +98,13 @@ export function SubscribeForm() {
                 required
                 className="border-primary/20 focus:border-primary focus:ring-primary/20 text-sm sm:text-base"
                 disabled={isSubmitting}
-                aria-describedby="email-description"
                 aria-invalid={error ? 'true' : 'false'}
               />
-              <div id="email-description" className="sr-only">
-                Subscribe to receive weekly AI insights and technology updates
-              </div>
             </div>
             <Button 
               type="submit" 
               disabled={isSubmitting || !email}
               className="bg-primary hover:bg-primary/90 text-primary-foreground px-4 sm:px-6 text-sm sm:text-base"
-              aria-describedby={isSubmitting ? "submitting-status" : undefined}
             >
               {isSubmitting ? (
                 <>
@@ -117,7 +112,7 @@ export function SubscribeForm() {
                     className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" 
                     aria-hidden="true"
                   />
-                  <span id="submitting-status" className="sr-only">Subscribing...</span>
+                  <span className="sr-only">Subscribing...</span>
                 </>
               ) : (
                 <>
@@ -136,16 +131,16 @@ export function SubscribeForm() {
             </div>
           )}
           
-          <div className="flex items-center gap-2 text-xs text-muted-foreground" role="list" aria-label="Newsletter benefits">
-            <div className="flex items-center gap-1" role="listitem">
+          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+            <div className="flex items-center gap-1">
               <div className="w-1.5 h-1.5 bg-primary rounded-full" aria-hidden="true"></div>
               <span>Weekly AI insights</span>
             </div>
-            <div className="flex items-center gap-1" role="listitem">
+            <div className="flex items-center gap-1">
               <div className="w-1.5 h-1.5 bg-primary rounded-full" aria-hidden="true"></div>
               <span>No spam</span>
             </div>
-            <div className="flex items-center gap-1" role="listitem">
+            <div className="flex items-center gap-1">
               <div className="w-1.5 h-1.5 bg-primary rounded-full" aria-hidden="true"></div>
               <span>Unsubscribe anytime</span>
             </div>

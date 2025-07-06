@@ -38,7 +38,7 @@ export function ThemeToggle() {
       size="icon"
       onClick={toggleTheme}
       className="w-9 h-9 hover:bg-muted/80 transition-all duration-200 relative overflow-hidden"
-      aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
+      aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
       aria-pressed={isDark}
       role="switch"
     >
@@ -50,9 +50,6 @@ export function ThemeToggle() {
         className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all duration-300 dark:rotate-0 dark:scale-100" 
         aria-hidden="true"
       />
-      <span className="sr-only">
-        {isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-      </span>
     </Button>
   );
 }

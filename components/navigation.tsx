@@ -44,7 +44,7 @@ export function Navigation() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <Link href="/" className="medium-nav-link" aria-current="page">
+            <Link href="/" className="medium-nav-link">
               Home
             </Link>
             <Link href="/categories" className="medium-nav-link">
@@ -60,21 +60,17 @@ export function Navigation() {
             {/* Desktop Search */}
             <form onSubmit={handleSearchSubmit} className="medium-search w-64" role="search">
               <label htmlFor="desktop-search" className="sr-only">
-                Search AI & Tech insights
+                Search articles
               </label>
               <Search size={16} className="medium-search-icon" aria-hidden="true" />
               <Input
                 id="desktop-search"
                 type="search"
-                placeholder="Search AI & Tech insights..."
+                placeholder="Search articles..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="border-border focus:ring-primary focus:border-primary"
-                aria-describedby="search-description"
               />
-              <span id="search-description" className="sr-only">
-                Search through our collection of AI and technology articles
-              </span>
             </form>
           </div>
 
@@ -86,9 +82,8 @@ export function Navigation() {
                   variant="ghost"
                   size="sm"
                   className="text-muted-foreground"
-                  aria-label="Open navigation menu"
+                  aria-label="Open menu"
                   aria-expanded={isSheetOpen}
-                  aria-controls="mobile-menu"
                 >
                   <Menu size={24} aria-hidden="true" />
                 </Button>
@@ -96,8 +91,7 @@ export function Navigation() {
               <SheetContent 
                 side="right" 
                 className="w-[300px] sm:w-[400px]"
-                id="mobile-menu"
-                aria-label="Mobile navigation menu"
+                aria-label="Mobile navigation"
               >
                 <SheetHeader className="text-left">
                   <SheetTitle>
@@ -109,13 +103,13 @@ export function Navigation() {
                   {/* Mobile Search */}
                   <form onSubmit={handleSearchSubmit} className="medium-search" role="search">
                     <label htmlFor="mobile-search" className="sr-only">
-                      Search AI & Tech insights
+                      Search articles
                     </label>
                     <Search size={16} className="medium-search-icon" aria-hidden="true" />
                     <Input
                       id="mobile-search"
                       type="search"
-                      placeholder="Search AI & Tech insights..."
+                      placeholder="Search articles..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       className="border-border focus:ring-primary focus:border-primary"
@@ -130,7 +124,6 @@ export function Navigation() {
                           href="/" 
                           className="medium-nav-link px-3 py-2 text-base font-medium rounded-lg hover:bg-muted transition-colors"
                           onClick={handleNavClick}
-                          aria-current="page"
                         >
                           Home
                         </Link>
