@@ -2,13 +2,13 @@ import { getAllContent } from '@/lib/content';
 import type { Metadata } from 'next';
 
 export async function generateMetadata({ 
-  params,
   searchParams 
 }: { 
-  params: {};
-  searchParams: { q?: string };
+  searchParams: { [key: string]: string | string[] | undefined }
 }): Promise<Metadata> {
-  const query = searchParams.q || '';
+  // Safely extract query parameter
+  const queryParam = searchParams.q;
+  const query = Array.isArray(queryParam) ? queryParam[0] : queryParam;
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.xyz';
 
   if (query) {

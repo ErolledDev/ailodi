@@ -3,13 +3,13 @@ import type { Metadata } from 'next';
 import type { BlogPost } from '@/types/blog';
 
 export async function generateMetadata({ 
-  params,
   searchParams 
 }: { 
-  params: {};
-  searchParams: { filter?: string };
+  searchParams: { [key: string]: string | string[] | undefined }
 }): Promise<Metadata> {
-  const filter = searchParams.filter;
+  // Safely extract filter parameter
+  const filterParam = searchParams.filter;
+  const filter = Array.isArray(filterParam) ? filterParam[0] : filterParam;
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.xyz';
 
   if (filter) {
