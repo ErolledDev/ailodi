@@ -1,6 +1,6 @@
 ![Ailodi Screenshot](https://i.ibb.co/TSDTQ80/ailodi.jpg)
 
-# AI Lodi - Complete Blog System with CMS Integration
+# AI Lodi - Complete Blog System with CMS Integration.
 
 A **production-ready, commercial-grade** blog platform built with Next.js 14. This isn't just a template—it's a **complete blog ecosystem** with CMS capabilities, LeanCloud backend integration, and enterprise-level features. Perfect for agencies, developers, and businesses who need a professional blogging solution.
 
