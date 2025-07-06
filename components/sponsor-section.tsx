@@ -3,8 +3,6 @@
 import { ExternalLink, Star, Zap, Brain } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import Image from 'next/image';
-import Link from 'next/link';
 
 export function SponsorSection() {
   const ads = [
@@ -43,14 +41,13 @@ export function SponsorSection() {
             className="overflow-hidden transition-shadow duration-300 border-border/50 hover:shadow-lg"
           >
             <div className="relative">
-              <Image
+              <img
                 src={ad.image}
-                alt={`${ad.title} - ${ad.description}`}
-                width={400}
-                height={200}
+                alt={ad.title}
                 className="w-full h-24 sm:h-32 object-cover"
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
-                priority={false}
+                loading="lazy"
+                width="400"
+                height="200"
               />
               <div className="absolute top-2 left-2">
                 <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-primary text-primary-foreground">
@@ -91,10 +88,8 @@ export function SponsorSection() {
             <p className="text-xs sm:text-sm text-muted-foreground mb-3">
               Reach our engaged community of AI enthusiasts and tech professionals.
             </p>
-            <Button variant="outline" size="sm" className="text-xs sm:text-sm" asChild>
-              <Link href="/contact">
-                Contact Us
-              </Link>
+            <Button variant="outline" size="sm" className="text-xs sm:text-sm">
+              Contact Us
             </Button>
           </CardContent>
         </Card>

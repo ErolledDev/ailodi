@@ -2,48 +2,15 @@
 
 import { format } from 'date-fns';
 import { Clock, Calendar, User, Tag, Eye } from 'lucide-react';
-import dynamic from 'next/dynamic';
 import { MarkdownRenderer } from '@/components/markdown-renderer';
 import { SocialShareButtons } from '@/components/social-share-buttons';
 import { PostActions } from '@/components/post-actions';
 import { AuthorCard } from '@/components/author-card';
+import { SubscribeForm } from '@/components/subscribe-form';
+import { RelatedArticles } from '@/components/related-articles';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { BlogPost } from '@/types/blog';
-
-// Lazy load non-critical components
-const SubscribeForm = dynamic(() => import('@/components/subscribe-form').then(mod => ({ default: mod.SubscribeForm })), {
-  ssr: false,
-  loading: () => (
-    <div className="bg-gradient-to-r from-primary/5 to-primary/10 border-primary/20 rounded-xl p-6 animate-pulse">
-      <div className="flex items-start gap-4">
-        <div className="w-12 h-12 bg-primary/10 rounded-full"></div>
-        <div className="flex-1 space-y-3">
-          <div className="h-6 bg-muted rounded w-3/4"></div>
-          <div className="h-4 bg-muted rounded w-full"></div>
-          <div className="h-10 bg-muted rounded"></div>
-        </div>
-      </div>
-    </div>
-  )
-});
-
-const RelatedArticles = dynamic(() => import('@/components/related-articles').then(mod => ({ default: mod.RelatedArticles })), {
-  ssr: false,
-  loading: () => (
-    <div className="mb-8 sm:mb-10 lg:mb-12">
-      <div className="flex items-center gap-3 mb-6">
-        <div className="w-8 h-8 bg-primary/10 rounded-full animate-pulse"></div>
-        <div className="h-6 bg-muted rounded w-40 animate-pulse"></div>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {[1, 2, 3].map((i) => (
-          <div key={i} className="bg-muted/30 rounded-xl h-64 animate-pulse"></div>
-        ))}
-      </div>
-    </div>
-  )
-});
 
 interface ArticleLayoutProps {
   post: BlogPost;
@@ -96,7 +63,6 @@ export function ArticleLayout({ post, currentUrl }: ArticleLayoutProps) {
                   width={56}
                   height={56}
                   className="w-full h-full object-cover"
-                  priority={false}
                 />
               </div>
               <div className="min-w-0">
@@ -211,12 +177,12 @@ export function ArticleLayout({ post, currentUrl }: ArticleLayoutProps) {
           />
         </div>
 
-        {/* Newsletter Subscription - Lazy Loaded */}
+        {/* Newsletter Subscription */}
         <div className="mb-8 sm:mb-10 lg:mb-12">
           <SubscribeForm />
         </div>
 
-        {/* Related Articles - Lazy Loaded */}
+        {/* Related Articles - Always shown below main content */}
         <RelatedArticles 
           currentPostId={post.id} 
           categories={post.categories} 
