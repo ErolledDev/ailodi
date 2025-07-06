@@ -98,37 +98,6 @@
     font-feature-settings: 'kern', 'liga', 'clig', 'calt';
   }
 
-  /* Improve focus visibility for accessibility */
-  :focus-visible {
-    outline: 2px solid hsl(var(--primary));
-    outline-offset: 2px;
-    border-radius: 4px;
-  }
-
-  /* Optimize image loading */
-  img {
-    height: auto;
-    max-width: 100%;
-  }
-
-  /* Improve text selection */
-  ::selection {
-    background-color: hsl(var(--primary) / 0.2);
-    color: hsl(var(--foreground));
-  }
-
-  /* Reduce motion for users who prefer it */
-  @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-      scroll-behavior: auto !important;
-    }
-  }
-
   /* Screen reader only content */
   .sr-only {
     position: absolute;
@@ -549,11 +518,6 @@
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 
-/* Enhanced Focus States for accessibility */
-.focus-visible {
-  @apply outline-none ring-2 ring-primary ring-offset-2;
-}
-
 /* Enhanced Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
@@ -600,90 +564,6 @@
 
 .animate-spin {
   animation: spin 1s linear infinite;
-}
-
-/* Print Styles for better SEO */
-@media print {
-  .medium-nav,
-  .social-share-btn,
-  aside,
-  .medium-btn,
-  .hover-lift {
-    display: none !important;
-  }
-  
-  .prose {
-    font-size: 12pt;
-    line-height: 1.5;
-  }
-  
-  .prose h1 {
-    font-size: 24pt;
-    page-break-after: avoid;
-  }
-  
-  .prose h2 {
-    font-size: 18pt;
-    page-break-after: avoid;
-  }
-  
-  .prose h3 {
-    font-size: 14pt;
-    page-break-after: avoid;
-  }
-  
-  .prose p {
-    orphans: 3;
-    widows: 3;
-  }
-  
-  .prose img {
-    max-width: 100% !important;
-    page-break-inside: avoid;
-  }
-}
-
-/* Enhanced spacing for better mobile experience */
-@media (max-width: 640px) {
-  .container {
-    @apply px-4;
-  }
-  
-  .card {
-    @apply mx-2;
-  }
-}
-
-/* Improved touch targets for mobile accessibility */
-@media (max-width: 640px) {
-  button, a {
-    min-height: 44px;
-    min-width: 44px;
-  }
-}
-
-/* Better text readability on small screens */
-@media (max-width: 640px) {
-  body {
-    font-size: 16px;
-    line-height: 1.6;
-  }
-}
-
-/* Performance optimizations */
-.will-change-transform {
-  will-change: transform;
-}
-
-.will-change-opacity {
-  will-change: opacity;
-}
-
-/* GPU acceleration for smooth animations */
-.gpu-accelerated {
-  transform: translateZ(0);
-  backface-visibility: hidden;
-  perspective: 1000px;
 }
 
 /* Valine Comments Styling - Custom styles to match your design */
