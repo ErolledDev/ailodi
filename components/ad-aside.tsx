@@ -40,6 +40,9 @@ export function AdAside() {
               src={ad.image}
               alt={ad.title}
               className="w-full h-24 sm:h-32 object-cover"
+              width="300"
+              height="200"
+              loading="lazy"
             />
             <div className="absolute top-2 left-2">
               <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-primary text-primary-foreground">

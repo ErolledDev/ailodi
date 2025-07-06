@@ -93,6 +93,9 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
             alt={alt}
             className="rounded-lg my-6 shadow-md w-full"
             loading="lazy"
+            width="800"
+            height="450"
+            style={{ aspectRatio: '16/9', objectFit: 'cover' }}
           />
         ),
       }}

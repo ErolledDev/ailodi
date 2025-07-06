@@ -125,10 +125,6 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.xyz',
-    languages: {
-      'en-US': '/en-US',
-      'x-default': '/',
-    },
     types: {
       'application/rss+xml': [
         { url: '/feed.xml', title: 'AI Lodi RSS Feed' },
@@ -297,37 +293,6 @@ export default function RootLayout({
                   "headline": "Latest AI and Technology Insights"
                 }
               }
-            })
-          }}
-        />
-
-        {/* Breadcrumb Structured Data with Dynamic Category URLs */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "BreadcrumbList",
-              "itemListElement": [
-                {
-                  "@type": "ListItem",
-                  "position": 1,
-                  "name": "Home",
-                  "item": process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.xyz'
-                },
-                {
-                  "@type": "ListItem",
-                  "position": 2,
-                  "name": "AI Insights",
-                  "item": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.xyz'}/categories/ai`
-                },
-                {
-                  "@type": "ListItem",
-                  "position": 3,
-                  "name": "Programming",
-                  "item": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.xyz'}/categories/programming`
-                }
-              ]
             })
           }}
         />
