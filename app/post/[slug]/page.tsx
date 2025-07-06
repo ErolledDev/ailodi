@@ -1,10 +1,39 @@
 import { notFound } from 'next/navigation';
+import dynamic from 'next/dynamic';
 import { ArticleLayout } from '@/components/article-layout';
-import { SponsorSection } from '@/components/sponsor-section';
-import { ValineComments } from '@/components/valine-comments';
 import { getContentBySlug, getAllContent } from '@/lib/content';
 import type { Metadata } from 'next';
 import type { BlogPost } from '@/types/blog';
+
+// Lazy load non-critical components for better performance
+const SponsorSection = dynamic(() => import('@/components/sponsor-section').then(mod => ({ default: mod.SponsorSection })), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 sm:gap-6">
+        {[1, 2, 3].map((i) => (
+          <div key={i} className="bg-muted/30 rounded-lg h-48 animate-pulse" />
+        ))}
+      </div>
+    </div>
+  )
+});
+
+const ValineComments = dynamic(() => import('@/components/valine-comments').then(mod => ({ default: mod.ValineComments })), {
+  ssr: false,
+  loading: () => (
+    <div className="mt-12 pt-8 border-t border-border">
+      <div className="flex items-center gap-3 mb-6">
+        <div className="w-8 h-8 bg-primary/10 rounded-full animate-pulse"></div>
+        <div className="h-6 bg-muted rounded w-32 animate-pulse"></div>
+      </div>
+      <div className="space-y-4">
+        <div className="h-32 bg-muted/30 rounded-lg animate-pulse"></div>
+        <div className="h-24 bg-muted/30 rounded-lg animate-pulse"></div>
+      </div>
+    </div>
+  )
+});
 
 interface PostPageProps {
   params: {
@@ -150,7 +179,7 @@ export default async function PostPage({ params }: PostPageProps) {
           <div className="lg:col-span-3">
             <ArticleLayout post={post} currentUrl={currentUrl} />
             
-            {/* Valine Comments Section */}
+            {/* Valine Comments Section - Lazy Loaded */}
             <ValineComments 
               path={`/post/${post.slug}`}
               title={post.title}
@@ -160,7 +189,7 @@ export default async function PostPage({ params }: PostPageProps) {
           {/* Sidebar - Hidden on mobile, visible on large screens */}
           <aside className="lg:col-span-1 hidden lg:block">
             <div className="sticky top-20 space-y-6 sm:space-y-8">
-              {/* Sponsor Section */}
+              {/* Sponsor Section - Lazy Loaded */}
               <SponsorSection />
             </div>
           </aside>

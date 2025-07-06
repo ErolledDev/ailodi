@@ -77,6 +77,8 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+    /* Improve font rendering performance */
+    font-display: swap;
   }
   
   body {
@@ -87,6 +89,10 @@
     color: hsl(var(--foreground));
     font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
     font-variant-numeric: oldstyle-nums;
+    /* Improve rendering performance */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
   
   h1, h2, h3, h4, h5, h6 {
@@ -96,6 +102,8 @@
     letter-spacing: -0.022em;
     color: hsl(var(--foreground));
     font-feature-settings: 'kern', 'liga', 'clig', 'calt';
+    /* Improve heading performance */
+    font-display: swap;
   }
 
   /* Improve focus visibility for accessibility */
@@ -109,6 +117,9 @@
   img {
     height: auto;
     max-width: 100%;
+    /* Improve image loading performance */
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 400px;
   }
 
   /* Improve text selection */
@@ -137,6 +148,9 @@
   line-height: 1.7;
   font-size: 18px;
   font-feature-settings: 'kern', 'liga', 'clig', 'calt';
+  /* Improve content rendering performance */
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 1000px;
 }
 
 .prose h1 {
@@ -280,6 +294,9 @@
   @apply rounded-lg my-6 sm:my-8 w-full shadow-md;
   height: auto;
   loading: lazy;
+  /* Improve image performance */
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 400px;
 }
 
 .prose table {
@@ -298,6 +315,9 @@
 .medium-card {
   @apply bg-card border border-border/50 rounded-xl p-4 sm:p-6 transition-all duration-200;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  /* Improve card performance */
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 200px;
 }
 
 .dark .medium-card {
@@ -352,6 +372,8 @@
   @apply bg-background/95 border-b border-border/50 sticky top-0 z-50 transition-colors duration-300;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
+  /* Improve navigation performance */
+  will-change: transform;
 }
 
 .medium-nav-brand {
@@ -381,6 +403,9 @@
 /* Enhanced Hero Section */
 .medium-hero {
   @apply bg-gradient-to-br from-background via-primary/5 to-background py-16 sm:py-20 md:py-32 transition-colors duration-300;
+  /* Improve hero performance */
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 600px;
 }
 
 .medium-hero-title {
@@ -408,6 +433,8 @@
 .medium-btn {
   @apply inline-flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-3 rounded-full font-medium transition-all duration-200;
   font-size: 14px;
+  /* Improve button performance */
+  will-change: transform;
 }
 
 @media (min-width: 640px) {
@@ -512,6 +539,7 @@
 /* Hover effects for better UX */
 .hover-lift {
   transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  will-change: transform;
 }
 
 .hover-lift:hover {
@@ -663,6 +691,9 @@
 /* Valine Comments Styling - Custom styles to match your design */
 .valine-container {
   @apply w-full;
+  /* Improve comments performance */
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 400px;
 }
 
 /* Valine Main Container */
@@ -878,4 +909,54 @@
   transition-property: background-color, border-color, color, fill, stroke;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 200ms;
+}
+
+/* Performance optimizations for large content */
+.content-section {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 500px;
+}
+
+/* Optimize animations for better performance */
+@media (prefers-reduced-motion: no-preference) {
+  .animate-on-scroll {
+    animation-timeline: view();
+    animation-range: entry 0% cover 40%;
+  }
+}
+
+/* Critical rendering path optimization */
+.above-fold {
+  content-visibility: visible;
+}
+
+.below-fold {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 400px;
+}
+
+/* Grid pattern for hero background */
+.bg-grid-pattern {
+  background-image: 
+    linear-gradient(rgba(142, 76%, 36%, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(142, 76%, 36%, 0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Support for modern viewport units */
+@supports (height: 100dvh) {
+  .min-h-screen {
+    min-height: 100dvh;
+  }
+}
+
+@supports (height: 100svh) {
+  .min-h-screen {
+    min-height: 100svh;
+  }
 }

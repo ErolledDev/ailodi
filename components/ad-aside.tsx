@@ -3,6 +3,8 @@
 import { ExternalLink, Star, Zap, Brain } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import Image from 'next/image';
+import Link from 'next/link';
 
 export function AdAside() {
   const ads = [
@@ -36,10 +38,14 @@ export function AdAside() {
       {ads.map((ad) => (
         <Card key={ad.id} className="overflow-hidden hover:shadow-lg transition-shadow duration-300 border-border/50">
           <div className="relative">
-            <img
+            <Image
               src={ad.image}
-              alt={ad.title}
+              alt={`${ad.title} - ${ad.description}`}
+              width={300}
+              height={200}
               className="w-full h-24 sm:h-32 object-cover"
+              sizes="300px"
+              priority={false}
             />
             <div className="absolute top-2 left-2">
               <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-primary text-primary-foreground">
@@ -79,8 +85,10 @@ export function AdAside() {
           <p className="text-xs sm:text-sm text-muted-foreground mb-3">
             Reach our engaged community of AI enthusiasts and tech professionals.
           </p>
-          <Button variant="outline" size="sm" className="text-xs sm:text-sm">
-            Contact Us
+          <Button variant="outline" size="sm" className="text-xs sm:text-sm" asChild>
+            <Link href="/contact">
+              Contact Us
+            </Link>
           </Button>
         </CardContent>
       </Card>
