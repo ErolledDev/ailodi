@@ -2,38 +2,33 @@
 
 import { Suspense } from 'react';
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { FolderOpen, FileText, Filter } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { EnhancedBlogCard } from '@/components/enhanced-blog-card';
 import { getAllContent } from '@/lib/content';
 import type { BlogPost } from '@/types/blog';
 
 interface CategoryData {
   name: string;
+  slug: string;
   count: number;
   posts: BlogPost[];
 }
 
-function CategoriesPageContent() {
-  const searchParams = useSearchParams();
-  const filterParam = searchParams.get('filter');
-  
-  const [categories, setCategories] = useState<CategoryData[]>([]);
-  const [filteredCategories, setFilteredCategories] = useState<CategoryData[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(filterParam);
-  const [loading, setLoading] = useState(true);
+// Helper function to normalize category names to slugs
+function categoryToSlug(category: string): string {
+  return category
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, '') // Remove special characters
+    .replace(/\s+/g, '-') // Replace spaces with hyphens
+    .replace(/-+/g, '-') // Replace multiple hyphens with single
+    .trim();
+}
 
-  // Update document title based on filter
-  useEffect(() => {
-    if (filterParam) {
-      document.title = `${filterParam} Articles | AI Lodi - Tech Insights & AI Innovation`;
-    } else {
-      document.title = 'All Categories | AI Lodi - Tech Insights & AI Innovation';
-    }
-  }, [filterParam]);
+function CategoriesPageContent() {
+  const [categories, setCategories] = useState<CategoryData[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchCategories() {
@@ -54,12 +49,12 @@ function CategoriesPageContent() {
         
         const categoryData = Array.from(categoryMap.entries()).map(([name, posts]) => ({
           name,
+          slug: categoryToSlug(name),
           count: posts.length,
           posts: posts.sort((a, b) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime()),
         })).sort((a, b) => b.count - a.count);
         
         setCategories(categoryData);
-        setFilteredCategories(categoryData);
       } catch (error) {
         console.error('Error fetching categories:', error);
       } finally {
@@ -69,10 +64,6 @@ function CategoriesPageContent() {
 
     fetchCategories();
   }, []);
-
-  useEffect(() => {
-    setFilteredCategories(categories);
-  }, [categories]);
 
   if (loading) {
     return (
@@ -95,62 +86,6 @@ function CategoriesPageContent() {
     );
   }
 
-  // If a specific category is selected, show its posts
-  if (selectedCategory) {
-    const categoryData = categories.find(cat => cat.name === selectedCategory);
-    
-    if (!categoryData) {
-      return (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="text-center">
-            <h1 className="text-4xl font-bold text-foreground mb-4">Category Not Found</h1>
-            <p className="text-lg text-muted-foreground mb-8">
-              The category "{selectedCategory}" could not be found.
-            </p>
-            <Link 
-              href="/categories"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-full font-medium"
-            >
-              <FolderOpen size={18} />
-              Browse All Categories
-            </Link>
-          </div>
-        </div>
-      );
-    }
-
-    return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="text-center mb-12">
-          <div className="flex justify-center items-center gap-3 mb-6">
-            <div className="flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full border border-primary/20">
-              <FolderOpen size={20} className="text-primary" />
-              <span className="text-sm font-medium text-primary">Category</span>
-            </div>
-          </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">{selectedCategory}</h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            {categoryData.count} {categoryData.count === 1 ? 'article' : 'articles'} in this category
-          </p>
-          <div className="mt-6">
-            <Link 
-              href="/categories"
-              className="inline-flex items-center gap-2 text-primary font-medium"
-            >
-              ← Back to all categories
-            </Link>
-          </div>
-        </div>
-
-        <div className="max-w-4xl mx-auto space-y-8">
-          {categoryData.posts.map((post, index) => (
-            <EnhancedBlogCard key={post.id} post={post} index={index} />
-          ))}
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="text-center mb-12">
@@ -167,7 +102,7 @@ function CategoriesPageContent() {
         </p>
       </div>
 
-      {filteredCategories.length === 0 ? (
+      {categories.length === 0 ? (
         <div className="text-center py-16">
           <div className="w-24 h-24 bg-muted rounded-full flex items-center justify-center mx-auto mb-6">
             <Filter size={32} className="text-muted-foreground" />
@@ -179,10 +114,10 @@ function CategoriesPageContent() {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredCategories.map((category) => (
+          {categories.map((category) => (
             <Link 
               key={category.name}
-              href={`/categories?filter=${encodeURIComponent(category.name)}`}
+              href={`/categories/${category.slug}`}
               className="block focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-xl"
             >
               <Card className="h-full transition-all duration-200 hover:shadow-lg hover:scale-105 border-border/50 focus-within:ring-2 focus-within:ring-primary">

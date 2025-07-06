@@ -1,6 +1,16 @@
 import { MetadataRoute } from 'next';
 import { getAllContent } from '@/lib/content';
 
+// Helper function to normalize category names to slugs
+function categoryToSlug(category: string): string {
+  return category
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, '') // Remove special characters
+    .replace(/\s+/g, '-') // Replace spaces with hyphens
+    .replace(/-+/g, '-') // Replace multiple hyphens with single
+    .trim();
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.xyz';
   
@@ -13,43 +23,43 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 1,
     },
     {
-      url: `${baseUrl}/about`,
+      url: `${baseUrl}/about/`,
       lastModified: new Date(),
       changeFrequency: 'monthly' as const,
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/categories`,
+      url: `${baseUrl}/categories/`,
       lastModified: new Date(),
       changeFrequency: 'weekly' as const,
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/contact`,
+      url: `${baseUrl}/contact/`,
       lastModified: new Date(),
       changeFrequency: 'monthly' as const,
       priority: 0.7,
     },
     {
-      url: `${baseUrl}/search`,
+      url: `${baseUrl}/search/`,
       lastModified: new Date(),
       changeFrequency: 'weekly' as const,
       priority: 0.6,
     },
     {
-      url: `${baseUrl}/privacy-policy`,
+      url: `${baseUrl}/privacy-policy/`,
       lastModified: new Date(),
       changeFrequency: 'yearly' as const,
       priority: 0.3,
     },
     {
-      url: `${baseUrl}/terms-of-service`,
+      url: `${baseUrl}/terms-of-service/`,
       lastModified: new Date(),
       changeFrequency: 'yearly' as const,
       priority: 0.3,
     },
     {
-      url: `${baseUrl}/disclaimer`,
+      url: `${baseUrl}/disclaimer/`,
       lastModified: new Date(),
       changeFrequency: 'yearly' as const,
       priority: 0.3,
@@ -81,17 +91,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       else changeFrequency = 'yearly';
 
       return {
-        url: `${baseUrl}/post/${post.slug}`,
+        url: `${baseUrl}/post/${post.slug}/`,
         lastModified: postDate,
         changeFrequency,
         priority: 0.9,
       };
     });
 
-    // Category pages
+    // Category pages with new dynamic URLs
     const categories = [...new Set(posts.flatMap(post => post.categories))];
     categoryPages = categories.map((category) => ({
-      url: `${baseUrl}/categories?filter=${encodeURIComponent(category)}`,
+      url: `${baseUrl}/categories/${categoryToSlug(category)}/`,
       lastModified: new Date(),
       changeFrequency: 'weekly' as const,
       priority: 0.7,

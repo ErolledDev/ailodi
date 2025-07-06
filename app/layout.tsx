@@ -301,7 +301,7 @@ export default function RootLayout({
           }}
         />
 
-        {/* Breadcrumb Structured Data */}
+        {/* Breadcrumb Structured Data with Dynamic Category URLs */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -319,13 +319,13 @@ export default function RootLayout({
                   "@type": "ListItem",
                   "position": 2,
                   "name": "AI Insights",
-                  "item": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.xyz'}/categories?filter=AI`
+                  "item": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.xyz'}/categories/ai`
                 },
                 {
                   "@type": "ListItem",
                   "position": 3,
                   "name": "Programming",
-                  "item": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.xyz'}/categories?filter=Programming`
+                  "item": `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.xyz'}/categories/programming`
                 }
               ]
             })

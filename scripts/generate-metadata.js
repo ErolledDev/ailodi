@@ -7,6 +7,16 @@ const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.xyz';
 const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME || 'AI Lodi';
 const SITE_DESCRIPTION = process.env.NEXT_PUBLIC_SITE_DESCRIPTION || 'AI Lodi is your ultimate guide to modern technology, AI breakthroughs, programming trends, and future science.';
 
+// Helper function to normalize category names to slugs
+function categoryToSlug(category) {
+  return category
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, '') // Remove special characters
+    .replace(/\s+/g, '-') // Replace spaces with hyphens
+    .replace(/-+/g, '-') // Replace multiple hyphens with single
+    .trim();
+}
+
 // Fetch with retry mechanism and explicit cache control
 async function fetchWithRetry(url, options = {}, retries = 3) {
   for (let i = 0; i < retries; i++) {
@@ -113,11 +123,11 @@ function generateSitemap(posts) {
     };
   });
 
-  // Category pages
+  // Category pages with new dynamic URLs
   const categoriesArray = posts.flatMap(post => post.categories || []);
   const categories = Array.from(new Set(categoriesArray));
   const categoryPages = categories.map((category) => ({
-    url: `${BASE_URL}/categories/?filter=${encodeURIComponent(category)}`,
+    url: `${BASE_URL}/categories/${categoryToSlug(category)}/`,
     lastModified: new Date(),
     changeFrequency: 'weekly',
     priority: 0.7,
@@ -136,53 +146,6 @@ ${allPages.map(page => `  <url>
 </urlset>`;
 
   return sitemap;
-}
-
-// Generate RSS feed
-function generateRSSFeed(posts) {
-  const latestPosts = posts
-    .sort((a, b) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime())
-    .slice(0, 20);
-
-  const rssXml = `<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/">
-  <channel>
-    <title>${SITE_NAME} - Your Global Tech Insights & AI Innovation Hub</title>
-    <description>${SITE_DESCRIPTION}</description>
-    <link>${BASE_URL}</link>
-    <atom:link href="${BASE_URL}/feed.xml" rel="self" type="application/rss+xml"/>
-    <language>en-US</language>
-    <managingEditor>hello@ailodi.xyz (AI Lodi Team)</managingEditor>
-    <webMaster>hello@ailodi.xyz (AI Lodi Team)</webMaster>
-    <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
-    <category>Technology</category>
-    <category>Artificial Intelligence</category>
-    <category>Programming</category>
-    <category>Innovation</category>
-    <ttl>60</ttl>
-    <image>
-      <url>${BASE_URL}/logo.png</url>
-      <title>${SITE_NAME}</title>
-      <link>${BASE_URL}</link>
-      <width>512</width>
-      <height>512</height>
-    </image>
-    ${latestPosts.map(post => `
-    <item>
-      <title><![CDATA[${post.title}]]></title>
-      <description><![CDATA[${post.metaDescription}]]></description>
-      <content:encoded><![CDATA[${post.content.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img alt="$1" src="$2" />')}]]></content:encoded>
-      <link>${BASE_URL}/post/${post.slug}/</link>
-      <guid isPermaLink="true">${BASE_URL}/post/${post.slug}/</guid>
-      <pubDate>${new Date(post.publishDate).toUTCString()}</pubDate>
-      <dc:creator><![CDATA[${post.author}]]></dc:creator>
-      ${(post.categories || []).map(category => `<category><![CDATA[${category}]]></category>`).join('')}
-      ${post.featuredImageUrl ? `<enclosure url="${post.featuredImageUrl}" type="image/jpeg"/>` : ''}
-    </item>`).join('')}
-  </channel>
-</rss>`;
-
-  return rssXml;
 }
 
 // Main function
@@ -225,11 +188,8 @@ async function generateMetadata() {
     fs.writeFileSync(path.join(publicDir, 'sitemap.xml'), sitemap, 'utf8');
     console.log('✅ BUILD: sitemap.xml generated successfully');
 
-    // Generate and write RSS feed
-    console.log('📡 BUILD: Generating feed.xml with fresh content...');
-    const rss = generateRSSFeed(publishedPosts);
-    fs.writeFileSync(path.join(publicDir, 'feed.xml'), rss, 'utf8');
-    console.log('✅ BUILD: feed.xml generated successfully');
+    // RSS feed is now handled by app/feed.xml/route.ts - no longer generating static file
+    console.log('📡 BUILD: RSS feed handled by dynamic route (app/feed.xml/route.ts)');
 
     // Write a build info file for debugging
     const buildInfo = {

@@ -17,8 +17,8 @@ export async function GET() {
     const rssXml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/">
   <channel>
-    <title>AI Lodi - Your Global Tech Insights & AI Innovation Hub</title>
-    <description>AI Lodi is your ultimate guide to modern technology, AI breakthroughs, programming trends, and future science. Get in-depth analysis, tutorials, and insights on cutting-edge tech innovations.</description>
+    <title><![CDATA[AI Lodi - Your Global Tech Insights & AI Innovation Hub]]></title>
+    <description><![CDATA[AI Lodi is your ultimate guide to modern technology, AI breakthroughs, programming trends, and future science. Get in-depth analysis, tutorials, and insights on cutting-edge tech innovations.]]></description>
     <link>${baseUrl}</link>
     <atom:link href="${baseUrl}/feed.xml" rel="self" type="application/rss+xml"/>
     <language>en-US</language>
@@ -32,7 +32,7 @@ export async function GET() {
     <ttl>60</ttl>
     <image>
       <url>${baseUrl}/logo.png</url>
-      <title>AI Lodi</title>
+      <title><![CDATA[AI Lodi]]></title>
       <link>${baseUrl}</link>
       <width>512</width>
       <height>512</height>
