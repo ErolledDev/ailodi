@@ -1,6 +1,6 @@
 ![Ailodi Screenshot](https://i.ibb.co/TSDTQ80/ailodi.jpg)
 
-# AI Lodi - Complete Blog System with CMS Integration.
+# AI Lodi - Complete Blog System with CMS Integration
 
 A **production-ready, commercial-grade** blog platform built with Next.js 14. This isn't just a template—it's a **complete blog ecosystem** with CMS capabilities, LeanCloud backend integration, and enterprise-level features. Perfect for agencies, developers, and businesses who need a professional blogging solution.
 
@@ -388,58 +388,107 @@ module.exports = {
 }
 ```
 
-### **📝 Content Customization**
+### **📝 Content API Configuration**
 
-#### **1. Content API Configuration**
-Update `lib/content.ts` for your API:
+#### **🔧 Simple API URL Change**
+The easiest way to use your own content is to update the API URL in your environment variables:
+
+```env
+# Blog API Configuration
+NEXT_PUBLIC_API_URL=https://your-new-api.com/api/content.json
+```
+
+#### **📊 Required JSON Structure**
+Your API endpoint should return an array of blog posts with this structure:
+
+```json
+[
+  {
+    "id": "unique-post-id",
+    "title": "Your Post Title",
+    "slug": "your-post-slug",
+    "content": "# Your Content Here\n\nMarkdown content...",
+    "metaDescription": "SEO description for this post",
+    "seoTitle": "SEO optimized title",
+    "keywords": ["keyword1", "keyword2", "keyword3"],
+    "author": "Author Name",
+    "categories": ["Technology", "AI"],
+    "tags": ["nextjs", "blog", "tutorial"],
+    "status": "published",
+    "publishDate": "2025-01-01T00:00:00Z",
+    "createdAt": "2025-01-01T00:00:00Z",
+    "updatedAt": "2025-01-01T00:00:00Z",
+    "featuredImageUrl": "https://example.com/image.jpg"
+  }
+]
+```
+
+#### **🔄 Custom API Integration**
+If your API has a different structure, update `lib/content.ts`:
+
 ```typescript
-const API_URL = 'https://your-cms.com/api/posts';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://your-api.com/posts';
 
-// For custom API structure
+// Transform your API data to match BlogPost interface
+function transformPost(apiPost: any): BlogPost {
+  return {
+    id: apiPost.id || apiPost._id,
+    title: apiPost.title || apiPost.name,
+    slug: apiPost.slug || apiPost.url_slug,
+    content: apiPost.content || apiPost.body,
+    metaDescription: apiPost.excerpt || apiPost.description,
+    seoTitle: apiPost.seo_title || apiPost.title,
+    keywords: apiPost.keywords || apiPost.tags || [],
+    author: apiPost.author?.name || apiPost.author || 'Anonymous',
+    categories: apiPost.categories || apiPost.category ? [apiPost.category] : [],
+    tags: apiPost.tags || [],
+    status: apiPost.published ? 'published' : 'draft',
+    publishDate: apiPost.published_at || apiPost.created_at,
+    createdAt: apiPost.created_at,
+    updatedAt: apiPost.updated_at || apiPost.created_at,
+    featuredImageUrl: apiPost.featured_image || apiPost.image
+  };
+}
+
 export async function getAllContent(): Promise<BlogPost[]> {
   const response = await fetch(API_URL);
   const data = await response.json();
   
-  // Transform your API data to match BlogPost interface
-  return data.map(transformPost);
+  // Handle different API response structures
+  const posts = Array.isArray(data) ? data : data.posts || data.data || [];
+  
+  return posts.map(transformPost).filter(post => post.status === 'published');
 }
 ```
 
-#### **2. Content Structure**
-Modify `types/blog.ts` for your content model:
-```typescript
-export interface BlogPost {
-  id: string;
-  title: string;
-  slug: string;
-  content: string;
-  // Add your custom fields
-  customField?: string;
-  additionalMeta?: {
-    readingTime?: number;
-    difficulty?: 'beginner' | 'intermediate' | 'advanced';
-  };
-}
-```
+#### **📁 Static JSON Setup**
+For static content, create `public/api/content.json`:
 
-#### **3. Static Content Setup**
-For static JSON content, create `public/api/content.json`:
 ```json
 [
   {
     "id": "1",
     "title": "Your First Post",
     "slug": "your-first-post",
-    "content": "# Your Content Here\n\nMarkdown content...",
-    "metaDescription": "SEO description",
+    "content": "# Welcome to Your Blog\n\nThis is your first post content in Markdown format.",
+    "metaDescription": "Learn how to get started with your new blog platform",
+    "seoTitle": "Getting Started - Your Blog",
+    "keywords": ["blog", "getting started", "tutorial"],
     "author": "Your Name",
-    "categories": ["Technology"],
-    "tags": ["nextjs", "blog"],
+    "categories": ["Getting Started"],
+    "tags": ["welcome", "tutorial"],
     "status": "published",
     "publishDate": "2025-01-01T00:00:00Z",
-    "featuredImageUrl": "https://example.com/image.jpg"
+    "createdAt": "2025-01-01T00:00:00Z",
+    "updatedAt": "2025-01-01T00:00:00Z",
+    "featuredImageUrl": "https://images.pexels.com/photos/1181467/pexels-photo-1181467.jpeg"
   }
 ]
+```
+
+Then set your environment variable:
+```env
+NEXT_PUBLIC_API_URL=https://yourdomain.com/api/content.json
 ```
 
 ### **🔧 Component Customization**
@@ -599,6 +648,7 @@ name = "your-blog-staging"
 Set in Cloudflare Dashboard:
 - `NEXT_PUBLIC_SITE_URL`
 - `NEXT_PUBLIC_SITE_NAME`
+- `NEXT_PUBLIC_API_URL`
 - `NEXT_PUBLIC_VALINE_APP_ID`
 - `NEXT_PUBLIC_VALINE_APP_KEY`
 - `NEXT_PUBLIC_GA_ID`
