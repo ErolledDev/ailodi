@@ -34,11 +34,11 @@ export function Navigation() {
   };
 
   return (
-    <nav className="medium-nav" role="navigation" aria-label="Main navigation">
+    <nav className="medium-nav">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link href="/" className="medium-nav-brand" aria-label="AI Lodi - Home">
+          <Link href="/" className="medium-nav-brand">
             AI Lodi
           </Link>
 
@@ -58,15 +58,11 @@ export function Navigation() {
             </Link>
             
             {/* Desktop Search */}
-            <form onSubmit={handleSearchSubmit} className="medium-search w-64" role="search">
-              <label htmlFor="desktop-search" className="sr-only">
-                Search articles
-              </label>
-              <Search size={16} className="medium-search-icon" aria-hidden="true" />
+            <form onSubmit={handleSearchSubmit} className="medium-search w-64">
+              <Search size={16} className="medium-search-icon" />
               <Input
-                id="desktop-search"
                 type="search"
-                placeholder="Search articles..."
+                placeholder="Search AI & Tech insights..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="border-border focus:ring-primary focus:border-primary"
@@ -82,17 +78,12 @@ export function Navigation() {
                   variant="ghost"
                   size="sm"
                   className="text-muted-foreground"
-                  aria-label="Open menu"
-                  aria-expanded={isSheetOpen}
+                  aria-label="Open navigation menu"
                 >
-                  <Menu size={24} aria-hidden="true" />
+                  <Menu size={24} />
                 </Button>
               </SheetTrigger>
-              <SheetContent 
-                side="right" 
-                className="w-[300px] sm:w-[400px]"
-                aria-label="Mobile navigation"
-              >
+              <SheetContent side="right" className="w-[300px] sm:w-[400px]">
                 <SheetHeader className="text-left">
                   <SheetTitle>
                     AI Lodi
@@ -101,15 +92,11 @@ export function Navigation() {
                 
                 <div className="flex flex-col space-y-6 mt-8">
                   {/* Mobile Search */}
-                  <form onSubmit={handleSearchSubmit} className="medium-search" role="search">
-                    <label htmlFor="mobile-search" className="sr-only">
-                      Search articles
-                    </label>
-                    <Search size={16} className="medium-search-icon" aria-hidden="true" />
+                  <form onSubmit={handleSearchSubmit} className="medium-search">
+                    <Search size={16} className="medium-search-icon" />
                     <Input
-                      id="mobile-search"
                       type="search"
-                      placeholder="Search articles..."
+                      placeholder="Search AI & Tech insights..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       className="border-border focus:ring-primary focus:border-primary"
@@ -117,46 +104,44 @@ export function Navigation() {
                   </form>
 
                   {/* Mobile Navigation Links */}
-                  <nav role="navigation" aria-label="Mobile navigation">
-                    <div className="flex flex-col space-y-4">
-                      <SheetClose asChild>
-                        <Link 
-                          href="/" 
-                          className="medium-nav-link px-3 py-2 text-base font-medium rounded-lg hover:bg-muted transition-colors"
-                          onClick={handleNavClick}
-                        >
-                          Home
-                        </Link>
-                      </SheetClose>
-                      <SheetClose asChild>
-                        <Link 
-                          href="/categories" 
-                          className="medium-nav-link px-3 py-2 text-base font-medium rounded-lg hover:bg-muted transition-colors"
-                          onClick={handleNavClick}
-                        >
-                          Categories
-                        </Link>
-                      </SheetClose>
-                      <SheetClose asChild>
-                        <Link 
-                          href="/about" 
-                          className="medium-nav-link px-3 py-2 text-base font-medium rounded-lg hover:bg-muted transition-colors"
-                          onClick={handleNavClick}
-                        >
-                          About
-                        </Link>
-                      </SheetClose>
-                      <SheetClose asChild>
-                        <Link 
-                          href="/contact" 
-                          className="medium-nav-link px-3 py-2 text-base font-medium rounded-lg hover:bg-muted transition-colors"
-                          onClick={handleNavClick}
-                        >
-                          Contact
-                        </Link>
-                      </SheetClose>
-                    </div>
-                  </nav>
+                  <div className="flex flex-col space-y-4">
+                    <SheetClose asChild>
+                      <Link 
+                        href="/" 
+                        className="medium-nav-link px-3 py-2 text-base font-medium rounded-lg hover:bg-muted transition-colors"
+                        onClick={handleNavClick}
+                      >
+                        Home
+                      </Link>
+                    </SheetClose>
+                    <SheetClose asChild>
+                      <Link 
+                        href="/categories" 
+                        className="medium-nav-link px-3 py-2 text-base font-medium rounded-lg hover:bg-muted transition-colors"
+                        onClick={handleNavClick}
+                      >
+                        Categories
+                      </Link>
+                    </SheetClose>
+                    <SheetClose asChild>
+                      <Link 
+                        href="/about" 
+                        className="medium-nav-link px-3 py-2 text-base font-medium rounded-lg hover:bg-muted transition-colors"
+                        onClick={handleNavClick}
+                      >
+                        About
+                      </Link>
+                    </SheetClose>
+                    <SheetClose asChild>
+                      <Link 
+                        href="/contact" 
+                        className="medium-nav-link px-3 py-2 text-base font-medium rounded-lg hover:bg-muted transition-colors"
+                        onClick={handleNavClick}
+                      >
+                        Contact
+                      </Link>
+                    </SheetClose>
+                  </div>
 
                   {/* Mobile Quick Actions */}
                   <div className="pt-6 border-t border-border">
@@ -168,7 +153,7 @@ export function Navigation() {
                           className="flex items-center gap-3 px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
                           onClick={handleNavClick}
                         >
-                          <Search size={16} aria-hidden="true" />
+                          <Search size={16} />
                           Advanced Search
                         </Link>
                       </SheetClose>

@@ -33,8 +33,8 @@ export function EnhancedBlogCard({ post, index = 0 }: EnhancedBlogCardProps) {
   return (
     <article 
       className="relative bg-card border border-border/50 rounded-xl p-4 sm:p-6 shadow-sm"
+      role="article"
       aria-labelledby={`post-title-${post.id}`}
-      aria-describedby={`post-excerpt-${post.id}`}
     >
       <Link href={`/post/${post.slug}`} className="block">
         <div className="space-y-4">
@@ -43,22 +43,21 @@ export function EnhancedBlogCard({ post, index = 0 }: EnhancedBlogCardProps) {
             <div className="w-6 h-6 rounded-full overflow-hidden bg-primary/10 flex items-center justify-center">
               <Image
                 src={getAuthorAvatar()}
-                alt={`${post.author}'s profile picture`}
+                alt={`${post.author}'s avatar`}
                 width={24}
                 height={24}
                 className="w-full h-full object-cover"
-                sizes="24px"
               />
             </div>
             <span className="font-medium text-foreground">{post.author}</span>
-            <span aria-hidden="true">·</span>
-            <time dateTime={post.publishDate} aria-label={`Published on ${format(new Date(post.publishDate), 'MMMM d, yyyy')}`}>
+            <span>·</span>
+            <time dateTime={post.publishDate}>
               {format(new Date(post.publishDate), 'MMM d')}
             </time>
-            <span aria-hidden="true">·</span>
+            <span>·</span>
             <div className="flex items-center gap-1">
-              <Clock size={12} aria-hidden="true" />
-              <span aria-label={`${readingTime} minute read`}>{readingTime} min read</span>
+              <Clock size={12} />
+              <span>{readingTime} min read</span>
             </div>
           </div>
           
@@ -71,10 +70,7 @@ export function EnhancedBlogCard({ post, index = 0 }: EnhancedBlogCardProps) {
                 {post.title}
               </h2>
               
-              <p 
-                id={`post-excerpt-${post.id}`}
-                className="text-muted-foreground leading-relaxed line-clamp-3 text-base"
-              >
+              <p className="text-muted-foreground leading-relaxed line-clamp-3 text-base">
                 {post.metaDescription}
               </p>
               
@@ -88,7 +84,7 @@ export function EnhancedBlogCard({ post, index = 0 }: EnhancedBlogCardProps) {
                   </span>
                 ))}
                 {post.categories.length > 2 && (
-                  <span className="text-xs text-muted-foreground" aria-label={`${post.categories.length - 2} more categories`}>
+                  <span className="text-xs text-muted-foreground">
                     +{post.categories.length - 2} more
                   </span>
                 )}
@@ -99,13 +95,11 @@ export function EnhancedBlogCard({ post, index = 0 }: EnhancedBlogCardProps) {
               <div className="w-32 h-32 md:w-40 md:h-32 flex-shrink-0 overflow-hidden rounded-lg">
                 <Image
                   src={post.featuredImageUrl}
-                  alt={`Featured image for ${post.title}`}
+                  alt={post.title}
                   width={160}
                   height={128}
                   className="w-full h-full object-cover"
                   sizes="(max-width: 768px) 128px, 160px"
-                  loading={index < 3 ? "eager" : "lazy"}
-                  priority={index < 3}
                 />
               </div>
             )}
@@ -119,9 +113,9 @@ export function EnhancedBlogCard({ post, index = 0 }: EnhancedBlogCardProps) {
           <ShareDialog post={post} url={postUrl}>
             <button
               className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3 text-muted-foreground"
-              aria-label={`Share article: ${post.title}`}
+              aria-label="Share post"
             >
-              <Share2 size={16} aria-hidden="true" />
+              <Share2 size={16} />
             </button>
           </ShareDialog>
         </div>

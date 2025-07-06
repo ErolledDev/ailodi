@@ -3,7 +3,6 @@
 import { ExternalLink, Star, Zap, Brain } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import Image from 'next/image';
 
 export function SponsorSection() {
   const ads = [
@@ -36,21 +35,19 @@ export function SponsorSection() {
 
       {/* Responsive grid: 2 columns on small screens, 1 column on large screens (sidebar) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 sm:gap-6">
-        {ads.map((ad, index) => (
+        {ads.map((ad) => (
           <Card
             key={ad.id}
             className="overflow-hidden transition-shadow duration-300 border-border/50 hover:shadow-lg"
           >
             <div className="relative">
-              <Image
+              <img
                 src={ad.image}
                 alt={ad.title}
-                width={400}
-                height={200}
                 className="w-full h-24 sm:h-32 object-cover"
-                loading={index < 2 ? "eager" : "lazy"}
-                priority={index < 2}
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
+                loading="lazy"
+                width="400"
+                height="200"
               />
               <div className="absolute top-2 left-2">
                 <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-primary text-primary-foreground">

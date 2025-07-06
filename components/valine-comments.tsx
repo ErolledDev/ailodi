@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { MessageSquare, Users, Clock, Shield } from 'lucide-react';
+import { MessageSquare, Users, Clock } from 'lucide-react';
 
 interface ValineCommentsProps {
   path: string;
@@ -29,7 +29,7 @@ export function ValineComments({ path, title }: ValineCommentsProps) {
       return;
     }
 
-    // Function to initialize Valine with enhanced security
+    // Function to initialize Valine
     const initValine = () => {
       if (window.Valine && valineRef.current) {
         new window.Valine({
@@ -38,13 +38,12 @@ export function ValineComments({ path, title }: ValineCommentsProps) {
           appKey: appKey,
           serverURLs: serverURLs || undefined,
           path: path,
-          placeholder: 'Share your thoughts about this article... (Math verification required)',
+          placeholder: 'Share your thoughts about this article...',
           avatar: 'retro',
           visitor: true,
           highlight: true,
-          recordIP: true, // Enable IP recording for moderation
-          enableQQ: false, // Disable QQ integration for privacy
-          verify: true, // Enable math captcha for spam protection
+          recordIP: false,
+          enableQQ: false,
           requiredFields: ['nick', 'mail'],
           meta: ['nick', 'mail', 'link'],
           pageSize: 10,
@@ -72,7 +71,7 @@ export function ValineComments({ path, title }: ValineCommentsProps) {
       return;
     }
 
-    // Create and load Valine script with preconnect optimization
+    // Create and load Valine script
     const script = document.createElement('script');
     script.src = '//unpkg.com/valine/dist/Valine.min.js';
     script.async = true;
@@ -108,35 +107,21 @@ export function ValineComments({ path, title }: ValineCommentsProps) {
           Your feedback helps us create better content for the tech community.
         </p>
         
-        {/* Security Notice */}
-        <div className="mt-6 p-4 bg-primary/5 rounded-lg border border-primary/20">
-          <div className="flex items-start gap-3">
-            <Shield size={16} className="text-primary mt-0.5 flex-shrink-0" />
-            <div className="space-y-2">
-              <h4 className="font-medium text-foreground">Secure Comments</h4>
-              <p className="text-sm text-muted-foreground">
-                Our comment system includes math verification to prevent spam and ensure quality discussions. 
-                Your privacy is protected with secure data handling.
-              </p>
-            </div>
+      {/* Community Guidelines */}
+      <div className="mt-8 p-4 bg-muted/30 rounded-lg border border-border/50">
+        <div className="flex items-start gap-3">
+          <Users size={16} className="text-primary mt-0.5 flex-shrink-0" />
+          <div className="space-y-2">
+            <h4 className="font-medium text-foreground">Community Guidelines</h4>
+            <ul className="text-sm text-muted-foreground space-y-1">
+              <li>• Be respectful and constructive in your comments</li>
+              <li>• Stay on topic and contribute meaningfully to the discussion</li>
+              <li>• No spam, self-promotion, or inappropriate content</li>
+              <li>• Help create a welcoming environment for all readers</li>
+            </ul>
           </div>
         </div>
-        
-        {/* Community Guidelines */}
-        <div className="mt-4 p-4 bg-muted/30 rounded-lg border border-border/50">
-          <div className="flex items-start gap-3">
-            <Users size={16} className="text-primary mt-0.5 flex-shrink-0" />
-            <div className="space-y-2">
-              <h4 className="font-medium text-foreground">Community Guidelines</h4>
-              <ul className="text-sm text-muted-foreground space-y-1">
-                <li>• Be respectful and constructive in your comments</li>
-                <li>• Stay on topic and contribute meaningfully to the discussion</li>
-                <li>• No spam, self-promotion, or inappropriate content</li>
-                <li>• Help create a welcoming environment for all readers</li>
-              </ul>
-            </div>
-          </div>
-        </div>
+      </div>
       </div>
 
       {/* Valine Comments Container */}
@@ -145,6 +130,7 @@ export function ValineComments({ path, title }: ValineCommentsProps) {
         id="valine-comments"
         className="valine-container"
       />
+
     </div>
   );
 }

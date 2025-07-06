@@ -51,9 +51,9 @@ export function SubscribeForm() {
     return (
       <Card className="bg-gradient-to-r from-green-50 to-emerald-50 border-green-200">
         <CardContent className="p-4 sm:p-6">
-          <div className="flex items-center gap-3 text-green-700" role="status" aria-live="polite">
+          <div className="flex items-center gap-3 text-green-700">
             <div className="w-10 h-10 sm:w-12 sm:h-12 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
-              <Check size={20} className="text-green-600" aria-hidden="true" />
+              <Check size={20} className="text-green-600" />
             </div>
             <div className="min-w-0">
               <h3 className="font-semibold text-sm sm:text-base">Successfully subscribed!</h3>
@@ -70,7 +70,7 @@ export function SubscribeForm() {
       <CardHeader className="pb-3 sm:pb-4">
         <div className="flex items-start gap-3 sm:gap-4">
           <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
-            <Brain size={20} className="text-primary" aria-hidden="true" />
+            <Brain size={20} className="text-primary" />
           </div>
           <div className="min-w-0 flex-1">
             <CardTitle className="text-lg sm:text-xl font-bold text-foreground leading-tight">
@@ -83,40 +83,27 @@ export function SubscribeForm() {
         </div>
       </CardHeader>
       <CardContent className="pt-0 px-4 sm:px-6 pb-4 sm:pb-6">
-        <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4" noValidate>
+        <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
           <div className="flex flex-col sm:flex-row gap-3">
-            <div className="flex-1">
-              <label htmlFor="newsletter-email" className="sr-only">
-                Email address for newsletter subscription
-              </label>
-              <Input
-                id="newsletter-email"
-                type="email"
-                placeholder="Enter your email address"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="border-primary/20 focus:border-primary focus:ring-primary/20 text-sm sm:text-base"
-                disabled={isSubmitting}
-                aria-invalid={error ? 'true' : 'false'}
-              />
-            </div>
+            <Input
+              type="email"
+              placeholder="Enter your email address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="flex-1 border-primary/20 focus:border-primary focus:ring-primary/20 text-sm sm:text-base"
+              disabled={isSubmitting}
+            />
             <Button 
               type="submit" 
               disabled={isSubmitting || !email}
               className="bg-primary hover:bg-primary/90 text-primary-foreground px-4 sm:px-6 text-sm sm:text-base"
             >
               {isSubmitting ? (
-                <>
-                  <div 
-                    className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" 
-                    aria-hidden="true"
-                  />
-                  <span className="sr-only">Subscribing...</span>
-                </>
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
               ) : (
                 <>
-                  <Zap size={16} className="mr-2" aria-hidden="true" />
+                  <Zap size={16} className="mr-2" />
                   Subscribe
                 </>
               )}
@@ -125,23 +112,23 @@ export function SubscribeForm() {
           
           {/* Error Message */}
           {error && (
-            <div className="flex items-start gap-2 p-3 bg-red-50 border border-red-200 rounded-lg" role="alert" aria-live="assertive">
-              <AlertCircle size={16} className="text-red-500 mt-0.5 flex-shrink-0" aria-hidden="true" />
+            <div className="flex items-start gap-2 p-3 bg-red-50 border border-red-200 rounded-lg">
+              <AlertCircle size={16} className="text-red-500 mt-0.5 flex-shrink-0" />
               <p className="text-sm text-red-700">{error}</p>
             </div>
           )}
           
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
             <div className="flex items-center gap-1">
-              <div className="w-1.5 h-1.5 bg-primary rounded-full" aria-hidden="true"></div>
+              <div className="w-1.5 h-1.5 bg-primary rounded-full"></div>
               <span>Weekly AI insights</span>
             </div>
             <div className="flex items-center gap-1">
-              <div className="w-1.5 h-1.5 bg-primary rounded-full" aria-hidden="true"></div>
+              <div className="w-1.5 h-1.5 bg-primary rounded-full"></div>
               <span>No spam</span>
             </div>
             <div className="flex items-center gap-1">
-              <div className="w-1.5 h-1.5 bg-primary rounded-full" aria-hidden="true"></div>
+              <div className="w-1.5 h-1.5 bg-primary rounded-full"></div>
               <span>Unsubscribe anytime</span>
             </div>
           </div>
