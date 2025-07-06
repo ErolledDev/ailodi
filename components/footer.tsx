@@ -108,7 +108,7 @@ export function Footer() {
                 RSS Feed
               </Link>
               <Link
-                href="mailto:hello@ailodi.tech"
+                href="mailto:erolledph+ailodi@gmail.com"
                 className="inline-flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg transition-colors duration-200"
               >
                 <Mail size={16} />
