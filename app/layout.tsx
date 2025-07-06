@@ -25,7 +25,7 @@ const playfairDisplay = Playfair_Display({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.xyz'),
   title: {
-    default: 'AI Lodi - Your Global Tech Insights & AI Innovation Hub | Latest AI Trends 2025',
+    default: 'AI Lodi - Your Global Tech Insights & AI Innovation Hub | Latest AI Trends',
     template: '%s | AI Lodi - Tech Insights & AI Innovation'
   },
   description: 'AI Lodi is your ultimate guide to modern technology, AI breakthroughs, programming trends, and future science. Get in-depth analysis, tutorials, and insights on cutting-edge tech innovations shaping our world in 2025.',
@@ -74,7 +74,7 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     url: process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.xyz',
-    title: 'AI Lodi - Your Global Tech Insights & AI Innovation Hub | Latest AI Trends 2025',
+    title: 'AI Lodi - Your Global Tech Insights & AI Innovation Hub | Latest AI Trends',
     description: 'AI Lodi is your ultimate guide to modern technology, AI breakthroughs, programming trends, and future science. Get in-depth analysis, tutorials, and insights on cutting-edge tech innovations.',
     siteName: 'AI Lodi',
     images: [
