@@ -17,7 +17,7 @@ export function Footer() {
       { name: 'Disclaimer', href: '/disclaimer' },
     ],
     social: [
-      { name: 'Twitter', href: 'https://facebook.com/cedong1022', icon: Facebook },
+      { name: 'Facebook', href: 'https://facebook.com/cedong1022', icon: Facebook },
       { name: 'LinkedIn', href: 'https://www.linkedin.com/in/cedrick-villarin-935463373', icon: Linkedin },
       { name: 'GitHub', href: 'https://github.com/ErolledDev', icon: Github },
     ],
