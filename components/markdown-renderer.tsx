@@ -92,6 +92,7 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
             src={src}
             alt={alt}
             className="rounded-lg my-6 shadow-md w-full"
+            loading="lazy"
           />
         ),
       }}

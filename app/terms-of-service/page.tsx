@@ -1,8 +1,38 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Terms of Service',
-  description: 'Terms and conditions for using AI Lodi website and services.',
+  title: 'Terms of Service | AI Lodi - Tech Insights & AI Innovation',
+  description: 'Terms and conditions for using AI Lodi website and services. Read our user agreement, content guidelines, intellectual property terms, and service limitations.',
+  keywords: [
+    'terms of service',
+    'AI Lodi terms',
+    'user agreement',
+    'website terms',
+    'content guidelines',
+    'intellectual property',
+    'service terms',
+    'user responsibilities',
+    'tech blog terms',
+    'AI content terms'
+  ],
+  openGraph: {
+    title: 'Terms of Service | AI Lodi',
+    description: 'Terms and conditions for using AI Lodi website and services. Read our comprehensive user agreement.',
+    type: 'website',
+    url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.xyz'}/terms-of-service`,
+  },
+  twitter: {
+    card: 'summary',
+    title: 'Terms of Service | AI Lodi',
+    description: 'Terms and conditions for using AI Lodi website and services.',
+  },
+  alternates: {
+    canonical: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.xyz'}/terms-of-service`,
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function TermsOfServicePage() {

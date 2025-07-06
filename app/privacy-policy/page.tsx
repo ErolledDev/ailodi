@@ -1,8 +1,38 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy',
-  description: 'AI Lodi privacy policy explains how we collect, use, and protect your personal information.',
+  title: 'Privacy Policy | AI Lodi - Tech Insights & AI Innovation',
+  description: 'AI Lodi privacy policy explains how we collect, use, and protect your personal information. Learn about our data practices, cookies, security measures, and your privacy rights.',
+  keywords: [
+    'privacy policy',
+    'AI Lodi privacy',
+    'data protection',
+    'personal information',
+    'cookies policy',
+    'data security',
+    'privacy rights',
+    'GDPR compliance',
+    'data collection',
+    'user privacy'
+  ],
+  openGraph: {
+    title: 'Privacy Policy | AI Lodi',
+    description: 'Learn how AI Lodi collects, uses, and protects your personal information in our comprehensive privacy policy.',
+    type: 'website',
+    url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.xyz'}/privacy-policy`,
+  },
+  twitter: {
+    card: 'summary',
+    title: 'Privacy Policy | AI Lodi',
+    description: 'Learn how AI Lodi collects, uses, and protects your personal information.',
+  },
+  alternates: {
+    canonical: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.xyz'}/privacy-policy`,
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function PrivacyPolicyPage() {

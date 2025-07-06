@@ -1,5 +1,36 @@
 import { Brain, Target, Award, Globe, Zap, Users } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'About AI Lodi - Your Global Tech Insights Hub',
+  description: 'Learn about AI Lodi\'s mission, core values, and what we cover in AI breakthroughs, programming trends, and future science. Discover our commitment to providing insightful, accessible, and authoritative tech content.',
+  keywords: [
+    'about us', 
+    'AI Lodi mission', 
+    'tech blog values', 
+    'AI insights', 
+    'programming trends', 
+    'future science',
+    'technology blog',
+    'AI innovation',
+    'tech community',
+    'global tech insights'
+  ],
+  openGraph: {
+    title: 'About AI Lodi - Your Global Tech Insights Hub',
+    description: 'Learn about AI Lodi\'s mission to be the ultimate guide in modern technology, providing in-depth analysis and forward-looking insights.',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'About AI Lodi - Your Global Tech Insights Hub',
+    description: 'Learn about AI Lodi\'s mission to be the ultimate guide in modern technology, providing in-depth analysis and forward-looking insights.',
+  },
+  alternates: {
+    canonical: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.xyz'}/about`,
+  },
+};
 
 export default function AboutPage() {
   const values = [

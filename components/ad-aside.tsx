@@ -61,7 +61,7 @@ export function AdAside() {
               className="w-full bg-primary hover:bg-primary/90 text-primary-foreground text-xs sm:text-sm"
               asChild
             >
-              <a href={ad.link} target="_blank" rel="noopener noreferrer">
+              <a href={ad.link} target="_blank" rel="noopener noreferrer sponsored">
                 {ad.cta}
                 <ExternalLink size={12} className="ml-2" />
               </a>
