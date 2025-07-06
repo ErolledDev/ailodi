@@ -34,17 +34,17 @@ export function Navigation() {
   };
 
   return (
-    <nav className="medium-nav">
+    <nav className="medium-nav" role="navigation" aria-label="Main navigation">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link href="/" className="medium-nav-brand">
+          <Link href="/" className="medium-nav-brand" aria-label="AI Lodi - Home">
             AI Lodi
           </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <Link href="/" className="medium-nav-link">
+            <Link href="/" className="medium-nav-link" aria-current="page">
               Home
             </Link>
             <Link href="/categories" className="medium-nav-link">
@@ -58,15 +58,23 @@ export function Navigation() {
             </Link>
             
             {/* Desktop Search */}
-            <form onSubmit={handleSearchSubmit} className="medium-search w-64">
-              <Search size={16} className="medium-search-icon" />
+            <form onSubmit={handleSearchSubmit} className="medium-search w-64" role="search">
+              <label htmlFor="desktop-search" className="sr-only">
+                Search AI & Tech insights
+              </label>
+              <Search size={16} className="medium-search-icon" aria-hidden="true" />
               <Input
+                id="desktop-search"
                 type="search"
                 placeholder="Search AI & Tech insights..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="border-border focus:ring-primary focus:border-primary"
+                aria-describedby="search-description"
               />
+              <span id="search-description" className="sr-only">
+                Search through our collection of AI and technology articles
+              </span>
             </form>
           </div>
 
@@ -79,11 +87,18 @@ export function Navigation() {
                   size="sm"
                   className="text-muted-foreground"
                   aria-label="Open navigation menu"
+                  aria-expanded={isSheetOpen}
+                  aria-controls="mobile-menu"
                 >
-                  <Menu size={24} />
+                  <Menu size={24} aria-hidden="true" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-[300px] sm:w-[400px]">
+              <SheetContent 
+                side="right" 
+                className="w-[300px] sm:w-[400px]"
+                id="mobile-menu"
+                aria-label="Mobile navigation menu"
+              >
                 <SheetHeader className="text-left">
                   <SheetTitle>
                     AI Lodi
@@ -92,9 +107,13 @@ export function Navigation() {
                 
                 <div className="flex flex-col space-y-6 mt-8">
                   {/* Mobile Search */}
-                  <form onSubmit={handleSearchSubmit} className="medium-search">
-                    <Search size={16} className="medium-search-icon" />
+                  <form onSubmit={handleSearchSubmit} className="medium-search" role="search">
+                    <label htmlFor="mobile-search" className="sr-only">
+                      Search AI & Tech insights
+                    </label>
+                    <Search size={16} className="medium-search-icon" aria-hidden="true" />
                     <Input
+                      id="mobile-search"
                       type="search"
                       placeholder="Search AI & Tech insights..."
                       value={searchQuery}
@@ -104,44 +123,47 @@ export function Navigation() {
                   </form>
 
                   {/* Mobile Navigation Links */}
-                  <div className="flex flex-col space-y-4">
-                    <SheetClose asChild>
-                      <Link 
-                        href="/" 
-                        className="medium-nav-link px-3 py-2 text-base font-medium rounded-lg hover:bg-muted transition-colors"
-                        onClick={handleNavClick}
-                      >
-                        Home
-                      </Link>
-                    </SheetClose>
-                    <SheetClose asChild>
-                      <Link 
-                        href="/categories" 
-                        className="medium-nav-link px-3 py-2 text-base font-medium rounded-lg hover:bg-muted transition-colors"
-                        onClick={handleNavClick}
-                      >
-                        Categories
-                      </Link>
-                    </SheetClose>
-                    <SheetClose asChild>
-                      <Link 
-                        href="/about" 
-                        className="medium-nav-link px-3 py-2 text-base font-medium rounded-lg hover:bg-muted transition-colors"
-                        onClick={handleNavClick}
-                      >
-                        About
-                      </Link>
-                    </SheetClose>
-                    <SheetClose asChild>
-                      <Link 
-                        href="/contact" 
-                        className="medium-nav-link px-3 py-2 text-base font-medium rounded-lg hover:bg-muted transition-colors"
-                        onClick={handleNavClick}
-                      >
-                        Contact
-                      </Link>
-                    </SheetClose>
-                  </div>
+                  <nav role="navigation" aria-label="Mobile navigation">
+                    <div className="flex flex-col space-y-4">
+                      <SheetClose asChild>
+                        <Link 
+                          href="/" 
+                          className="medium-nav-link px-3 py-2 text-base font-medium rounded-lg hover:bg-muted transition-colors"
+                          onClick={handleNavClick}
+                          aria-current="page"
+                        >
+                          Home
+                        </Link>
+                      </SheetClose>
+                      <SheetClose asChild>
+                        <Link 
+                          href="/categories" 
+                          className="medium-nav-link px-3 py-2 text-base font-medium rounded-lg hover:bg-muted transition-colors"
+                          onClick={handleNavClick}
+                        >
+                          Categories
+                        </Link>
+                      </SheetClose>
+                      <SheetClose asChild>
+                        <Link 
+                          href="/about" 
+                          className="medium-nav-link px-3 py-2 text-base font-medium rounded-lg hover:bg-muted transition-colors"
+                          onClick={handleNavClick}
+                        >
+                          About
+                        </Link>
+                      </SheetClose>
+                      <SheetClose asChild>
+                        <Link 
+                          href="/contact" 
+                          className="medium-nav-link px-3 py-2 text-base font-medium rounded-lg hover:bg-muted transition-colors"
+                          onClick={handleNavClick}
+                        >
+                          Contact
+                        </Link>
+                      </SheetClose>
+                    </div>
+                  </nav>
 
                   {/* Mobile Quick Actions */}
                   <div className="pt-6 border-t border-border">
@@ -153,7 +175,7 @@ export function Navigation() {
                           className="flex items-center gap-3 px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
                           onClick={handleNavClick}
                         >
-                          <Search size={16} />
+                          <Search size={16} aria-hidden="true" />
                           Advanced Search
                         </Link>
                       </SheetClose>

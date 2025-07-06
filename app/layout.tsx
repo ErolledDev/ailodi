@@ -333,6 +333,11 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
+        {/* Skip to main content link for screen readers */}
+        <a href="#main-content" className="skip-to-main">
+          Skip to main content
+        </a>
+        
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -342,7 +347,7 @@ export default function RootLayout({
           <PageProgressBar />
           <div className="min-h-screen flex flex-col">
             <Navigation />
-            <main className="flex-1">
+            <main id="main-content" className="flex-1" role="main">
               {children}
             </main>
             <Footer />
