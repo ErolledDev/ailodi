@@ -18,6 +18,15 @@ function SearchPageContent() {
   const [hasError, setHasError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
+  // Update document title based on search query
+  useEffect(() => {
+    if (query) {
+      document.title = `Search Results for "${query}" | AI Lodi - Tech Insights & AI Innovation`;
+    } else {
+      document.title = 'Search AI Lodi - Discover Tech Insights';
+    }
+  }, [query]);
+
   const fetchSearchResults = async () => {
     try {
       setLoading(true);

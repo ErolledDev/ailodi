@@ -26,6 +26,15 @@ function CategoriesPageContent() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(filterParam);
   const [loading, setLoading] = useState(true);
 
+  // Update document title based on filter
+  useEffect(() => {
+    if (filterParam) {
+      document.title = `${filterParam} Articles | AI Lodi - Tech Insights & AI Innovation`;
+    } else {
+      document.title = 'All Categories | AI Lodi - Tech Insights & AI Innovation';
+    }
+  }, [filterParam]);
+
   useEffect(() => {
     async function fetchCategories() {
       try {
