@@ -2,24 +2,32 @@ import { getAllContent } from '@/lib/content';
 import type { Metadata } from 'next';
 import type { BlogPost } from '@/types/blog';
 
-export async function generateMetadata({ searchParams }: { searchParams: { filter?: string } }): Promise<Metadata> {
-  const filter = searchParams.filter;
+export async function generateMetadata({ 
+  searchParams 
+}: { 
+  searchParams: Record<string, string | string[] | undefined> 
+}): Promise<Metadata> {
+  // Safely extract filter parameter as a string
+  const filterValue = Array.isArray(searchParams.filter) 
+    ? searchParams.filter[0] 
+    : searchParams.filter;
+
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ailodi.xyz';
 
-  if (filter) {
+  if (filterValue) {
     try {
       const allPosts = await getAllContent();
-      const categoryPosts = allPosts.filter(post => post.categories.includes(filter));
+      const categoryPosts = allPosts.filter(post => post.categories.includes(filterValue));
       const postCount = categoryPosts.length;
 
       return {
-        title: `${filter} Articles | AI Lodi - Tech Insights & AI Innovation`,
-        description: `Explore ${postCount} ${postCount === 1 ? 'article' : 'articles'} about ${filter} on AI Lodi. Discover cutting-edge insights, tutorials, and analysis in ${filter} and related technology topics.`,
+        title: `${filterValue} Articles | AI Lodi - Tech Insights & AI Innovation`,
+        description: `Explore ${postCount} ${postCount === 1 ? 'article' : 'articles'} about ${filterValue} on AI Lodi. Discover cutting-edge insights, tutorials, and analysis in ${filterValue} and related technology topics.`,
         keywords: [
-          filter.toLowerCase(),
-          `${filter} articles`,
-          `${filter} insights`,
-          `${filter} technology`,
+          filterValue.toLowerCase(),
+          `${filterValue} articles`,
+          `${filterValue} insights`,
+          `${filterValue} technology`,
           'AI Lodi',
           'tech blog',
           'programming',
@@ -27,27 +35,27 @@ export async function generateMetadata({ searchParams }: { searchParams: { filte
           'technology trends'
         ],
         openGraph: {
-          title: `${filter} Articles | AI Lodi`,
-          description: `Explore ${postCount} ${postCount === 1 ? 'article' : 'articles'} about ${filter} on AI Lodi. Discover cutting-edge insights and analysis.`,
+          title: `${filterValue} Articles | AI Lodi`,
+          description: `Explore ${postCount} ${postCount === 1 ? 'article' : 'articles'} about ${filterValue} on AI Lodi. Discover cutting-edge insights and analysis.`,
           type: 'website',
-          url: `${baseUrl}/categories?filter=${encodeURIComponent(filter)}`,
+          url: `${baseUrl}/categories?filter=${encodeURIComponent(filterValue)}`,
         },
         twitter: {
           card: 'summary_large_image',
-          title: `${filter} Articles | AI Lodi`,
-          description: `Explore ${postCount} ${postCount === 1 ? 'article' : 'articles'} about ${filter} on AI Lodi.`,
+          title: `${filterValue} Articles | AI Lodi`,
+          description: `Explore ${postCount} ${postCount === 1 ? 'article' : 'articles'} about ${filterValue} on AI Lodi.`,
         },
         alternates: {
-          canonical: `${baseUrl}/categories?filter=${encodeURIComponent(filter)}`,
+          canonical: `${baseUrl}/categories?filter=${encodeURIComponent(filterValue)}`,
         },
       };
     } catch (error) {
       console.error('Error generating category metadata:', error);
       return {
-        title: `${filter} Articles | AI Lodi - Tech Insights & AI Innovation`,
-        description: `Explore articles about ${filter} on AI Lodi. Discover cutting-edge insights, tutorials, and analysis in ${filter} and related technology topics.`,
+        title: `${filterValue} Articles | AI Lodi - Tech Insights & AI Innovation`,
+        description: `Explore articles about ${filterValue} on AI Lodi. Discover cutting-edge insights, tutorials, and analysis in ${filterValue} and related technology topics.`,
         alternates: {
-          canonical: `${baseUrl}/categories?filter=${encodeURIComponent(filter)}`,
+          canonical: `${baseUrl}/categories?filter=${encodeURIComponent(filterValue)}`,
         },
       };
     }
