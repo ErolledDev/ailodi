@@ -17,9 +17,9 @@ export function Footer() {
       { name: 'Disclaimer', href: '/disclaimer' },
     ],
     social: [
-      { name: 'Twitter', href: 'https://twitter.com/ailodi_tech', icon: Twitter },
-      { name: 'LinkedIn', href: 'https://linkedin.com/company/ailodi', icon: Linkedin },
-      { name: 'GitHub', href: 'https://github.com/ailodi', icon: Github },
+      { name: 'Twitter', href: 'https://facebook.com/cedong1022', icon: Facebook },
+      { name: 'LinkedIn', href: 'https://www.linkedin.com/in/cedrick-villarin-935463373', icon: Linkedin },
+      { name: 'GitHub', href: 'https://github.com/ErolledDev', icon: Github },
     ],
   };
 
