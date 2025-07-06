@@ -14,7 +14,7 @@ export function LatestInsights({ posts }: LatestInsightsProps) {
   }
 
   return (
-    <section className="py-16 bg-background border-t border-border/50 transition-colors duration-300">
+    <section id="featured" className="py-16 bg-background transition-colors duration-300">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <div className="flex justify-center items-center gap-3 mb-6">

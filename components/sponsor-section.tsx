@@ -43,7 +43,7 @@ export function SponsorSection() {
             <div className="relative">
               <img
                 src={ad.image}
-                alt={ad.title}
+                alt=""
                 className="w-full h-24 sm:h-32 object-cover"
                 loading="lazy"
                 width="400"
@@ -70,7 +70,12 @@ export function SponsorSection() {
                 className="w-full bg-primary hover:bg-primary/90 text-primary-foreground text-xs sm:text-sm"
                 asChild
               >
-                <a href={ad.link} target="_blank" rel="noopener noreferrer sponsored">
+                <a 
+                  href={ad.link} 
+                  target="_blank" 
+                  rel="noopener noreferrer sponsored"
+                  aria-label={`${ad.cta} - ${ad.title}`}
+                >
                   {ad.cta}
                   <ExternalLink size={12} className="ml-2" />
                 </a>

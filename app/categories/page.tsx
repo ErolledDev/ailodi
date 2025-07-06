@@ -180,50 +180,52 @@ function CategoriesPageContent() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredCategories.map((category) => (
-            <Card 
-              key={category.name} 
-              className="cursor-pointer shadow-lg border-border/50"
-              onClick={() => setSelectedCategory(category.name)}
+            <Link 
+              key={category.name}
+              href={`/categories?filter=${encodeURIComponent(category.name)}`}
+              className="block focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-xl"
             >
-              <CardContent className="p-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                    <FolderOpen size={24} className="text-primary" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="text-xl font-semibold text-foreground line-clamp-1">
-                      {category.name}
-                    </h3>
-                    <div className="flex items-center gap-1 text-muted-foreground">
-                      <FileText size={14} />
-                      <span className="text-sm">
-                        {category.count} {category.count === 1 ? 'article' : 'articles'}
-                      </span>
+              <Card className="h-full transition-all duration-200 hover:shadow-lg hover:scale-105 border-border/50 focus-within:ring-2 focus-within:ring-primary">
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                      <FolderOpen size={24} className="text-primary" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-xl font-semibold text-foreground line-clamp-1">
+                        {category.name}
+                      </h3>
+                      <div className="flex items-center gap-1 text-muted-foreground">
+                        <FileText size={14} />
+                        <span className="text-sm">
+                          {category.count} {category.count === 1 ? 'article' : 'articles'}
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
-                
-                <div className="space-y-2 mb-4">
-                  {category.posts.slice(0, 3).map((post) => (
-                    <div
-                      key={post.id}
-                      className="text-sm text-muted-foreground line-clamp-1"
-                    >
-                      {post.title}
-                    </div>
-                  ))}
-                  {category.count > 3 && (
-                    <p className="text-xs text-muted-foreground">
-                      +{category.count - 3} more articles
-                    </p>
-                  )}
-                </div>
-                
-                <Badge variant="secondary" className="w-full justify-center">
-                  Explore {category.name}
-                </Badge>
-              </CardContent>
-            </Card>
+                  
+                  <div className="space-y-2 mb-4">
+                    {category.posts.slice(0, 3).map((post) => (
+                      <div
+                        key={post.id}
+                        className="text-sm text-muted-foreground line-clamp-1"
+                      >
+                        {post.title}
+                      </div>
+                    ))}
+                    {category.count > 3 && (
+                      <p className="text-xs text-muted-foreground">
+                        +{category.count - 3} more articles
+                      </p>
+                    )}
+                  </div>
+                  
+                  <Badge variant="secondary" className="w-full justify-center">
+                    Explore {category.name}
+                  </Badge>
+                </CardContent>
+              </Card>
+            </Link>
           ))}
         </div>
       )}

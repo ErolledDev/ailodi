@@ -65,6 +65,8 @@ export function SubscribeForm() {
     );
   }
 
+  const errorId = error ? 'subscription-error' : undefined;
+
   return (
     <Card className="bg-gradient-to-r from-primary/5 to-primary/10 border-primary/20">
       <CardHeader className="pb-3 sm:pb-4">
@@ -93,6 +95,8 @@ export function SubscribeForm() {
               required
               className="flex-1 border-primary/20 focus:border-primary focus:ring-primary/20 text-sm sm:text-base"
               disabled={isSubmitting}
+              aria-describedby={errorId}
+              aria-invalid={error ? 'true' : 'false'}
             />
             <Button 
               type="submit" 
@@ -110,9 +114,14 @@ export function SubscribeForm() {
             </Button>
           </div>
           
-          {/* Error Message */}
+          {/* Error Message with proper association */}
           {error && (
-            <div className="flex items-start gap-2 p-3 bg-red-50 border border-red-200 rounded-lg">
+            <div 
+              id={errorId}
+              className="flex items-start gap-2 p-3 bg-red-50 border border-red-200 rounded-lg"
+              role="alert"
+              aria-live="polite"
+            >
               <AlertCircle size={16} className="text-red-500 mt-0.5 flex-shrink-0" />
               <p className="text-sm text-red-700">{error}</p>
             </div>
