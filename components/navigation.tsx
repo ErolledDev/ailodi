@@ -66,6 +66,7 @@ export function Navigation() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="border-border focus:ring-primary focus:border-primary"
+                aria-label="Search AI and Tech insights"
               />
             </form>
           </div>
@@ -100,6 +101,7 @@ export function Navigation() {
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       className="border-border focus:ring-primary focus:border-primary"
+                      aria-label="Search AI and Tech insights"
                     />
                   </form>
 

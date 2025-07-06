@@ -43,7 +43,10 @@ async function fetchWithRetry(
       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
       return response;
     } catch (err) {
-      console.error(`🔄 BUILD: Fetch attempt ${i + 1} failed:`, err);
+      // Only log in development
+      if (process.env.NODE_ENV === 'development') {
+        console.error(`🔄 BUILD: Fetch attempt ${i + 1} failed:`, err);
+      }
       if (i === retries - 1) throw err;
       await new Promise(res => setTimeout(res, 1000 * (i + 1))); // Exponential backoff
     }
@@ -53,7 +56,9 @@ async function fetchWithRetry(
 
 export async function getAllContent(options: RequestInit = {}): Promise<BlogPost[]> {
   try {
-    console.log('🔄 BUILD: Fetching content from API...');
+    if (process.env.NODE_ENV === 'development') {
+      console.log('🔄 BUILD: Fetching content from API...');
+    }
     
     const response = await fetchWithRetry(API_URL, {
       headers: {
@@ -67,7 +72,9 @@ export async function getAllContent(options: RequestInit = {}): Promise<BlogPost
     
     // Validate data structure
     if (!Array.isArray(data)) {
-      console.error('❌ BUILD: API returned non-array data:', typeof data);
+      if (process.env.NODE_ENV === 'development') {
+        console.error('❌ BUILD: API returned non-array data:', typeof data);
+      }
       return [];
     }
     
@@ -78,8 +85,10 @@ export async function getAllContent(options: RequestInit = {}): Promise<BlogPost
       return true;
     });
     
-    console.log(`📚 BUILD: Successfully fetched ${publishedPosts.length} published posts`);
-    console.log(`📝 BUILD: Latest posts:`, publishedPosts.slice(0, 3).map((p: BlogPost) => p.title));
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`📚 BUILD: Successfully fetched ${publishedPosts.length} published posts`);
+      console.log(`📝 BUILD: Latest posts:`, publishedPosts.slice(0, 3).map((p: BlogPost) => p.title));
+    }
     
     // Sort by updated date to ensure consistent ordering
     const sortedPosts = publishedPosts.sort((a: BlogPost, b: BlogPost) => 
@@ -88,14 +97,18 @@ export async function getAllContent(options: RequestInit = {}): Promise<BlogPost
     
     return sortedPosts;
   } catch (error) {
-    console.error('❌ BUILD: Error fetching content:', error);
+    if (process.env.NODE_ENV === 'development') {
+      console.error('❌ BUILD: Error fetching content:', error);
+    }
     return [];
   }
 }
 
 export async function getContentBySlug(slug: string): Promise<BlogPost | null> {
   try {
-    console.log(`🔍 BUILD: Fetching content for slug: ${slug}`);
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`🔍 BUILD: Fetching content for slug: ${slug}`);
+    }
     
     const response = await fetchWithRetry(API_URL, {
       headers: {
@@ -107,7 +120,9 @@ export async function getContentBySlug(slug: string): Promise<BlogPost | null> {
     const data = await response.json();
     
     if (!Array.isArray(data)) {
-      console.error('❌ BUILD: API returned non-array data for slug fetch');
+      if (process.env.NODE_ENV === 'development') {
+        console.error('❌ BUILD: API returned non-array data for slug fetch');
+      }
       return null;
     }
     
@@ -117,16 +132,20 @@ export async function getContentBySlug(slug: string): Promise<BlogPost | null> {
     
     const post = publishedPosts.find((p: BlogPost) => p.slug === slug);
     
-    if (post) {
-      console.log(`✅ BUILD: Found post: ${post.title}`);
-    } else {
-      console.log(`❌ BUILD: Post not found for slug: ${slug}`);
-      console.log(`📋 BUILD: Available slugs:`, publishedPosts.map((p: BlogPost) => p.slug).slice(0, 10));
+    if (process.env.NODE_ENV === 'development') {
+      if (post) {
+        console.log(`✅ BUILD: Found post: ${post.title}`);
+      } else {
+        console.log(`❌ BUILD: Post not found for slug: ${slug}`);
+        console.log(`📋 BUILD: Available slugs:`, publishedPosts.map((p: BlogPost) => p.slug).slice(0, 10));
+      }
     }
     
     return post || null;
   } catch (error) {
-    console.error('❌ BUILD: Error fetching content by slug:', error);
+    if (process.env.NODE_ENV === 'development') {
+      console.error('❌ BUILD: Error fetching content by slug:', error);
+    }
     return null;
   }
 }
@@ -136,7 +155,9 @@ export async function getPostsByCategory(category: string): Promise<BlogPost[]> 
     const posts = await getAllContent();
     return posts.filter(post => post.categories.includes(category));
   } catch (error) {
-    console.error('Error fetching posts by category:', error);
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Error fetching posts by category:', error);
+    }
     return [];
   }
 }
@@ -169,19 +190,26 @@ function calculateSimilarity(str1: string, str2: string): number {
 
 // Enhanced search function with proper error handling
 export async function searchPosts(query: string): Promise<SearchResult> {
-  console.log('🔍 SEARCH DEBUG: Starting search with query:', query);
+  if (process.env.NODE_ENV === 'development') {
+    console.log('🔍 SEARCH DEBUG: Starting search with query:', query);
+  }
   
   try {
     const posts = await getAllContent();
-    console.log('📚 SEARCH DEBUG: Fetched posts from API:', posts.length, 'posts');
     
-    // Log first few post titles for verification
-    if (posts.length > 0) {
-      console.log('📝 SEARCH DEBUG: Sample post titles:', posts.slice(0, 3).map((p: BlogPost) => p.title));
+    if (process.env.NODE_ENV === 'development') {
+      console.log('📚 SEARCH DEBUG: Fetched posts from API:', posts.length, 'posts');
+      
+      // Log first few post titles for verification
+      if (posts.length > 0) {
+        console.log('📝 SEARCH DEBUG: Sample post titles:', posts.slice(0, 3).map((p: BlogPost) => p.title));
+      }
     }
     
     if (!query.trim()) {
-      console.log('⚠️ SEARCH DEBUG: Empty query, returning all posts');
+      if (process.env.NODE_ENV === 'development') {
+        console.log('⚠️ SEARCH DEBUG: Empty query, returning all posts');
+      }
       return {
         posts,
         hasError: false
@@ -191,9 +219,11 @@ export async function searchPosts(query: string): Promise<SearchResult> {
     const normalizedQuery = normalizeText(query);
     const searchTerms = normalizedQuery.split(' ').filter(term => term.length > 0);
     
-    console.log('🔤 SEARCH DEBUG: Original query:', query);
-    console.log('🔤 SEARCH DEBUG: Normalized query:', normalizedQuery);
-    console.log('🔤 SEARCH DEBUG: Search terms:', searchTerms);
+    if (process.env.NODE_ENV === 'development') {
+      console.log('🔤 SEARCH DEBUG: Original query:', query);
+      console.log('🔤 SEARCH DEBUG: Normalized query:', normalizedQuery);
+      console.log('🔤 SEARCH DEBUG: Search terms:', searchTerms);
+    }
     
     // Score each post based on relevance
     const scoredPosts = posts.map(post => {
@@ -258,10 +288,12 @@ export async function searchPosts(query: string): Promise<SearchResult> {
       return { post, score, normalizedTitle, normalizedDescription };
     });
     
-    console.log('📊 SEARCH DEBUG: Scored posts sample:');
-    scoredPosts.slice(0, 5).forEach(({ post, score, normalizedTitle }) => {
-      console.log(`  - "${post.title}" (normalized: "${normalizedTitle}") - Score: ${score}`);
-    });
+    if (process.env.NODE_ENV === 'development') {
+      console.log('📊 SEARCH DEBUG: Scored posts sample:');
+      scoredPosts.slice(0, 5).forEach(({ post, score, normalizedTitle }) => {
+        console.log(`  - "${post.title}" (normalized: "${normalizedTitle}") - Score: ${score}`);
+      });
+    }
     
     // Filter posts with score > 0 and sort by score (descending)
     const filteredPosts = scoredPosts
@@ -269,28 +301,30 @@ export async function searchPosts(query: string): Promise<SearchResult> {
       .sort((a, b) => b.score - a.score)
       .map(({ post }) => post);
     
-    console.log('✅ SEARCH DEBUG: Final filtered posts count:', filteredPosts.length);
-    
-    if (filteredPosts.length === 0) {
-      console.log('❌ SEARCH DEBUG: No posts found! Showing top 5 scores for debugging:');
-      const topScores = scoredPosts
-        .sort((a, b) => b.score - a.score)
-        .slice(0, 5);
+    if (process.env.NODE_ENV === 'development') {
+      console.log('✅ SEARCH DEBUG: Final filtered posts count:', filteredPosts.length);
       
-      topScores.forEach(({ post, score, normalizedTitle, normalizedDescription }) => {
-        console.log(`  - "${post.title}"`);
-        console.log(`    Normalized title: "${normalizedTitle}"`);
-        console.log(`    Normalized description: "${normalizedDescription}"`);
-        console.log(`    Score: ${score}`);
-        console.log(`    Categories: ${post.categories.join(', ')}`);
-        console.log(`    Tags: ${post.tags.join(', ')}`);
-        console.log('    ---');
-      });
-    } else {
-      console.log('🎯 SEARCH DEBUG: Top 3 results:');
-      filteredPosts.slice(0, 3).forEach((post, index) => {
-        console.log(`  ${index + 1}. "${post.title}"`);
-      });
+      if (filteredPosts.length === 0) {
+        console.log('❌ SEARCH DEBUG: No posts found! Showing top 5 scores for debugging:');
+        const topScores = scoredPosts
+          .sort((a, b) => b.score - a.score)
+          .slice(0, 5);
+        
+        topScores.forEach(({ post, score, normalizedTitle, normalizedDescription }) => {
+          console.log(`  - "${post.title}"`);
+          console.log(`    Normalized title: "${normalizedTitle}"`);
+          console.log(`    Normalized description: "${normalizedDescription}"`);
+          console.log(`    Score: ${score}`);
+          console.log(`    Categories: ${post.categories.join(', ')}`);
+          console.log(`    Tags: ${post.tags.join(', ')}`);
+          console.log('    ---');
+        });
+      } else {
+        console.log('🎯 SEARCH DEBUG: Top 3 results:');
+        filteredPosts.slice(0, 3).forEach((post, index) => {
+          console.log(`  ${index + 1}. "${post.title}"`);
+        });
+      }
     }
     
     return {
@@ -298,7 +332,9 @@ export async function searchPosts(query: string): Promise<SearchResult> {
       hasError: false
     };
   } catch (error) {
-    console.error('❌ SEARCH DEBUG: Error in searchPosts:', error);
+    if (process.env.NODE_ENV === 'development') {
+      console.error('❌ SEARCH DEBUG: Error in searchPosts:', error);
+    }
     return {
       posts: [],
       hasError: true,

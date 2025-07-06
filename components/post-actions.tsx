@@ -45,8 +45,8 @@ export function PostActions({ post, url }: PostActionsProps) {
         size="sm"
         onClick={handleLike}
         className={`text-muted-foreground ${isLiked ? 'text-red-500' : ''}`}
-        aria-label={isLiked ? 'Unlike this post' : 'Like this post'}
-        title={isLiked ? 'Unlike this post' : 'Like this post'}
+        aria-label={isLiked ? `Unlike this article: ${post.title}` : `Like this article: ${post.title}`}
+        title={isLiked ? 'Unlike this article' : 'Like this article'}
       >
         <Heart size={20} className={isLiked ? 'fill-current' : ''} />
       </Button>
@@ -57,8 +57,8 @@ export function PostActions({ post, url }: PostActionsProps) {
         size="sm"
         onClick={handleBookmark}
         className="text-muted-foreground"
-        aria-label={isBookmarked ? 'Remove bookmark from this post' : 'Bookmark this post'}
-        title={isBookmarked ? 'Remove bookmark' : 'Bookmark this post'}
+        aria-label={isBookmarked ? `Remove bookmark from article: ${post.title}` : `Bookmark this article: ${post.title}`}
+        title={isBookmarked ? 'Remove bookmark' : 'Bookmark this article'}
       >
         {isBookmarked ? (
           <Bookmark size={20} className="fill-current" />
@@ -76,7 +76,7 @@ export function PostActions({ post, url }: PostActionsProps) {
         size="sm"
         onClick={openInNewTab}
         className="text-muted-foreground"
-        aria-label="Open this post in a new tab"
+        aria-label={`Open article "${post.title}" in a new tab`}
         title="Open in new tab"
       >
         <ExternalLink size={20} />

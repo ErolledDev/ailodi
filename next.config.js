@@ -20,6 +20,11 @@ const nextConfig = {
     pagesBufferLength: 0,
   },
   
+  // Remove console logs in production
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
+  
   // Image optimization configuration for Cloudflare
   images: {
     unoptimized: true, // Required for static export

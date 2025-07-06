@@ -93,7 +93,12 @@ export function SponsorSection() {
             <p className="text-xs sm:text-sm text-muted-foreground mb-3">
               Reach our engaged community of AI enthusiasts and tech professionals.
             </p>
-            <Button variant="outline" size="sm" className="text-xs sm:text-sm">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="text-xs sm:text-sm"
+              aria-label="Contact us to advertise on AI Lodi"
+            >
               Contact Us
             </Button>
           </CardContent>
