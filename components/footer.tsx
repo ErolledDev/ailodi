@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Twitter, Linkedin, Github, Mail, Rss } from 'lucide-react';
+import { Twitter, Linkedin, Github, Mail, Rss, Facebook } from 'lucide-react';
 import { ThemeToggle } from '@/components/theme-toggle';
 
 export function Footer() {
