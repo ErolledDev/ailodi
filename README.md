@@ -206,199 +206,79 @@ npm run dev
 npm run build
 ```
 
-## 🛡️ Security Configuration Guide
-
-### **Enabling Valine Security Features**
-
-#### **1. Math Captcha Setup**
-Edit `components/valine-comments.tsx` and add security options:
-
-```typescript
-new window.Valine({
-  // ... other config
-  verify: true,              // Enable math captcha
-  placeholder: 'Share your thoughts... (Please solve the math problem to post)',
-});
-```
-
-#### **2. Enhanced Security Configuration**
-```typescript
-new window.Valine({
-  el: valineRef.current,
-  appId: appId,
-  appKey: appKey,
-  serverURLs: serverURLs,
-  
-  // Security Settings
-  verify: true,                    // Math captcha
-  visitor: true,                   // Visitor tracking
-  recordIP: true,                  // IP recording for moderation
-  enableQQ: false,                 // Disable QQ integration for privacy
-  
-  // User Requirements
-  requiredFields: ['nick', 'mail'], // Require name and email
-  meta: ['nick', 'mail', 'link'],   // User input fields
-  
-  // Content Settings
-  placeholder: 'Share your thoughts about this article... (Math verification required)',
-  pageSize: 10,                    // Comments per page
-  lang: 'en',                      // Language
-  
-  // Avatar Settings (for privacy)
-  avatar: 'retro',                 // Use generated avatars
-  
-  // Moderation
-  highlight: true,                 // Code highlighting
-  mathJax: false,                  // Disable MathJax for security
-});
-```
-
-#### **3. LeanCloud Security Dashboard**
-1. **Access Dashboard**: Go to your LeanCloud app dashboard
-2. **Data Browser**: Navigate to `Comment` class to view all comments
-3. **Moderation Tools**:
-   - View comment content and metadata
-   - Delete inappropriate comments
-   - Block users by email or IP
-   - Export comment data for analysis
-
-#### **4. Additional Security Measures**
-```typescript
-// Optional: Add custom validation
-const initValine = () => {
-  if (window.Valine && valineRef.current) {
-    const valine = new window.Valine({
-      // ... config above
-      
-      // Custom validation callback
-      onSubmit: (comment) => {
-        // Add custom validation logic here
-        console.log('Comment submitted:', comment);
-      },
-      
-      // Custom error handling
-      onError: (error) => {
-        console.error('Valine error:', error);
-      }
-    });
-  }
-};
-```
-
-### **Security Best Practices**
-
-#### **1. Regular Monitoring**
-- Check LeanCloud dashboard weekly for spam comments
-- Monitor comment patterns and user behavior
-- Review IP addresses for suspicious activity
-
-#### **2. Content Guidelines**
-- Display clear community guidelines
-- Set expectations for appropriate behavior
-- Provide reporting mechanisms for users
-
-#### **3. Backup Strategy**
-- Regular export of comment data from LeanCloud
-- Backup user engagement metrics
-- Document moderation decisions
-
-#### **4. Privacy Compliance**
-- Inform users about data collection (IP, email)
-- Provide privacy policy links
-- Allow users to request data deletion
-
 ## 🎨 Complete Customization Guide
 
-### **🏷️ Branding & Identity**
+This comprehensive guide covers all aspects of customizing your AI Lodi website. Each section provides specific file locations and detailed instructions for modifications.
 
-#### **1. Site Information**
-Edit these in your `.env.local`:
-```env
-NEXT_PUBLIC_SITE_NAME=Your Blog Name
-NEXT_PUBLIC_SITE_DESCRIPTION=Your compelling description
-NEXT_PUBLIC_SITE_URL=https://yourdomain.com
-```
+### **I. Core Site Information**
 
-#### **2. Logo & Favicon**
-Replace these files in `public/`:
-- `logo.png` (512x512px) - Main logo
-- `favicon.ico` (32x32px) - Browser favicon
-- `favicon.svg` - Scalable favicon
-- `apple-touch-icon.png` (180x180px) - iOS icon
+These settings define the fundamental identity of your website.
 
-#### **3. Social Media Images**
-- `og-image.jpg` (1200x630px) - Social sharing image
-- `og-image-square.jpg` (1200x1200px) - Square social image
+#### **Site URL**
+- **Purpose**: Sets the canonical URL for your website, crucial for SEO and correct linking
+- **Location**: `NEXT_PUBLIC_SITE_URL` in your [`.env.local`](.env.local) file
+- **Details**: Update the value to your desired domain (e.g., `https://yourdomain.com`)
+- **Referenced in**: [`app/layout.tsx`](app/layout.tsx), [`app/sitemap.ts`](app/sitemap.ts), [`app/robots.ts`](app/robots.ts), [`app/feed.xml/route.ts`](app/feed.xml/route.ts)
 
-### **🎨 Design Customization**
+#### **Site Name**
+- **Purpose**: The primary name of your blog, used in titles, headers, and metadata
+- **Location**: `NEXT_PUBLIC_SITE_NAME` in your [`.env.local`](.env.local) file
+- **Details**: This is used throughout the application, including the RSS feed
 
-#### **1. Colors & Theme**
-Edit `app/globals.css`:
-```css
-:root {
-  /* Primary brand color */
-  --primary: 142 76% 36%; /* Your brand color */
-  --primary-foreground: 355 20% 98%;
-  
-  /* Secondary colors */
-  --secondary: 240 4.8% 95.9%;
-  --accent: 240 4.8% 95.9%;
-  
-  /* Background colors */
-  --background: 0 0% 100%;
-  --card: 0 0% 100%;
-  
-  /* Text colors */
-  --foreground: 240 10% 3.9%;
-  --muted-foreground: 240 3.8% 46.1%;
-}
-```
+#### **Site Description**
+- **Purpose**: A brief overview of your website's content, used in meta tags for search engines
+- **Location**: `description` field within the `metadata` export in [`app/layout.tsx`](app/layout.tsx)
+- **Details**: This description appears in search results and social media shares
 
-#### **2. Typography**
-Update fonts in `app/layout.tsx`:
-```typescript
-import { YourFont, YourHeadingFont } from 'next/font/google';
+### **II. Branding & Visuals**
 
-const bodyFont = YourFont({ 
-  subsets: ['latin'],
-  variable: '--font-body',
-});
+Customize the look and feel to match your brand.
 
-const headingFont = YourHeadingFont({
-  subsets: ['latin'],
-  variable: '--font-heading',
-});
-```
+#### **Logos & Favicons**
+- **Purpose**: Visual identity across browsers, social media, and PWA installations
+- **Location**: Image files in the `public/` directory
+- **Files to replace**:
+  - `logo.png`: Used in structured data and RSS feed (512x512px)
+  - `favicon.ico`, `favicon.svg`: Browser favicons (32x32px, vector)
+  - `apple-touch-icon.png`: iOS home screen icon (180x180px)
+  - `icon-192.png`, `icon-512.png`: PWA icons
+  - `og-image.jpg`, `og-image-square.jpg`: Open Graph images for social sharing (1200x630px, 1200x1200px)
+  - `screenshot-wide.png`, `screenshot-narrow.png`: PWA screenshots (1280x720px, 640x1136px)
+  - `mstile-*.png`: Microsoft tile icons (various sizes)
+- **References**: Update paths and metadata in [`app/layout.tsx`](app/layout.tsx), [`public/manifest.json`](public/manifest.json), [`public/browserconfig.xml`](public/browserconfig.xml)
+- **Detailed guide**: See [`assets.md`](assets.md) for complete specifications
 
-#### **3. Layout & Spacing**
-Customize spacing in `tailwind.config.ts`:
-```typescript
-module.exports = {
-  theme: {
-    extend: {
-      spacing: {
-        '18': '4.5rem',
-        '88': '22rem',
-      },
-      maxWidth: {
-        '8xl': '88rem',
-      }
-    }
+#### **Colors & Theme**
+- **Purpose**: Define the primary, secondary, and accent colors of your website
+- **Location**: CSS variables in [`app/globals.css`](app/globals.css)
+- **Details**: Modify the HSL values for variables like `--primary`, `--background`, `--foreground`, etc., for both light and dark themes
+- **Example**:
+  ```css
+  :root {
+    --primary: 142 76% 36%; /* Your brand color */
+    --primary-foreground: 355 20% 98%;
+    /* ... other colors */
   }
-}
-```
+  ```
 
-### **📝 Content API Configuration**
+#### **Typography**
+- **Purpose**: Control the fonts used for headings and body text
+- **Location**: Font imports in [`app/layout.tsx`](app/layout.tsx) and CSS variables in [`app/globals.css`](app/globals.css)
+- **Details**: 
+  1. Change the `Inter` and `Playfair_Display` imports in [`app/layout.tsx`](app/layout.tsx) to your desired Google Fonts
+  2. Update the `--font-inter` and `--font-playfair` variables in [`app/globals.css`](app/globals.css)
 
-#### **🔧 Simple API URL Change**
-The easiest way to use your own content is to update the API URL in your environment variables:
+### **III. Content Management**
 
-```env
-# Blog API Configuration
-NEXT_PUBLIC_API_URL=https://your-new-api.com/api/content.json
-```
+Understand how content is sourced and displayed.
 
-#### **📊 Required JSON Structure**
+#### **Content API Configuration**
+- **Purpose**: Specifies where your blog content is fetched from
+- **Location**: `NEXT_PUBLIC_API_URL` in your [`.env.local`](.env.local) file
+- **Details**: This variable points to a JSON endpoint. The [`lib/content.ts`](lib/content.ts) file contains the logic for fetching and processing this content
+- **Custom API Structure**: If your API has a different structure, adjust the `transformPost` function within [`lib/content.ts`](lib/content.ts) to map your API's fields to the `BlogPost` interface defined in [`types/blog.ts`](types/blog.ts)
+
+#### **Required JSON Structure**
 Your API endpoint should return an array of blog posts with this structure:
 
 ```json
@@ -423,261 +303,158 @@ Your API endpoint should return an array of blog posts with this structure:
 ]
 ```
 
-#### **🔄 Custom API Integration**
-If your API has a different structure, update `lib/content.ts`:
+#### **Static Content (Built-in CMS)**
+- **Purpose**: Provides a simple, file-based content management system
+- **Location**: [`public/cms/index.html`](public/cms/index.html) and [`public/cms/script.js`](public/cms/script.js)
+- **Details**: 
+  - Access the CMS at `yourdomain.com/cms/`
+  - Content is saved to [`public/cms/data/content.json`](public/cms/data/content.json)
+  - This `content.json` file can be used as your `NEXT_PUBLIC_API_URL`
+  - You can directly edit the JSON file or use the CMS interface
 
-```typescript
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://your-api.com/posts';
+### **IV. SEO & Metadata**
 
-// Transform your API data to match BlogPost interface
-function transformPost(apiPost: any): BlogPost {
-  return {
-    id: apiPost.id || apiPost._id,
-    title: apiPost.title || apiPost.name,
-    slug: apiPost.slug || apiPost.url_slug,
-    content: apiPost.content || apiPost.body,
-    metaDescription: apiPost.excerpt || apiPost.description,
-    seoTitle: apiPost.seo_title || apiPost.title,
-    keywords: apiPost.keywords || apiPost.tags || [],
-    author: apiPost.author?.name || apiPost.author || 'Anonymous',
-    categories: apiPost.categories || apiPost.category ? [apiPost.category] : [],
-    tags: apiPost.tags || [],
-    status: apiPost.published ? 'published' : 'draft',
-    publishDate: apiPost.published_at || apiPost.created_at,
-    createdAt: apiPost.created_at,
-    updatedAt: apiPost.updated_at || apiPost.created_at,
-    featuredImageUrl: apiPost.featured_image || apiPost.image
-  };
-}
+Optimize your site for search engines.
 
-export async function getAllContent(): Promise<BlogPost[]> {
-  const response = await fetch(API_URL);
-  const data = await response.json();
-  
-  // Handle different API response structures
-  const posts = Array.isArray(data) ? data : data.posts || data.data || [];
-  
-  return posts.map(transformPost).filter(post => post.status === 'published');
-}
-```
+#### **Global Metadata**
+- **Purpose**: Sets default SEO information for your entire site
+- **Location**: `metadata` export in [`app/layout.tsx`](app/layout.tsx)
+- **Fields to customize**:
+  - `title`: Default page title and template
+  - `description`: Site description for search engines
+  - `keywords`: Array of relevant keywords
+  - `authors`: Author information
+  - `openGraph`: Facebook/social media sharing data
+  - `twitter`: Twitter card configuration
+  - `robots`: Search engine crawling instructions
 
-#### **📁 Static JSON Setup**
-For static content, create `public/api/content.json`:
+#### **Dynamic Metadata (Posts & Categories)**
+- **Purpose**: Generates unique SEO metadata for each blog post and category page
+- **Location**: `generateMetadata` functions in:
+  - [`app/post/[slug]/page.tsx`](app/post/[slug]/page.tsx) - Individual blog posts
+  - [`app/categories/[categorySlug]/page.tsx`](app/categories/[categorySlug]/page.tsx) - Category pages
+- **Details**: These functions dynamically pull data from your content to create specific titles, descriptions, and images
 
-```json
-[
-  {
-    "id": "1",
-    "title": "Your First Post",
-    "slug": "your-first-post",
-    "content": "# Welcome to Your Blog\n\nThis is your first post content in Markdown format.",
-    "metaDescription": "Learn how to get started with your new blog platform",
-    "seoTitle": "Getting Started - Your Blog",
-    "keywords": ["blog", "getting started", "tutorial"],
-    "author": "Your Name",
-    "categories": ["Getting Started"],
-    "tags": ["welcome", "tutorial"],
-    "status": "published",
-    "publishDate": "2025-01-01T00:00:00Z",
-    "createdAt": "2025-01-01T00:00:00Z",
-    "updatedAt": "2025-01-01T00:00:00Z",
-    "featuredImageUrl": "https://images.pexels.com/photos/1181467/pexels-photo-1181467.jpeg"
-  }
-]
-```
+#### **Sitemap & Robots.txt**
+- **Purpose**: Guides search engine crawlers on what to index and how
+- **Location**: 
+  - [`app/sitemap.ts`](app/sitemap.ts) - Dynamic sitemap generation
+  - [`app/robots.ts`](app/robots.ts) - Crawler instructions
+- **Details**: These files are dynamically generated during the build process using your content data
 
-Then set your environment variable:
-```env
-NEXT_PUBLIC_API_URL=https://yourdomain.com/api/content.json
-```
+#### **Site Verification**
+- **Purpose**: Proves ownership of your site to search engines
+- **Location**: `verification` field within the `metadata` export in [`app/layout.tsx`](app/layout.tsx)
+- **Details**: Update the placeholder values with your actual verification codes from:
+  - Google Search Console
+  - Bing Webmaster Tools
+  - Yandex Webmaster
+  - Other search engines
 
-### **🔧 Component Customization**
+### **V. Integrations**
 
-#### **1. Navigation**
-Edit `components/navigation.tsx`:
-```typescript
-const navigationItems = [
-  { name: 'Home', href: '/' },
-  { name: 'Articles', href: '/articles' },
-  { name: 'About', href: '/about' },
-  { name: 'Contact', href: '/contact' },
-  // Add your custom navigation items
-];
-```
+Configure external services used by your blog.
 
-#### **2. Footer**
-Customize `components/footer.tsx`:
-```typescript
-const footerLinks = {
-  company: [
-    { name: 'About', href: '/about' },
-    { name: 'Contact', href: '/contact' },
-    // Your custom links
-  ],
-  social: [
-    { name: 'Twitter', href: 'https://twitter.com/youraccount' },
-    { name: 'LinkedIn', href: 'https://linkedin.com/company/yourcompany' },
-    // Your social links
-  ],
-};
-```
+#### **Analytics**
+- **Google Analytics**:
+  - **Location**: `NEXT_PUBLIC_GA_ID` in [`.env.local`](.env.local)
+  - **Component**: [`components/google-analytics.tsx`](components/google-analytics.tsx)
+  - **Details**: Provide your Google Analytics Measurement ID (e.g., `G-XXXXXXXXXX`)
 
-#### **3. Hero Section**
-Modify `components/hero.tsx`:
-```typescript
-export function Hero() {
-  return (
-    <section className="hero-section">
-      <h1>Your Custom Headline</h1>
-      <p>Your compelling subtitle</p>
-      <div className="cta-buttons">
-        {/* Your custom CTAs */}
-      </div>
-    </section>
-  );
-}
-```
+- **Plausible Analytics**:
+  - **Location**: `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` in [`.env.local`](.env.local)
+  - **Details**: Set to your domain name for Plausible tracking
 
-### **📊 SEO Customization**
+#### **Comments System (Valine/LeanCloud)**
+- **Purpose**: Enable a comment section for your blog posts
+- **Location**: Environment variables in [`.env.local`](.env.local):
+  - `NEXT_PUBLIC_VALINE_APP_ID`
+  - `NEXT_PUBLIC_VALINE_APP_KEY`
+  - `NEXT_PUBLIC_VALINE_SERVER_URLS`
+- **Component**: [`components/valine-comments.tsx`](components/valine-comments.tsx)
+- **Setup Steps**:
+  1. Create a LeanCloud account at [leancloud.app](https://leancloud.app/)
+  2. Create a new application
+  3. Get credentials from Settings > App Keys
+  4. Update environment variables
 
-#### **1. Meta Tags**
-Update default metadata in `app/layout.tsx`:
-```typescript
-export const metadata: Metadata = {
-  title: {
-    default: 'Your Site Name - Your Tagline',
-    template: '%s | Your Site Name'
-  },
-  description: 'Your compelling site description',
-  keywords: ['your', 'keywords', 'here'],
-  // ... other metadata
-};
-```
+#### **Contact Form (Web3Forms)**
+- **Purpose**: Process submissions from your contact form
+- **Location**: `NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY` in [`.env.local`](.env.local)
+- **Component**: [`app/contact/page.tsx`](app/contact/page.tsx)
+- **Setup**: Get your access key from [Web3Forms](https://web3forms.com/)
 
-#### **2. Structured Data**
-Customize JSON-LD in `app/layout.tsx`:
-```typescript
-const organizationSchema = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "Your Organization",
-  "url": "https://yourdomain.com",
-  "logo": "https://yourdomain.com/logo.png",
-  "description": "Your organization description",
-  // ... additional schema
-};
-```
+#### **Newsletter Subscription**
+- **Purpose**: Collect email subscriptions
+- **Location**: [`app/api/subscribe/route.ts`](app/api/subscribe/route.ts)
+- **Component**: [`components/subscribe-form.tsx`](components/subscribe-form.tsx)
+- **Details**: Uses the same LeanCloud credentials as comments system
 
-#### **3. Sitemap Configuration**
-Edit `scripts/generate-metadata.js`:
-```javascript
-const staticPages = [
-  { url: `${BASE_URL}/`, priority: 1.0, changefreq: 'daily' },
-  { url: `${BASE_URL}/about/`, priority: 0.8, changefreq: 'monthly' },
-  // Add your custom pages
-];
-```
+### **VI. Navigation & Layout**
 
-### **💬 Comments & Newsletter**
+Customize the site structure and navigation.
 
-#### **1. Comments Customization**
-Edit `components/valine-comments.tsx`:
-```typescript
-new window.Valine({
-  el: valineRef.current,
-  appId: appId,
-  appKey: appKey,
-  placeholder: 'Your custom placeholder...',
-  avatar: 'retro', // Avatar style
-  visitor: true,
-  highlight: true,
-  recordIP: false,
-  enableQQ: false,
-  requiredFields: ['nick', 'mail'],
-  meta: ['nick', 'mail', 'link'],
-  pageSize: 10,
-  lang: 'en',
-  emojiCDN: '//i0.hdslb.com/bfs/emote/',
-  emojiMaps: {
-    "tv_doge": "6ea59c827c414b4a2955fe79e0f6fd3dcd515e24.png",
-    "tv_親親": "a8111ad55953ef5e3be3327ef94eb4a39d535d06.png",
-    "tv_偷笑": "bb690d4107620f1c15cff29509db529a73aee261.png",
-    "tv_再見": "180129b8ea851044ce71caf55cc8ce44bd4a4fc8.png",
-    "tv_冷漠": "b9cbc755c2b3ee43be07ca13de84e5b699a3a101.png",
-    "tv_發怒": "34ba3cd204d5b05fec70ce08fa9fa0dd612409ff.png",
-    "tv_發財": "34db290afd2963723c6eb3c4560667db7253a21a.png",
-    "tv_可愛": "9e55fd9b500ac4b96613539f1ce2f9499e314ed9.png",
-    "tv_呆": "fe1179ebaa191569b0d31cecafe7a2cd1c951c9d.png",
-    "tv_嗑瓜子": "37560a9f0b9a4b95e8e9e4b4e1e9e4b95e8e9e4b.png"
-  }
-});
-```
+#### **Navigation Menu**
+- **Purpose**: Main site navigation
+- **Location**: [`components/navigation.tsx`](components/navigation.tsx)
+- **Customization**: Update the `navigationItems` array to add/remove menu items
 
-#### **2. Newsletter Customization**
-Modify `components/subscribe-form.tsx`:
-```typescript
-const handleSubmit = async (e: React.FormEvent) => {
-  // Custom subscription logic
-  const response = await fetch('/api/subscribe', {
-    method: 'POST',
-    body: JSON.stringify({ 
-      email, 
-      source: 'Your Custom Source',
-      // Additional fields
-    }),
-  });
-};
-```
+#### **Footer**
+- **Purpose**: Site footer with links and information
+- **Location**: [`components/footer.tsx`](components/footer.tsx)
+- **Customization**: Update the `footerLinks` object to modify footer content
 
-### **🚀 Deployment Customization**
+#### **Hero Section**
+- **Purpose**: Homepage hero/banner area
+- **Location**: [`components/hero.tsx`](components/hero.tsx)
+- **Customization**: Update headlines, descriptions, and call-to-action buttons
 
-#### **1. Cloudflare Workers**
-Edit `wrangler.toml`:
-```toml
-name = "your-blog-name"
-compatibility_date = "2024-12-01"
+### **VII. Deployment & Environment Variables**
 
-[env.production]
-name = "your-blog-production"
+Ensure your environment variables are correctly set for deployment.
 
-[env.staging]
-name = "your-blog-staging"
-```
+#### **Environment Variables for Production**
+When deploying to platforms like Cloudflare Pages, Netlify, or Vercel, ensure these variables are set in your hosting provider's dashboard:
 
-#### **2. Environment Variables**
-Set in Cloudflare Dashboard:
-- `NEXT_PUBLIC_SITE_URL`
-- `NEXT_PUBLIC_SITE_NAME`
-- `NEXT_PUBLIC_API_URL`
-- `NEXT_PUBLIC_VALINE_APP_ID`
-- `NEXT_PUBLIC_VALINE_APP_KEY`
-- `NEXT_PUBLIC_GA_ID`
+**Required Variables:**
+- `NEXT_PUBLIC_SITE_URL` - Your production domain
+- `NEXT_PUBLIC_SITE_NAME` - Your site name
+- `NEXT_PUBLIC_API_URL` - Your content API endpoint
 
-### **📱 PWA Customization**
+**Optional but Recommended:**
+- `NEXT_PUBLIC_GA_ID` - Google Analytics ID
+- `NEXT_PUBLIC_VALINE_APP_ID` - LeanCloud App ID
+- `NEXT_PUBLIC_VALINE_APP_KEY` - LeanCloud App Key
+- `NEXT_PUBLIC_VALINE_SERVER_URLS` - LeanCloud Server URL
+- `NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY` - Contact form key
 
-#### **1. App Manifest**
-Edit `public/manifest.json`:
-```json
-{
-  "name": "Your App Name",
-  "short_name": "Your App",
-  "description": "Your app description",
-  "theme_color": "#your-color",
-  "background_color": "#your-bg-color",
-  "icons": [
-    {
-      "src": "/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    }
-  ]
-}
-```
+#### **Build Configuration**
+- **Build Command**: `npm run build`
+- **Output Directory**: `out` (for static export)
+- **Node Version**: 18+ recommended
 
-#### **2. App Screenshots**
-Add to `public/`:
-- `screenshot-wide.png` (1280x720px) - Desktop screenshot
-- `screenshot-narrow.png` (640x1136px) - Mobile screenshot
+### **VIII. Advanced Customization**
+
+#### **Component Customization**
+All UI components are located in the [`components/`](components/) directory and can be customized:
+
+- **Blog Cards**: [`components/enhanced-blog-card.tsx`](components/enhanced-blog-card.tsx)
+- **Article Layout**: [`components/article-layout.tsx`](components/article-layout.tsx)
+- **Social Sharing**: [`components/social-share-buttons.tsx`](components/social-share-buttons.tsx)
+- **Search**: [`app/search/page.tsx`](app/search/page.tsx)
+
+#### **Styling System**
+- **Framework**: Tailwind CSS with custom design system
+- **Components**: shadcn/ui component library
+- **Customization**: Modify [`tailwind.config.ts`](tailwind.config.ts) for design tokens
+- **Global Styles**: [`app/globals.css`](app/globals.css) for custom CSS
+
+#### **Content Types**
+The blog supports various content types defined in [`types/blog.ts`](types/blog.ts):
+- Blog posts with full metadata
+- Categories and tags
+- Author information
+- SEO optimization fields
 
 ## 🔌 CMS Integration Examples
 
