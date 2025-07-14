@@ -7,6 +7,7 @@ import { Navigation } from '@/components/navigation';
 import { Footer } from '@/components/footer';
 import { PageProgressBar } from '@/components/page-progress-bar';
 import { GoogleAnalytics } from '@/components/google-analytics';
+import { Toaster } from '@/components/ui/toaster';
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -323,6 +324,9 @@ export default function RootLayout({
           
           {/* Google Analytics Page View Tracking Component - Wrapped in Suspense */}
           {gaId && <GoogleAnalyticsWrapper gaId={gaId} />}
+          
+          {/* Toast Notifications */}
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>
