@@ -45,7 +45,7 @@ export function ValineComments({ path, title }: ValineCommentsProps) {
           recordIP: false,
           enableQQ: false,
           requiredFields: ['nick', 'mail'],
-          meta: ['nick', 'mail', 'link'],
+          meta: ['nick', 'mail'],
           pageSize: 10,
           lang: 'en',
           emojiCDN: '//i0.hdslb.com/bfs/emote/',
