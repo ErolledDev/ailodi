@@ -106,22 +106,6 @@ export function ValineComments({ path, title }: ValineCommentsProps) {
           Join the discussion and share your thoughts about this article. 
           Your feedback helps us create better content for the tech community.
         </p>
-        
-      {/* Community Guidelines */}
-      <div className="mt-8 p-4 bg-muted/30 rounded-lg border border-border/50">
-        <div className="flex items-start gap-3">
-          <Users size={16} className="text-primary mt-0.5 flex-shrink-0" />
-          <div className="space-y-2">
-            <h4 className="font-medium text-foreground">Community Guidelines</h4>
-            <ul className="text-sm text-muted-foreground space-y-1">
-              <li>• Be respectful and constructive in your comments</li>
-              <li>• Stay on topic and contribute meaningfully to the discussion</li>
-              <li>• No spam, self-promotion, or inappropriate content</li>
-              <li>• Help create a welcoming environment for all readers</li>
-            </ul>
-          </div>
-        </div>
-      </div>
       </div>
 
       {/* Valine Comments Container */}
