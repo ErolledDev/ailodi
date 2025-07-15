@@ -18,7 +18,7 @@ function categoryToSlug(category) {
 }
 
 // Fetch with retry mechanism and explicit cache control
-async function fetchWithRetry(url, options = {}, retries = 3) {
+async function fetchWithRetry(url, options = {}, retries = 5) {
   for (let i = 0; i < retries; i++) {
     try {
       // Force fresh fetch with cache busting and unique timestamp
@@ -44,7 +44,7 @@ async function fetchWithRetry(url, options = {}, retries = 3) {
       console.error(`🔄 BUILD: Metadata fetch attempt ${i + 1} failed:`, err);
       if (i === retries - 1) throw err;
       // Exponential backoff with jitter
-      await new Promise(res => setTimeout(res, (1000 * (i + 1)) + Math.random() * 1000));
+      await new Promise(res => setTimeout(res, (2000 * (i + 1)) + Math.random() * 1000));
     }
   }
   throw new Error('Max retries reached');
