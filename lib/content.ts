@@ -11,7 +11,7 @@ interface SearchResult {
 async function fetchWithRetry(
   url: string, 
   options: RequestInit = {}, 
-  retries = 3
+  retries = 5
 ): Promise<Response> {
   for (let i = 0; i < retries; i++) {
     try {
@@ -48,7 +48,7 @@ async function fetchWithRetry(
         console.error(`🔄 BUILD: Fetch attempt ${i + 1} failed:`, err);
       }
       if (i === retries - 1) throw err;
-      await new Promise(res => setTimeout(res, 1000 * (i + 1))); // Exponential backoff
+      await new Promise(res => setTimeout(res, 2000 * (i + 1))); // Exponential backoff
     }
   }
   throw new Error('Max retries reached');
